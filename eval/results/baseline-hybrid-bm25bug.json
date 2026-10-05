@@ -19,13 +19,13 @@
       "category": "cross_lingual",
       "n": 15,
       "passage_hit": {
-        "1": 0.4,
-        "3": 0.7333333333333333,
-        "5": 0.7333333333333333,
-        "10": 0.8
+        "1": 0.2,
+        "3": 0.6,
+        "5": 0.6,
+        "10": 0.7333333333333333
       },
-      "technique_hit_at_5": 0.8666666666666667,
-      "mrr": 0.5407407407407407,
+      "technique_hit_at_5": 0.6666666666666666,
+      "mrr": 0.3861111111111111,
       "mean_top_cosine": 0.6482375184694926
     },
     {
@@ -74,13 +74,13 @@
       "category": "ALL answerable",
       "n": 53,
       "passage_hit": {
-        "1": 0.20754716981132076,
-        "3": 0.41509433962264153,
-        "5": 0.4716981132075472,
-        "10": 0.5660377358490566
+        "1": 0.1509433962264151,
+        "3": 0.37735849056603776,
+        "5": 0.4339622641509434,
+        "10": 0.5471698113207547
       },
-      "technique_hit_at_5": 0.660377358490566,
-      "mrr": 0.3191299790356394,
+      "technique_hit_at_5": 0.6037735849056604,
+      "mrr": 0.2753668763102725,
       "mean_top_cosine": 0.6208892194729931
     }
   ],
@@ -458,15 +458,15 @@
       "top_cosine": 0.6353110074996948,
       "retrieved": [
         "T1547.001:overview",
+        "T1001:overview",
         "T1037.005:detection",
+        "T1001:mitigation",
         "T1137:detection",
+        "T1001:detection",
         "T1518.001:detection",
+        "T1001.001:overview",
         "T1037:detection",
-        "T1674:overview",
-        "T1574.007:overview",
-        "T1546.008:detection",
-        "T1137.002:detection",
-        "T1659:detection"
+        "T1001.001:mitigation"
       ]
     },
     {
@@ -477,20 +477,20 @@
       "gold_technique": "T1110.003",
       "gold_kind": "overview",
       "revoked_id": null,
-      "passage_rank": 1,
-      "technique_rank": 1,
+      "passage_rank": 8,
+      "technique_rank": 8,
       "top_cosine": 0.6570653319358826,
       "retrieved": [
+        "T1003.001:detection",
+        "T1003.008:detection",
+        "T1003.005:overview",
+        "T1003:detection",
+        "T1003.006:overview",
+        "T1003.004:mitigation",
+        "T1003.008:mitigation",
         "T1110.003:overview",
-        "T1110.003:detection",
-        "T1110.004:overview",
-        "T1110.004:detection",
-        "T1110.001:overview",
-        "T1110.002:overview",
-        "T1110.003:mitigation",
-        "T1110.001:detection",
-        "T1110.002:detection",
-        "T1566:overview"
+        "T1001:overview",
+        "T1110.003:detection"
       ]
     },
     {
@@ -506,15 +506,15 @@
       "top_cosine": 0.5921993255615234,
       "retrieved": [
         "T1566.001:mitigation",
+        "T1001:overview",
         "T1114.002:detection",
+        "T1001:mitigation",
         "T1667:detection",
+        "T1001:detection",
         "T1114.003:overview",
+        "T1001.001:overview",
         "T1534:detection",
-        "T1566.001:overview",
-        "T1564.008:overview",
-        "T1667:mitigation",
-        "T1114.002:overview",
-        "T1667:overview"
+        "T1001.001:mitigation"
       ]
     },
     {
@@ -525,20 +525,20 @@
       "gold_technique": "T1486",
       "gold_kind": "mitigation",
       "revoked_id": null,
-      "passage_rank": 3,
-      "technique_rank": 3,
+      "passage_rank": 6,
+      "technique_rank": 6,
       "top_cosine": 0.6147948503494263,
       "retrieved": [
+        "T1003:mitigation",
         "T1565.001:mitigation",
+        "T1001:overview",
         "T1552.001:mitigation",
+        "T1001:mitigation",
         "T1486:mitigation",
+        "T1001:detection",
         "T1689:mitigation",
-        "T1565:mitigation",
-        "T1027.013:mitigation",
-        "T1657:mitigation",
-        "T1027.002:overview",
-        "T1027.009:mitigation",
-        "T1027:mitigation"
+        "T1001.001:overview",
+        "T1565:mitigation"
       ]
     },
     {
@@ -574,19 +574,19 @@
       "gold_kind": "mitigation",
       "revoked_id": null,
       "passage_rank": null,
-      "technique_rank": 5,
+      "technique_rank": 10,
       "top_cosine": 0.634412407875061,
       "retrieved": [
+        "T1003:overview",
         "T1563.002:overview",
+        "T1001:overview",
         "T1563:overview",
+        "T1001:mitigation",
         "T1219:overview",
+        "T1001:detection",
         "T1080:overview",
-        "T1021.001:overview",
-        "T1563.001:overview",
-        "T1091:overview",
-        "T1210:overview",
-        "T1092:overview",
-        "T1105:overview"
+        "T1001.001:overview",
+        "T1021.001:overview"
       ]
     },
     {
@@ -645,20 +645,20 @@
       "gold_technique": "T1070.006",
       "gold_kind": "overview",
       "revoked_id": null,
-      "passage_rank": 1,
-      "technique_rank": 1,
+      "passage_rank": 2,
+      "technique_rank": 2,
       "top_cosine": 0.634604811668396,
       "retrieved": [
+        "T1001.001:overview",
         "T1070.006:overview",
+        "T1001:overview",
         "T1678:overview",
+        "T1001:mitigation",
         "T1565.003:overview",
+        "T1001:detection",
         "T1565.001:overview",
         "T1036:overview",
-        "T1027.014:overview",
-        "T1110.004:overview",
-        "T1070:overview",
-        "T1565.002:overview",
-        "T1036.011:detection"
+        "T1001.001:mitigation"
       ]
     },
     {
@@ -669,20 +669,20 @@
       "gold_technique": "T1113",
       "gold_kind": "mitigation",
       "revoked_id": null,
-      "passage_rank": 2,
-      "technique_rank": 2,
+      "passage_rank": 3,
+      "technique_rank": 3,
       "top_cosine": 0.6313621997833252,
       "retrieved": [
         "T1125:overview",
+        "T1001:overview",
         "T1113:mitigation",
+        "T1001:mitigation",
         "T1113:overview",
+        "T1001:detection",
         "T1601.001:detection",
+        "T1001.001:overview",
         "T1113:detection",
-        "T1080:mitigation",
-        "T1546.002:mitigation",
-        "T1204.003:mitigation",
-        "T1546.008:mitigation",
-        "T1601.002:detection"
+        "T1001.001:mitigation"
       ]
     },
     {
@@ -693,20 +693,20 @@
       "gold_technique": "T1496",
       "gold_kind": "detection",
       "revoked_id": null,
-      "passage_rank": 1,
-      "technique_rank": 1,
+      "passage_rank": 2,
+      "technique_rank": 2,
       "top_cosine": 0.6527449488639832,
       "retrieved": [
+        "T1003:detection",
         "T1496:detection",
+        "T1001:overview",
         "T1496.001:overview",
+        "T1001:mitigation",
         "T1496.001:detection",
+        "T1001:detection",
         "T1068:detection",
-        "T1496:overview",
-        "T1673:detection",
-        "T1053.007:detection",
-        "T1518.002:overview",
-        "T1649:detection",
-        "T1211:detection"
+        "T1001.001:overview",
+        "T1496:overview"
       ]
     },
     {
@@ -741,20 +741,20 @@
       "gold_technique": "T1036.005",
       "gold_kind": "overview",
       "revoked_id": null,
-      "passage_rank": 9,
-      "technique_rank": 9,
+      "passage_rank": null,
+      "technique_rank": null,
       "top_cosine": 0.6722154021263123,
       "retrieved": [
         "T1036.006:overview",
+        "T1001:overview",
         "T1036.008:overview",
+        "T1001:mitigation",
         "T1036:detection",
+        "T1001:detection",
         "T1036:overview",
+        "T1001.001:overview",
         "T1070.006:overview",
-        "T1027.014:overview",
-        "T1036.003:detection",
-        "T1036.008:detection",
-        "T1036.005:overview",
-        "T1027.002:overview"
+        "T1001.001:mitigation"
       ]
     },
     {
@@ -794,15 +794,15 @@
       "top_cosine": 0.6680334806442261,
       "retrieved": [
         "T1185:detection",
+        "T1001:overview",
         "T1056.003:detection",
+        "T1001:mitigation",
         "T1185:overview",
+        "T1001:detection",
         "T1555.003:detection",
+        "T1001.001:overview",
         "T1539:detection",
-        "T1555.003:overview",
-        "T1056.003:overview",
-        "T1189:overview",
-        "T1033:overview",
-        "T1594:detection"
+        "T1001.001:mitigation"
       ]
     },
     {
@@ -1297,16 +1297,16 @@
       "technique_rank": null,
       "top_cosine": 0.492464542388916,
       "retrieved": [
+        "T1003:overview",
+        "T1003.001:mitigation",
         "T1110.004:mitigation",
+        "T1001:overview",
         "T1110.001:mitigation",
+        "T1001:mitigation",
         "T1558.003:mitigation",
+        "T1001:detection",
         "T1110:mitigation",
-        "T1027.010:mitigation",
-        "T1027.010:detection",
-        "T1558.003:overview",
-        "T1074:overview",
-        "T1110.003:mitigation",
-        "T1087:overview"
+        "T1001.001:overview"
       ]
     },
     {
@@ -1370,15 +1370,15 @@
       "top_cosine": 0.4682849645614624,
       "retrieved": [
         "T1548.004:detection",
+        "T1001:overview",
         "T1211:mitigation",
+        "T1001:mitigation",
         "T1546.014:detection",
+        "T1001:detection",
         "T1212:mitigation",
+        "T1001.001:overview",
         "T1055.011:overview",
-        "T1068:mitigation",
-        "T1548.004:overview",
-        "T1546.014:overview",
-        "T1218.011:mitigation",
-        "T1068:detection"
+        "T1001.001:mitigation"
       ]
     },
     {
@@ -1489,16 +1489,16 @@
       "technique_rank": null,
       "top_cosine": 0.5895327925682068,
       "retrieved": [
-        "T1649:detection",
         "T1003:overview",
+        "T1003.002:overview",
+        "T1003:mitigation",
+        "T1003.004:overview",
+        "T1003.007:detection",
+        "T1649:detection",
+        "T1001:overview",
+        "T1001:mitigation",
         "T1649:overview",
-        "T1588.003:detection",
-        "T1558.003:mitigation",
-        "T1649:mitigation",
-        "T1078:overview",
-        "T1552:overview",
-        "T1589.001:overview",
-        "T1212:detection"
+        "T1001:detection"
       ]
     },
     {
@@ -1610,15 +1610,15 @@
       "top_cosine": 0.3615790009498596,
       "retrieved": [
         "T1496.001:overview",
+        "T1001:overview",
         "T1657:overview",
+        "T1001:mitigation",
         "T1205.001:detection",
+        "T1001:detection",
         "T1608.006:overview",
+        "T1001.001:overview",
         "T1496.001:detection",
-        "T1071.005:mitigation",
-        "T1681:overview",
-        "T1552.006:detection",
-        "T1499.001:detection",
-        "T1550.001:detection"
+        "T1001.001:mitigation"
       ]
     },
     {
@@ -1945,16 +1945,16 @@
       "technique_rank": null,
       "top_cosine": 0.5914433598518372,
       "retrieved": [
+        "T1007:mitigation",
         "T1027.003:mitigation",
+        "T1001:overview",
         "T1027.013:mitigation",
+        "T1001:mitigation",
         "T1027.010:mitigation",
+        "T1001:detection",
         "T1027.012:mitigation",
-        "T1486:mitigation",
-        "T1014:mitigation",
-        "T1070.010:mitigation",
-        "T1070:mitigation",
-        "T1027.001:mitigation",
-        "T1027:overview"
+        "T1001.001:overview",
+        "T1486:mitigation"
       ]
     }
   ]

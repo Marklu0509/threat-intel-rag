@@ -5,6 +5,8 @@ such as cmd or schtasks. They are kept for a later version that answers Actor
 questions from relationship data.
 """
 
+import json
+from pathlib import Path
 from types import MappingProxyType
 from typing import Mapping
 
@@ -49,6 +51,16 @@ def revoked_ids(data: AttackData) -> Mapping[str, str]:
     if dangling:
         raise ValueError(f"Revoked IDs with no live replacement: {dangling}")
     return MappingProxyType(resolved)
+
+
+def load_revoked_ids(path: Path) -> Mapping[str, str]:
+    """Read the table scripts/build_passages.py wrote."""
+    if not path.exists():
+        raise FileNotFoundError(f"{path} not found; run scripts/build_passages.py first")
+    table = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(table, dict):
+        raise ValueError(f"{path} is not an ID -> ID mapping")
+    return MappingProxyType(table)
 
 
 def actor_names(data: AttackData) -> frozenset[str]:

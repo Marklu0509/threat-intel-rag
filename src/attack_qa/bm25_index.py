@@ -31,6 +31,12 @@ class Bm25Index:
         self._bm25 = BM25Okapi([tokenize(p.text) for p in passages])
 
     def search(self, query: str, k: int) -> list[ScoredId]:
+        """Top-k Passages sharing at least one term with the query.
+
+        Passages with score 0 matched no term; returning them would hand them
+        an arbitrary rank that RRF then rewards.
+        """
         scores = self._bm25.get_scores(tokenize(query))
-        ranked = sorted(range(len(self._ids)), key=lambda i: scores[i], reverse=True)
+        matched = [i for i in range(len(self._ids)) if scores[i] > 0]
+        ranked = sorted(matched, key=lambda i: scores[i], reverse=True)
         return [ScoredId(self._ids[i], float(scores[i])) for i in ranked[:k]]

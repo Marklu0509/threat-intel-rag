@@ -29,6 +29,15 @@ def test_exact_id_beats_a_sibling_id() -> None:
     assert index.search("detection for T1543.001", k=1)[0].passage_id == "T1543.001:detection"
 
 
+def test_passages_matching_no_term_are_not_returned() -> None:
+    index = Bm25Index([
+        _passage("T1001", "alpha beta"),
+        _passage("T1002", "gamma delta"),
+        _passage("T1003", "epsilon zeta"),
+    ])
+    assert [h.passage_id for h in index.search("alpha", k=10)] == ["T1001:detection"]
+
+
 def test_search_returns_at_most_k() -> None:
     index = Bm25Index([_passage(f"T100{i}", f"text {i}") for i in range(5)])
     assert len(index.search("text", k=3)) == 3

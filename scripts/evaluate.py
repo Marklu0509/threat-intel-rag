@@ -16,6 +16,7 @@ from attack_qa.config import INDEX_DIR, PROCESSED_DIR, PROJECT_ROOT
 from attack_qa.dense_index import DenseIndex
 from attack_qa.embedding import DEFAULT_MODEL, SentenceTransformerEmbedder
 from attack_qa.evaluate import KS, CategoryReport, QuestionResult, load_questions, score_question, summarize
+from attack_qa.lookups import load_revoked_ids
 from attack_qa.passage_io import load_passages
 from attack_qa.retrieval import HybridRetriever
 
@@ -49,16 +50,20 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--label", required=True)
     parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument("--no-query-understanding", action="store_true",
+                        help="search the raw question with plain RRF order (ablation)")
     args = parser.parse_args()
 
     passages = load_passages(PROCESSED_DIR / "passages.jsonl")
     retriever = HybridRetriever(
         passages, DenseIndex.open(INDEX_DIR, SentenceTransformerEmbedder(args.model)),
-        Bm25Index(passages),
+        Bm25Index(passages), load_revoked_ids(PROCESSED_DIR / "revoked_ids.json"),
+        understand_query=not args.no_query_understanding,
     )
     by_category: dict[str, list[QuestionResult]] = defaultdict(list)
     for q in load_questions(EVAL_PATH):
-        by_category[q.category].append(score_question(q, retriever.retrieve(q.question, top_k=max(KS))))
+        hits = retriever.retrieve(q.question, top_k=max(KS)).hits
+        by_category[q.category].append(score_question(q, hits))
 
     answerable = [r for rs in by_category.values() for r in rs if r.question.expected == "answer"]
     reports = [summarize(c, rs) for c, rs in by_category.items()]

@@ -1,12 +1,23 @@
-"""Hybrid retrieval: dense + BM25 candidates, merged with RRF (Q12, Q14)."""
+"""Hybrid retrieval: plan the question, fetch dense + BM25 candidates, merge, reorder.
 
+Order of the final ranking (Q12, Q13, Q14, Q23):
+  1. Passages of a Technique the question names by ID — added even if neither retriever found them
+  2. Passages whose kind matches the Question intent
+  3. everything else, by RRF
+Ties inside each group keep RRF order, so this only moves Passages forward, never drops one.
+"""
+
+from collections import defaultdict
 from collections.abc import Sequence
 from dataclasses import dataclass
+from types import MappingProxyType
+from typing import Mapping
 
 from attack_qa.bm25_index import Bm25Index
 from attack_qa.dense_index import DenseIndex
 from attack_qa.fusion import rrf_merge
 from attack_qa.passages import Passage
+from attack_qa.query import QueryPlan, plan_query
 
 CANDIDATES = 50
 TOP_K = 5
@@ -19,25 +30,57 @@ class Retrieved:
     dense_cosine: float | None  # None when dense retrieval did not return it; read by refusal gate 2
 
 
+@dataclass(frozen=True)
+class RetrievalResult:
+    plan: QueryPlan
+    hits: tuple[Retrieved, ...]
+
+
+def reorder(merged: Sequence[str], plan: QueryPlan, passages: Mapping[str, Passage],
+            by_technique: Mapping[str, Sequence[str]]) -> list[str]:
+    named = [pid for tid in plan.technique_ids for pid in by_technique.get(tid, ())]
+    candidates = list(dict.fromkeys([*merged, *named]))  # keep RRF order, append missing named ones
+    position = {pid: i for i, pid in enumerate(candidates)}
+
+    def priority(pid: str) -> tuple[int, int, int]:
+        p = passages[pid]
+        names_it = p.technique_id in plan.technique_ids
+        wanted_kind = plan.intent is not None and p.kind == plan.intent
+        return (0 if names_it else 1, 0 if wanted_kind else 1, position[pid])
+
+    return sorted(candidates, key=priority)
+
+
 class HybridRetriever:
-    def __init__(self, passages: Sequence[Passage], dense: DenseIndex, bm25: Bm25Index) -> None:
+    def __init__(self, passages: Sequence[Passage], dense: DenseIndex, bm25: Bm25Index,
+                 revoked: Mapping[str, str] | None = None,
+                 understand_query: bool = True) -> None:
+        """understand_query=False searches the raw question and keeps plain RRF order (ablation)."""
+        self._understand_query = understand_query
         self._by_id = {p.passage_id: p for p in passages}
+        by_technique: dict[str, list[str]] = defaultdict(list)
+        for p in passages:
+            by_technique[p.technique_id].append(p.passage_id)
+        self._by_technique = dict(by_technique)
         self._dense = dense
         self._bm25 = bm25
+        self._revoked = revoked or {}
 
-    def retrieve(
-        self, query: str, top_k: int = TOP_K, candidates: int = CANDIDATES
-    ) -> tuple[Retrieved, ...]:
-        if not query.strip():
-            raise ValueError("Query is empty")
-        dense_hits = self._dense.search(query, candidates)
-        sparse_hits = self._bm25.search(query, candidates)
+    def retrieve(self, question: str, top_k: int = TOP_K,
+                 candidates: int = CANDIDATES) -> RetrievalResult:
+        plan = plan_query(question, self._revoked)
+        if not self._understand_query:
+            plan = QueryPlan(question, question, (), None, MappingProxyType({}))
+        dense_hits = self._dense.search(plan.search_text, candidates)
+        sparse_hits = self._bm25.search(plan.search_text, candidates)
         cosine = {hit.passage_id: hit.score for hit in dense_hits}
         merged = rrf_merge(
             dense=[hit.passage_id for hit in dense_hits],
             sparse=[hit.passage_id for hit in sparse_hits],
         )
-        return tuple(
+        ranked = reorder(merged, plan, self._by_id, self._by_technique)
+        hits = tuple(
             Retrieved(self._by_id[pid], rank, cosine.get(pid))
-            for rank, pid in enumerate(merged[:top_k], start=1)
+            for rank, pid in enumerate(ranked[:top_k], start=1)
         )
+        return RetrievalResult(plan, hits)
