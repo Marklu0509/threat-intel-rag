@@ -6,9 +6,11 @@ __pycache__/
 .coverage
 htmlcov/
 
-# Data: raw ATT&CK is downloaded by scripts/download_attack.py; processed output is rebuilt
+# Data: scripts/build_passages.py downloads raw ATT&CK and rebuilds processed output;
+# scripts/build_index.py rebuilds the index
 data/raw/
 data/processed/
+data/index/
 
 # Learning material cloned from elsewhere, not part of this project
 RagFromZero/

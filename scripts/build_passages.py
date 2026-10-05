@@ -6,28 +6,22 @@ Outputs in data/processed/: passages.jsonl, revoked_ids.json, actor_names.json
 
 import json
 import logging
-from dataclasses import asdict
 from pathlib import Path
 
 from attack_qa.config import ATTACK_VERSION, PROCESSED_DIR, RAW_PATH
 from attack_qa.download import download
 from attack_qa.lookups import actor_names, revoked_ids
-from attack_qa.passages import Passage, build_passages
+from attack_qa.passage_io import write_passages
+from attack_qa.passages import build_passages
 from attack_qa.stix import AttackData
 
 logger = logging.getLogger("build_passages")
 
 
-def _passage_record(p: Passage) -> dict[str, object]:
-    return {"passage_id": p.passage_id, **asdict(p), "kind": p.kind.value}
-
-
 def write_outputs(data: AttackData, out_dir: Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     passages = build_passages(data, ATTACK_VERSION)
-    with (out_dir / "passages.jsonl").open("w", encoding="utf-8") as f:
-        for p in passages:
-            f.write(json.dumps(_passage_record(p), ensure_ascii=False) + "\n")
+    write_passages(passages, out_dir / "passages.jsonl")
     (out_dir / "revoked_ids.json").write_text(
         json.dumps(dict(sorted(revoked_ids(data).items())), indent=2), encoding="utf-8"
     )

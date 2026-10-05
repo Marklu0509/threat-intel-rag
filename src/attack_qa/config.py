@@ -12,3 +12,4 @@ ATTACK_SHA256 = "dc1639caa5501d720e280cf1cbd8fbe009884a0c9b3e6e9ed9d0c25166c3d8f
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 RAW_PATH = PROJECT_ROOT / "data" / "raw" / f"enterprise-attack-{ATTACK_VERSION}.json"
 PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
+INDEX_DIR = PROJECT_ROOT / "data" / "index"

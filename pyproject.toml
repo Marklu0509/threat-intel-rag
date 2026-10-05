@@ -3,7 +3,13 @@ name = "attack-qa"
 version = "0.1.0"
 description = "Grounded question answering over MITRE ATT&CK with cited answers and explicit refusals"
 requires-python = ">=3.12"
-dependencies = []
+# Pinned to the versions the evaluation numbers were produced with
+dependencies = [
+    "chromadb==1.5.9",
+    "rank-bm25==0.2.2",
+    "sentence-transformers==6.1.0",
+    "torch==2.14.1",
+]
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "pytest-cov>=5"]

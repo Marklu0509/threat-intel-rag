@@ -1,4 +1,7 @@
-from collections.abc import Callable
+import hashlib
+import math
+import re
+from collections.abc import Callable, Sequence
 from typing import Any
 
 import pytest
@@ -6,6 +9,28 @@ import pytest
 from attack_qa.stix import AttackData
 
 Factory = Callable[..., dict[str, Any]]
+
+
+class FakeEmbedder:
+    """Deterministic bag-of-words vectors, so tests never load a real model."""
+
+    def __init__(self, name: str = "fake-embedder", dims: int = 64) -> None:
+        self._name = name
+        self._dims = dims
+
+    @property
+    def name(self) -> str:
+        return self._name
+
+    def embed(self, texts: Sequence[str]) -> list[list[float]]:
+        return [self._vector(t) for t in texts]
+
+    def _vector(self, text: str) -> list[float]:
+        vec = [0.0] * self._dims
+        for word in re.findall(r"[a-z0-9.]+", text.lower()):
+            vec[int(hashlib.md5(word.encode()).hexdigest(), 16) % self._dims] += 1.0
+        norm = math.sqrt(sum(v * v for v in vec)) or 1.0
+        return [v / norm for v in vec]
 
 
 def _ref(external_id: str, kind: str) -> list[dict[str, str]]:
