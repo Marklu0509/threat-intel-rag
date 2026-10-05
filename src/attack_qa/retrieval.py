@@ -35,6 +35,7 @@ class Retrieved:
 class RetrievalResult:
     plan: QueryPlan
     hits: tuple[Retrieved, ...]
+    top_dense_cosine: float  # best cosine anywhere in the index; read by refusal gate 2 (ADR 0004)
 
 
 def reorder(merged: Sequence[str], plan: QueryPlan, passages: Mapping[str, Passage],
@@ -92,4 +93,5 @@ class HybridRetriever:
             Retrieved(self._by_id[pid], rank, cosine.get(pid))
             for rank, pid in enumerate(ranked[:top_k], start=1)
         )
-        return RetrievalResult(plan, hits)
+        top_cosine = dense_hits[0].score if dense_hits else 0.0
+        return RetrievalResult(plan, hits, top_cosine)
