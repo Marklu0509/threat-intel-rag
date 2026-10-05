@@ -87,7 +87,7 @@ Gold passage 的寫法：`技巧 ID · Passage 類型`。⚠️ 標記代表那�
 
 ## ⑥ 不支援的問題（15 題）
 
-**測什麼**：關卡 1（ADR 0004）會不會在**搜尋之前**就拒答。預期行為全部都是 **Refusal（Unsupported question）**。
+**測什麼**：LLM（關卡 3，[ADR 0004](../docs/adr/0004-refusal-gates.md)）發現找回來的 Passage 沒有答案時，會不會乖乖拒答，而不是憑記憶回答。原本規劃的「搜尋前比對攻擊者名單」已經拿掉（Q21）。預期行為全部都是 **Refusal（Unsupported question）**。
 
 | # | 問題 | 類型 | 為什麼出這題 | OK |
 |---|---|---|---|---|

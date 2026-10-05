@@ -1,4 +1,9 @@
-"""Tables used before retrieval: Revoked IDs (Q17) and actor names (Q15 gate 1)."""
+"""Tables built from ATT&CK: Revoked IDs (Q17) and actor names.
+
+Actor names are not used to refuse questions (Q21): many are everyday commands
+such as cmd or schtasks. They are kept for a later version that answers Actor
+questions from relationship data.
+"""
 
 from types import MappingProxyType
 from typing import Mapping
