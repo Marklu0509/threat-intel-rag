@@ -1,0 +1,20 @@
+{"id": "test-01", "question": "kerberoasting indicators", "intent": "detection"}
+{"id": "test-02", "question": "pass the hash hardening", "intent": "mitigation"}
+{"id": "test-03", "question": "mshta overview pls", "intent": "overview"}
+{"id": "test-04", "question": "Give me hunting queries for LSASS access.", "intent": "detection"}
+{"id": "test-05", "question": "List the defenses against spearphishing attachments.", "intent": "mitigation"}
+{"id": "test-06", "question": "Walk me through how token impersonation works.", "intent": "overview"}
+{"id": "test-07", "question": "how to dectect timestomping", "intent": "detection"}
+{"id": "test-08", "question": "best way to mitgate brute force logins", "intent": "mitigation"}
+{"id": "test-09", "question": "RDP brute force 有哪些 log 可以看？", "intent": "detection"}
+{"id": "test-10", "question": "WMI persistence 要怎麼 lock down？", "intent": "mitigation"}
+{"id": "test-11", "question": "Golden SAML 到底是在幹嘛？", "intent": "overview"}
+{"id": "test-12", "question": "As a blue teamer, what telemetry would reveal process injection?", "intent": "detection"}
+{"id": "test-13", "question": "I'm a sysadmin — what settings stop users running malicious macros?", "intent": "mitigation"}
+{"id": "test-14", "question": "I'm new to security, what's the idea behind living off the land binaries?", "intent": "overview"}
+{"id": "test-15", "question": "Our EDR missed a DLL side-load last week; what would have caught it?", "intent": "detection"}
+{"id": "test-16", "question": "If we can't patch the VPN appliance yet, how do we reduce exposure?", "intent": "mitigation"}
+{"id": "test-17", "question": "Why would an attacker bother modifying the registry run keys?", "intent": "overview"}
+{"id": "test-18", "question": "被打進來之後，要從哪裡看出有人偷偷建了排程？", "intent": "detection"}
+{"id": "test-19", "question": "有沒有辦法讓攻擊者沒辦法清掉事件紀錄？", "intent": "mitigation"}
+{"id": "test-20", "question": "憑證填充攻擊跟密碼噴灑差在哪？", "intent": "overview"}

@@ -1,0 +1,20 @@
+{"id": "dev-01", "question": "How would I know if attackers used DCSync?", "intent": "detection"}
+{"id": "dev-02", "question": "What logs show Kerberoasting activity?", "intent": "detection"}
+{"id": "dev-03", "question": "Can I catch PowerShell abuse with Sysmon?", "intent": "detection"}
+{"id": "dev-04", "question": "What should my SOC look for when rundll32 is abused?", "intent": "detection"}
+{"id": "dev-05", "question": "有什麼跡象代表電腦被裝了鍵盤側錄？", "intent": "detection"}
+{"id": "dev-06", "question": "怎麼知道有人在做密碼噴灑？", "intent": "detection"}
+{"id": "dev-07", "question": "Which event IDs indicate scheduled task creation?", "intent": "detection"}
+{"id": "dev-08", "question": "How do I secure RDP against lateral movement?", "intent": "mitigation"}
+{"id": "dev-09", "question": "What controls reduce the risk of credential dumping?", "intent": "mitigation"}
+{"id": "dev-10", "question": "Best practices against password spraying?", "intent": "mitigation"}
+{"id": "dev-11", "question": "要怎麼避免被 Kerberoasting？", "intent": "mitigation"}
+{"id": "dev-12", "question": "有什麼方法可以減少勒索軟體的影響？", "intent": "mitigation"}
+{"id": "dev-13", "question": "How can I make it harder for attackers to abuse WMI?", "intent": "mitigation"}
+{"id": "dev-14", "question": "Tell me about Process Hollowing.", "intent": "overview"}
+{"id": "dev-15", "question": "How does DLL side-loading work?", "intent": "overview"}
+{"id": "dev-16", "question": "Why do attackers use Mshta?", "intent": "overview"}
+{"id": "dev-17", "question": "DCSync 是怎麼運作的？", "intent": "overview"}
+{"id": "dev-18", "question": "Kerberoasting 的原理是什麼？", "intent": "overview"}
+{"id": "dev-19", "question": "Give me a summary of T1059.", "intent": "overview"}
+{"id": "dev-20", "question": "Tell me more about T1003.006", "intent": "overview"}

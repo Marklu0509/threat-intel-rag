@@ -77,10 +77,17 @@ class DenseIndex:
             ) from exc
         return cls(collection, embedder)
 
+    def embed_query(self, query: str) -> list[float]:
+        """The query vector, from the same model that built this index."""
+        return self._embedder.embed([query])[0]
+
     def search(self, query: str, k: int) -> list[ScoredId]:
         """Top-k Passages by cosine similarity (1.0 = same direction)."""
+        return self.search_by_vector(self.embed_query(query), k)
+
+    def search_by_vector(self, query_vector: Sequence[float], k: int) -> list[ScoredId]:
         result = self._collection.query(
-            query_embeddings=self._embedder.embed([query]),
+            query_embeddings=[list(query_vector)],
             n_results=min(k, self._collection.count()),
             include=["distances"],
         )

@@ -16,6 +16,7 @@ from attack_qa.config import INDEX_DIR, PROCESSED_DIR, PROJECT_ROOT
 from attack_qa.dense_index import DenseIndex
 from attack_qa.embedding import DEFAULT_MODEL, SentenceTransformerEmbedder
 from attack_qa.evaluate import KS, CategoryReport, QuestionResult, load_questions, score_question, summarize
+from attack_qa.intent import IntentClassifier
 from attack_qa.lookups import load_revoked_ids
 from attack_qa.passage_io import load_passages
 from attack_qa.retrieval import HybridRetriever
@@ -52,13 +53,18 @@ def main() -> None:
     parser.add_argument("--model", default=DEFAULT_MODEL)
     parser.add_argument("--no-query-understanding", action="store_true",
                         help="search the raw question with plain RRF order (ablation)")
+
+    parser.add_argument("--no-intent-examples", action="store_true",
+                        help="detect intent with keyword rules only (ablation)")
     args = parser.parse_args()
 
     passages = load_passages(PROCESSED_DIR / "passages.jsonl")
+    embedder = SentenceTransformerEmbedder(args.model)
     retriever = HybridRetriever(
-        passages, DenseIndex.open(INDEX_DIR, SentenceTransformerEmbedder(args.model)),
+        passages, DenseIndex.open(INDEX_DIR, embedder),
         Bm25Index(passages), load_revoked_ids(PROCESSED_DIR / "revoked_ids.json"),
         understand_query=not args.no_query_understanding,
+        intent_classifier=None if args.no_intent_examples else IntentClassifier(embedder),
     )
     by_category: dict[str, list[QuestionResult]] = defaultdict(list)
     for q in load_questions(EVAL_PATH):

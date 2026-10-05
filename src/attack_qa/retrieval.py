@@ -9,13 +9,14 @@ Ties inside each group keep RRF order, so this only moves Passages forward, neve
 
 from collections import defaultdict
 from collections.abc import Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from types import MappingProxyType
 from typing import Mapping
 
 from attack_qa.bm25_index import Bm25Index
 from attack_qa.dense_index import DenseIndex
 from attack_qa.fusion import rrf_merge
+from attack_qa.intent import IntentClassifier
 from attack_qa.passages import Passage
 from attack_qa.query import QueryPlan, plan_query
 
@@ -54,9 +55,14 @@ def reorder(merged: Sequence[str], plan: QueryPlan, passages: Mapping[str, Passa
 class HybridRetriever:
     def __init__(self, passages: Sequence[Passage], dense: DenseIndex, bm25: Bm25Index,
                  revoked: Mapping[str, str] | None = None,
-                 understand_query: bool = True) -> None:
-        """understand_query=False searches the raw question and keeps plain RRF order (ablation)."""
+                 understand_query: bool = True,
+                 intent_classifier: IntentClassifier | None = None) -> None:
+        """understand_query=False searches the raw question and keeps plain RRF order (ablation).
+
+        intent_classifier is consulted only when the intent rules find nothing (Q24).
+        """
         self._understand_query = understand_query
+        self._intent_classifier = intent_classifier
         self._by_id = {p.passage_id: p for p in passages}
         by_technique: dict[str, list[str]] = defaultdict(list)
         for p in passages:
@@ -71,7 +77,10 @@ class HybridRetriever:
         plan = plan_query(question, self._revoked)
         if not self._understand_query:
             plan = QueryPlan(question, question, (), None, MappingProxyType({}))
-        dense_hits = self._dense.search(plan.search_text, candidates)
+        query_vector = self._dense.embed_query(plan.search_text)  # embedded once, used twice
+        if self._understand_query and plan.intent is None and self._intent_classifier:
+            plan = replace(plan, intent=self._intent_classifier.classify(query_vector))
+        dense_hits = self._dense.search_by_vector(query_vector, candidates)
         sparse_hits = self._bm25.search(plan.search_text, candidates)
         cosine = {hit.passage_id: hit.score for hit in dense_hits}
         merged = rrf_merge(

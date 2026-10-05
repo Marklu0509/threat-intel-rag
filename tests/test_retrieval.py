@@ -65,6 +65,20 @@ def test_intent_moves_matching_kind_forward(retriever: HybridRetriever) -> None:
     ]
 
 
+class _AlwaysOverview:
+    def classify(self, query_vector: list[float]) -> PassageKind | None:
+        return PassageKind.OVERVIEW
+
+
+def test_classifier_fills_in_when_rules_find_no_intent(tmp_path: Path) -> None:
+    dense = DenseIndex.build(tmp_path, PASSAGES, FakeEmbedder())
+    retriever = HybridRetriever(PASSAGES, dense, Bm25Index(PASSAGES),
+                                intent_classifier=_AlwaysOverview())  # type: ignore[arg-type]
+    assert retriever.retrieve("T1543.001", top_k=1).plan.intent == PassageKind.OVERVIEW
+    # rules win when they fire: "detect" is a Detection cue
+    assert retriever.retrieve("detect T1543.001", top_k=1).plan.intent == PassageKind.DETECTION
+
+
 def test_keeps_dense_cosine_for_the_refusal_gate(retriever: HybridRetriever) -> None:
     hits = retriever.retrieve("adversaries record keystrokes", top_k=3).hits
     assert hits[0].passage.passage_id == "T1056.001:overview"

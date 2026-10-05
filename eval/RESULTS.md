@@ -39,6 +39,24 @@ Per-question details are in `results/<label>.json`.
   look-alike Techniques (T1086 → T1087 Account Discovery) until the ID was rewritten to its
   replacement.
 
+## Intent detection (Q24)
+
+Intent decides which Passage kind gets moved forward. Keyword rules recognise all 53 evaluation
+questions — but they were written while looking at those questions, so that number is leaked.
+Two separate intent sets measure it honestly: `intent_dev.jsonl` was used to choose the example
+questions and the confidence margin; `intent_test.jsonl` was written afterwards in deliberately
+different styles (terse keywords, typos, mixed Chinese/English, role-based, indirect) and scored once.
+
+| Set | Method | Right | Wrong | No intent (no boost) |
+|---|---|---|---|---|
+| dev (20) | keyword rules | 1 | 0 | 19 |
+| dev (20) | rules, then example similarity | 19 | 0 | 1 |
+| **test (20)** | keyword rules | 4 | 0 | 16 |
+| **test (20)** | **rules, then example similarity** | **16** | **1** | **3** |
+
+Retrieval scores on the 53 questions are unchanged (`intent-examples` run), since the rules already
+cover them; the gain is for phrasings the rules never anticipated.
+
 ## Open issues
 
 - **Intent boost trades Technique recall for kind precision.** Ordering every intent-matching

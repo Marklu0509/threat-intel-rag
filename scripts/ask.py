@@ -9,6 +9,7 @@ from attack_qa.bm25_index import Bm25Index
 from attack_qa.config import INDEX_DIR, PROCESSED_DIR
 from attack_qa.dense_index import DenseIndex
 from attack_qa.embedding import DEFAULT_MODEL, SentenceTransformerEmbedder
+from attack_qa.intent import IntentClassifier
 from attack_qa.lookups import load_revoked_ids
 from attack_qa.passage_io import load_passages
 from attack_qa.retrieval import TOP_K, HybridRetriever
@@ -22,9 +23,11 @@ def main() -> None:
     args = parser.parse_args()
 
     passages = load_passages(PROCESSED_DIR / "passages.jsonl")
-    dense = DenseIndex.open(INDEX_DIR, SentenceTransformerEmbedder(args.model))
+    embedder = SentenceTransformerEmbedder(args.model)
     retriever = HybridRetriever(
-        passages, dense, Bm25Index(passages), load_revoked_ids(PROCESSED_DIR / "revoked_ids.json")
+        passages, DenseIndex.open(INDEX_DIR, embedder), Bm25Index(passages),
+        load_revoked_ids(PROCESSED_DIR / "revoked_ids.json"),
+        intent_classifier=IntentClassifier(embedder),
     )
 
     result = retriever.retrieve(args.question, top_k=args.top_k)
