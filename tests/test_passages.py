@@ -1,7 +1,7 @@
 import pytest
 
 from attack_qa.config import ATTACK_VERSION, RAW_PATH
-from attack_qa.passages import Passage, PassageKind, build_passages
+from attack_qa.passages import Passage, PassageKind, build_passages, no_mitigation_statement
 from attack_qa.stix import AttackData
 
 
@@ -57,6 +57,41 @@ def test_technique_without_any_mitigation_also_gets_the_statement(
     passages: tuple[Passage, ...],
 ) -> None:
     assert _get(passages, "T1059", PassageKind.MITIGATION).no_mitigation
+
+
+class TestNoMitigationStatement:
+    """Q22: a parent with no mitigation of its own points to mitigated sub-techniques."""
+
+    def test_without_mitigated_children_says_it_cannot_be_prevented(self) -> None:
+        text = no_mitigation_statement("T1014", "Rootkit", "19.2")
+        assert "lists no preventive mitigations for T1014 Rootkit" in text
+        assert "rely on its Detection guidance" in text
+
+    def test_with_mitigated_children_points_to_them(self) -> None:
+        children = (
+            "T1547.001 Registry Run Keys / Startup Folder",
+            "T1547.004 Winlogon Helper DLL",
+        )
+        text = no_mitigation_statement(
+            "T1547", "Boot or Logon Autostart Execution", "19.2", children
+        )
+        assert "T1547 Boot or Logon Autostart Execution" in text
+        assert "sub-techniques" in text
+        assert all(child in text for child in children)
+        assert "cannot be easily prevented" not in text
+
+    def test_with_mitigated_children_still_names_the_release(self) -> None:
+        text = no_mitigation_statement("T1056", "Input Capture", "19.2", ("T1056.001 Keylogging",))
+        assert "v19.2" in text
+
+
+def test_parent_mitigation_points_to_mitigated_sub_technique(
+    passages: tuple[Passage, ...],
+) -> None:
+    # tiny_attack: T1059 has no mitigation, its sub-technique T1059.001 does
+    p = _get(passages, "T1059", PassageKind.MITIGATION)
+    assert p.no_mitigation
+    assert "T1059.001 PowerShell" in p.text
 
 
 def test_detection_lists_analytics_with_platforms(passages: tuple[Passage, ...]) -> None:

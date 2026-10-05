@@ -41,7 +41,21 @@ def heading(tid: str, name: str, parent: tuple[str, str] | None, kind: PassageKi
     return f"{label} — {kind.value}"
 
 
-def no_mitigation_statement(tid: str, name: str, version: str) -> str:
+def no_mitigation_statement(
+    tid: str, name: str, version: str, mitigated_children: tuple[str, ...] = ()
+) -> str:
+    """Mitigation Passage body for a Technique with no mitigation of its own (Q5, Q22).
+
+    mitigated_children holds "ID name" labels of sub-techniques that do have
+    mitigations, e.g. ("T1547.001 Registry Run Keys / Startup Folder",).
+    """
+    if mitigated_children:
+        return (
+            f"ATT&CK v{version} lists no mitigations for {tid} {name} itself; "
+            "its mitigations are listed under these sub-techniques instead: "
+            + "; ".join(mitigated_children)
+            + ". Refer to the specific sub-technique for how to mitigate it."
+        )
     return (
         f"ATT&CK v{version} lists no preventive mitigations for {tid} {name}. "
         "This technique cannot be easily prevented with preventive controls; "
@@ -100,10 +114,18 @@ def build_passages(data: AttackData, version: str) -> tuple[Passage, ...]:
     tactics = _tactic_names(data)
     mitigations = _targets(data, "mitigates")
     detections = _targets(data, "detects")
+    mitigation_lines = {
+        tid: _mitigation_lines(mitigations.get(tech["id"], []))
+        for tid, tech in techniques.items()
+    }
     children: dict[str, list[str]] = defaultdict(list)
+    mitigated_children: dict[str, list[str]] = defaultdict(list)
     for tid in sorted(techniques):
         if "." in tid:
-            children[tid.split(".")[0]].append(f"{tid} {techniques[tid]['name']}")
+            label = f"{tid} {techniques[tid]['name']}"
+            children[tid.split(".")[0]].append(label)
+            if mitigation_lines[tid]:
+                mitigated_children[tid.split(".")[0]].append(label)
 
     passages: list[Passage] = []
     for tid in sorted(techniques):
@@ -126,14 +148,16 @@ def build_passages(data: AttackData, version: str) -> tuple[Passage, ...]:
                 no_mitigation=no_mit,
             )
 
-        mit_lines = _mitigation_lines(mitigations.get(tech["id"], []))
+        mit_lines = mitigation_lines[tid]
         passages.append(make(PassageKind.OVERVIEW, _overview_body(tech, tactics, children[tid])))
         passages.append(
             make(PassageKind.MITIGATION, "\n".join(mit_lines))
             if mit_lines
             else make(
                 PassageKind.MITIGATION,
-                no_mitigation_statement(tid, tech["name"], version),
+                no_mitigation_statement(
+                    tid, tech["name"], version, tuple(mitigated_children[tid])
+                ),
                 no_mit=True,
             )
         )
