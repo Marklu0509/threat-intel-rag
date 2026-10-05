@@ -7,6 +7,16 @@ _CITATION = re.compile(r"\(Citation:[^)]*\)")
 # paths and commands are content and must survive.
 _FORMAT_TAG = re.compile(r"</?(?:code|b)>|<br\s*/?>", re.IGNORECASE)
 _SPACES = re.compile(r"[ \t]+")
+# [name](https://attack.mitre.org/<section>/<ID>[/<sub-technique number>])
+_ATTACK_LINK = re.compile(
+    r"\[([^\]]+)\]\(https://attack\.mitre\.org/\w+/([A-Z]{1,2}\d+)(?:/(\d+))?/?\)"
+)
+
+
+def _as_name_and_id(match: re.Match[str]) -> str:
+    name, base_id, sub_number = match.groups()
+    full_id = f"{base_id}.{sub_number}" if sub_number else base_id
+    return f"{name} ({full_id})"
 
 
 def convert_attack_links(text: str) -> str:
@@ -16,8 +26,7 @@ def convert_attack_links(text: str) -> str:
     [Empire](https://attack.mitre.org/software/S0363)             -> Empire (S0363)
     [Execution](https://attack.mitre.org/tactics/TA0002)          -> Execution (TA0002)
     """
-    # TODO(human): implement this conversion; tests/test_clean.py says exactly what's expected
-    raise NotImplementedError
+    return _ATTACK_LINK.sub(_as_name_and_id, text)
 
 
 def clean_text(text: str) -> str:
