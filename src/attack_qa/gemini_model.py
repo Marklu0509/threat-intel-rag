@@ -24,6 +24,14 @@ class MissingApiKeyError(Exception):
     """GEMINI_API_KEY is not set in the environment."""
 
 
+class DailyQuotaExceededError(Exception):
+    """The model's per-day free-tier quota is used up; retrying within the day is pointless."""
+
+
+def _is_daily_quota(exc: errors.APIError) -> bool:
+    return exc.code == 429 and "PerDay" in str(exc)
+
+
 def _client_from_env() -> genai.Client:
     key = os.environ.get("GEMINI_API_KEY", "")
     if not key:
@@ -42,6 +50,7 @@ class GeminiAnswerModel:
         self._fallback = fallback_model
         self._client = client or _client_from_env()
         self._wait = rate_limit_wait_s
+        self.last_model_used = model  # which model produced the latest draft, for evaluation
 
     @property
     def name(self) -> str:
@@ -57,11 +66,14 @@ class GeminiAnswerModel:
         )
         try:
             response = self._generate(self._model, user, config)
-        except errors.ServerError:
+            self.last_model_used = self._model
+        except (errors.ServerError, DailyQuotaExceededError) as exc:
             if not self._fallback:
                 raise
-            logger.warning("%s stayed unavailable; falling back to %s", self._model, self._fallback)
+            logger.warning("%s unavailable (%s); falling back to %s",
+                           self._model, type(exc).__name__, self._fallback)
             response = self._generate(self._fallback, user, config)
+            self.last_model_used = self._fallback
         if response.prompt_feedback and response.prompt_feedback.block_reason:
             raise ModelRefusalError(f"prompt blocked: {response.prompt_feedback.block_reason}")
         candidate = response.candidates[0] if response.candidates else None
@@ -72,13 +84,15 @@ class GeminiAnswerModel:
         return AnswerDraft.model_validate_json(response.text or "")
 
     def _generate(self, model: str, user: str, config: types.GenerateContentConfig) -> Any:
-        """Retry rate limits (429) and overload (5xx), which the free tier hits often."""
+        """Retry per-minute rate limits (429) and overload (5xx); a per-day quota fails fast."""
         for attempt in range(1, _RATE_LIMIT_RETRIES + 1):
             try:
                 return self._client.models.generate_content(
                     model=model, contents=user, config=config
                 )
             except (errors.ClientError, errors.ServerError) as exc:
+                if _is_daily_quota(exc):
+                    raise DailyQuotaExceededError(f"{model}: daily free-tier quota used up") from exc
                 retryable = exc.code == 429 or exc.code >= 500
                 if not retryable or attempt == _RATE_LIMIT_RETRIES:
                     raise

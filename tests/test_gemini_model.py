@@ -84,6 +84,15 @@ def test_falls_back_when_the_main_model_stays_overloaded() -> None:
     assert [c["model"] for c in models.calls] == ["gemini-3.8-flash"] * 3 + ["gemini-3.1-flash-lite"]
 
 
+def test_daily_quota_is_not_retried_and_falls_back() -> None:
+    daily = errors.ClientError(429, {"error": {"message": "quota", "status": "RESOURCE_EXHAUSTED",
+                                               "details": [{"quotaId": "GenerateRequestsPerDayPerProjectPerModel-FreeTier"}]}})
+    model, models = _model(daily, _response())
+    assert model.draft("s", "u") == DRAFT
+    assert [c["model"] for c in models.calls] == ["gemini-3.8-flash", "gemini-3.1-flash-lite"]
+    assert model.last_model_used == "gemini-3.1-flash-lite"
+
+
 def test_other_client_errors_are_not_retried() -> None:
     bad = errors.ClientError(400, {"error": {"message": "bad", "status": "INVALID_ARGUMENT"}})
     model, models = _model(bad)

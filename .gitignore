@@ -19,3 +19,6 @@ RagFromZero/
 .env
 
 .DS_Store
+
+# In-flight evaluation runs
+eval/results/*.progress.jsonl
