@@ -1,0 +1,19 @@
+# Python
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Data: raw ATT&CK is downloaded by scripts/download_attack.py; processed output is rebuilt
+data/raw/
+data/processed/
+
+# Learning material cloned from elsewhere, not part of this project
+RagFromZero/
+
+# Secrets
+.env
+
+.DS_Store
