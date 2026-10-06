@@ -4,7 +4,7 @@ Grounded question answering over **MITRE ATT&CK**: ask how to detect, mitigate o
 attack technique — in English or Chinese — and get an answer where every sentence cites the ATT&CK
 passage it came from, or an explicit refusal when the data doesn't support an answer.
 
-**Demo (recorded results, no setup):** https://marklu0509.github.io/threat-intel-rag/ — real
+**Demo (recorded results, no setup):** https://rag.marklu.page/ — real
 evaluation questions with each answer's citations, the judge's verdict on every sentence, and the
 retrieval trace.
 
