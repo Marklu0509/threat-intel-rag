@@ -1,0 +1,2962 @@
+{
+  "label": "answers-groq-qwen",
+  "llm": "groq",
+  "summary": [
+    {
+      "category": "paraphrase",
+      "n": 15,
+      "answered": 11,
+      "refused": 4,
+      "errors": 0,
+      "cites_gold_passage": 10,
+      "cites_gold_technique": 10,
+      "gold_retrieved": 10,
+      "refused_by": {
+        "llm": 3,
+        "no_valid_citations": 1
+      }
+    },
+    {
+      "category": "cross_lingual",
+      "n": 15,
+      "answered": 15,
+      "refused": 0,
+      "errors": 0,
+      "cites_gold_passage": 11,
+      "cites_gold_technique": 11,
+      "gold_retrieved": 11,
+      "refused_by": {}
+    },
+    {
+      "category": "near_id",
+      "n": 15,
+      "answered": 15,
+      "refused": 0,
+      "errors": 0,
+      "cites_gold_passage": 15,
+      "cites_gold_technique": 15,
+      "gold_retrieved": 15,
+      "refused_by": {}
+    },
+    {
+      "category": "unsupported",
+      "n": 15,
+      "answered": 1,
+      "refused": 14,
+      "errors": 0,
+      "cites_gold_passage": 0,
+      "cites_gold_technique": 0,
+      "gold_retrieved": 0,
+      "refused_by": {
+        "llm": 11,
+        "relevance": 3
+      }
+    },
+    {
+      "category": "unanswerable",
+      "n": 10,
+      "answered": 0,
+      "refused": 10,
+      "errors": 0,
+      "cites_gold_passage": 0,
+      "cites_gold_technique": 0,
+      "gold_retrieved": 0,
+      "refused_by": {
+        "llm": 7,
+        "relevance": 3
+      }
+    },
+    {
+      "category": "revoked_id",
+      "n": 8,
+      "answered": 8,
+      "refused": 0,
+      "errors": 0,
+      "cites_gold_passage": 8,
+      "cites_gold_technique": 8,
+      "gold_retrieved": 8,
+      "refused_by": {}
+    }
+  ],
+  "questions": [
+    {
+      "id": "2-01",
+      "category": "paraphrase",
+      "question": "How can I tell if someone is dumping credentials from the Windows process that keeps login secrets in memory?",
+      "expected": "answer",
+      "gold": "T1003.001:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "You can identify credential dumping from the Windows process that keeps login secrets in memory by detecting when a non-privileged or abnormal process attempts to open a handle with full access (0x1F0FFF) to lsass.exe.",
+          "passage_ids": [
+            "T1003.001:detection"
+          ]
+        },
+        {
+          "text": "This activity is further indicated by the subsequent invocation of memory dump, file creation, or registry modification actions.",
+          "passage_ids": [
+            "T1003.001:detection"
+          ]
+        },
+        {
+          "text": "You can also detect this by monitoring for processes accessing LSASS memory outside of trusted security tools, which is often followed by file creation or lateral movement.",
+          "passage_ids": [
+            "T1003:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-02",
+      "category": "paraphrase",
+      "question": "Attackers are trying one common password against many accounts to avoid lockouts — what is this?",
+      "expected": "answer",
+      "gold": "T1110.003:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "This technique is called Password Spraying.",
+          "passage_ids": [
+            "T1110.003:overview"
+          ]
+        },
+        {
+          "text": "Password Spraying involves using a single or small list of commonly used passwords against many different accounts to acquire valid credentials.",
+          "passage_ids": [
+            "T1110.003:overview"
+          ]
+        },
+        {
+          "text": "The method is used to avoid account lockouts that would normally occur when brute forcing a single account with many passwords.",
+          "passage_ids": [
+            "T1110.003:overview"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-03",
+      "category": "paraphrase",
+      "question": "How do I stop users from getting compromised by malicious documents attached to emails?",
+      "expected": "answer",
+      "gold": "T1566.001:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Anti-virus software can automatically quarantine suspicious files attached to emails.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Network intrusion prevention systems and tools that scan and remove malicious email attachments can be used to block activity.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Blocking unknown or unused attachment types, such as .scr, .exe, .pif, and .cpl, by default helps prevent malicious vectors.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Email scanning devices can open and analyze compressed or encrypted formats like zip and rar to detect concealed malicious attachments.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Anti-spoofing and email authentication mechanisms like SPF, DKIM, and DMARC can filter messages based on sender domain validity and message integrity.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "User account management principles should be applied to limit permissions for accounts interacting with email attachments to reduce the impact of malicious files.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Users can be trained to identify social engineering techniques and spearphishing emails.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Disabling Microsoft Office macros and active content can prevent the execution of malicious payloads in documents.",
+          "passage_ids": [
+            "T1221:mitigation"
+          ]
+        },
+        {
+          "text": "Network and host intrusion prevention systems, antivirus, and detonation chambers can prevent documents from fetching or executing malicious payloads.",
+          "passage_ids": [
+            "T1221:mitigation"
+          ]
+        },
+        {
+          "text": "Users can be trained to identify social engineering techniques and spearphishing emails used to deliver malicious documents.",
+          "passage_ids": [
+            "T1221:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-04",
+      "category": "paraphrase",
+      "question": "What can we do to limit the damage when malware scrambles our files and demands payment?",
+      "expected": "answer",
+      "gold": "T1486:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not contain information regarding mitigations for data encryption for impact or ransomware.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "2-05",
+      "category": "paraphrase",
+      "question": "How would I notice an attacker requesting service tickets so they can crack service account passwords offline?",
+      "expected": "answer",
+      "gold": "T1558.003:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "You can notice this activity by monitoring for anomalous Kerberos TGS requests (Event ID 4769) that use RC4 encryption (etype 0x17).",
+          "passage_ids": [
+            "T1558.003:detection"
+          ]
+        },
+        {
+          "text": "Look for accounts that request an unusual number of service tickets in a short period of time.",
+          "passage_ids": [
+            "T1558.003:detection"
+          ]
+        },
+        {
+          "text": "Identify service accounts that are targeted outside of their normal usage baselines.",
+          "passage_ids": [
+            "T1558.003:detection"
+          ]
+        },
+        {
+          "text": "Correlate suspicious process activity, such as Mimikatz invoking LSASS access, with the observed Kerberos ticket anomalies.",
+          "passage_ids": [
+            "T1558.003:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-06",
+      "category": "paraphrase",
+      "question": "What is it called when malware hides its command traffic inside normal web browsing?",
+      "expected": "answer",
+      "gold": "T1071.001:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "When malware hides its command traffic inside normal web browsing, it is called Web Protocols.",
+          "passage_ids": [
+            "T1071.001:overview"
+          ]
+        },
+        {
+          "text": "This technique involves communicating using application layer protocols associated with web traffic to blend in with existing traffic.",
+          "passage_ids": [
+            "T1071.001:overview"
+          ]
+        },
+        {
+          "text": "Commands and results are embedded within the protocol traffic between the client and server using protocols such as HTTP/S and WebSocket.",
+          "passage_ids": [
+            "T1071.001:overview"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-07",
+      "category": "paraphrase",
+      "question": "How do I spot attackers deleting backup snapshots so we can't restore our systems?",
+      "expected": "answer",
+      "gold": "T1490:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "On Windows, look for process chains using native utilities like vssadmin, wbadmin, diskshadow, bcdedit, REAgentC, or wmic with arguments that delete shadow copies, disable recovery, or remove backup catalogs.",
+          "passage_ids": [
+            "T1490:detection"
+          ]
+        },
+        {
+          "text": "On Linux, monitor for shell utilities or scripts deleting /etc/systemd/system/rescue.target, /etc/fstab backups, or /boot/efi partitions, as well as chattr usage to block snapshot auto-recovery.",
+          "passage_ids": [
+            "T1490:detection"
+          ]
+        },
+        {
+          "text": "On ESXi, detect ESXi shell or vim-cmd execution that deletes all VM snapshots using vmsvc/snapshot.removeall or rm on snapshot paths.",
+          "passage_ids": [
+            "T1490:detection"
+          ]
+        },
+        {
+          "text": "On network devices, identify the execution of erase, format, and reload commands in immediate sequence from a privileged AAA session.",
+          "passage_ids": [
+            "T1490:detection"
+          ]
+        },
+        {
+          "text": "In IaaS environments, detect cloud API calls that disable snapshot scheduling, backup policies, or versioning, followed by DeleteSnapshot or DeleteVolume operations.",
+          "passage_ids": [
+            "T1490:detection"
+          ]
+        },
+        {
+          "text": "In IaaS environments, also monitor for adversaries deleting critical infrastructure such as snapshots or volumes using elevated IAM credentials, often involving batch API calls with Delete* or TerminateInstances.",
+          "passage_ids": [
+            "T1485:detection"
+          ]
+        },
+        {
+          "text": "On ESXi, detect adversaries destroying virtual disks, images, or VMs by invoking vim-cmd, deleting datastore contents, or purging snapshots.",
+          "passage_ids": [
+            "T1485:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-08",
+      "category": "paraphrase",
+      "question": "What does it mean when an adversary logs in with a real employee's stolen username and password?",
+      "expected": "answer",
+      "gold": "T1078:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not define the specific meaning of an adversary logging in with a real employee's stolen username and password.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "2-09",
+      "category": "paraphrase",
+      "question": "How can we protect our internet-facing web servers from being hacked through software bugs?",
+      "expected": "answer",
+      "gold": "T1190:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Regularly update software by employing patch management for externally exposed applications.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Regularly scan externally facing systems for vulnerabilities and establish procedures to rapidly patch systems when critical vulnerabilities are discovered.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Use Web Application Firewalls to limit exposure of applications and prevent exploit traffic from reaching the application.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Implement application isolation and sandboxing to limit what other processes and system features the exploited target can access.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Use least privilege for service accounts to limit the permissions the exploited process gets on the rest of the system.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Segment externally facing servers and services from the rest of the network using a DMZ or separate hosting infrastructure.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Restrict outbound network traffic from public-facing servers to prevent unauthorized connections to attacker-controlled infrastructure.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Ensure that all publicly exposed services are intended to be so and restrict access to any that should only be available internally.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-10",
+      "category": "paraphrase",
+      "question": "How do I detect someone abusing the built-in Windows tool that loads DLLs to run malicious code?",
+      "expected": "answer",
+      "gold": "T1218.011:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "no_valid_citations",
+      "refusal_reason": "No claim could be tied to a retrieved passage.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "2-11",
+      "category": "paraphrase",
+      "question": "An attacker pretends to be a domain controller to pull password hashes — how do I detect that?",
+      "expected": "answer",
+      "gold": "T1003.006:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Detect rogue Domain Controller registration by correlating the creation or modification of nTDSDSA and server objects in the Configuration partition.",
+          "passage_ids": [
+            "T1207:detection"
+          ]
+        },
+        {
+          "text": "Monitor for unexpected usage of Directory Replication Service SPNs, specifically GC/ or E3514235-4B06-11D1-AB04-00C04FC2DCD2.",
+          "passage_ids": [
+            "T1207:detection"
+          ]
+        },
+        {
+          "text": "Identify replication RPC calls such as DrsAddEntry, DrsReplicaAdd, and GetNCChanges originating from non-DC hosts.",
+          "passage_ids": [
+            "T1207:detection"
+          ]
+        },
+        {
+          "text": "Look for Kerberos authentication by non-DC machines using DRS-related SPNs.",
+          "passage_ids": [
+            "T1207:detection"
+          ]
+        },
+        {
+          "text": "Correlate these events, especially when they originate from hosts outside the Domain Controllers OU, to indicate DCShadow or rogue DC activity.",
+          "passage_ids": [
+            "T1207:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "2-12",
+      "category": "paraphrase",
+      "question": "How can I prevent attackers from forging the tokens our cloud single sign-on relies on?",
+      "expected": "answer",
+      "gold": "T1606.002:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "To contain the impact of a previously forged SAML token, rotate the token-signing AD FS certificate in rapid succession twice to invalidate tokens generated with the previous certificate.",
+          "passage_ids": [
+            "T1606.002:mitigation"
+          ]
+        },
+        {
+          "text": "Enable advanced auditing on AD FS, including checking success and failure audit options and enabling Audit Application Generated events via Group Policy Object.",
+          "passage_ids": [
+            "T1606.002:mitigation"
+          ]
+        },
+        {
+          "text": "Restrict permissions and access to the AD FS server so that it can only be originated from privileged access workstations.",
+          "passage_ids": [
+            "T1606.002:mitigation"
+          ]
+        },
+        {
+          "text": "Ensure user accounts with administrative rights follow best practices such as using privileged access workstations, Just in Time/Just Enough Administration, and strong authentication.",
+          "passage_ids": [
+            "T1606.002:mitigation"
+          ]
+        },
+        {
+          "text": "Reduce the number of users that are members of highly privileged Directory Roles.",
+          "passage_ids": [
+            "T1606.002:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-13",
+      "category": "paraphrase",
+      "question": "What is it when adversaries answer local name-lookup broadcasts to capture password hashes?",
+      "expected": "answer",
+      "gold": "T1557.001:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Adversaries may respond to LLMNR, NBT-NS, or mDNS network traffic to spoof an authoritative source for name resolution and force communication with an adversary-controlled system.",
+          "passage_ids": [
+            "T1557.001:overview"
+          ]
+        },
+        {
+          "text": "This activity, known as Name Resolution Poisoning and SMB Relay, can be used to collect authentication materials such as NTLMv2 hashes.",
+          "passage_ids": [
+            "T1557.001:overview"
+          ]
+        },
+        {
+          "text": "The captured hashes can then be cracked offline through Brute Force to obtain plaintext passwords.",
+          "passage_ids": [
+            "T1557.001:overview"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-14",
+      "category": "paraphrase",
+      "question": "Malware that checks whether it is running inside an analysis VM before doing anything — what is that?",
+      "expected": "answer",
+      "gold": "T1497:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Adversaries may employ various means to detect and avoid virtualization and analysis environments, which is described as Virtualization/Sandbox Evasion (T1497).",
+          "passage_ids": [
+            "T1497:overview"
+          ]
+        },
+        {
+          "text": "If an adversary detects a virtual machine environment (VME), they may alter their malware to disengage from the victim or conceal the core functions of the implant.",
+          "passage_ids": [
+            "T1497:overview"
+          ]
+        },
+        {
+          "text": "Adversaries may search for VME artifacts before dropping secondary or additional payloads.",
+          "passage_ids": [
+            "T1497:overview"
+          ]
+        },
+        {
+          "text": "Adversaries may employ various system checks to detect and avoid virtualization and analysis environments, which is the sub-technique T1497.001 System Checks.",
+          "passage_ids": [
+            "T1497.001:overview"
+          ]
+        },
+        {
+          "text": "Adversaries may use scripting to automate these checks into one script and then have the program exit if it determines the system to be a virtual environment.",
+          "passage_ids": [
+            "T1497.001:overview"
+          ]
+        },
+        {
+          "text": "Adversaries may employ various user activity checks to detect and avoid virtualization and analysis environments, which is the sub-technique T1497.002 User Activity Based Checks.",
+          "passage_ids": [
+            "T1497.002:overview"
+          ]
+        },
+        {
+          "text": "Adversaries may employ various time-based methods to detect virtualization and analysis environments, which is the sub-technique T1497.003 Time Based Checks.",
+          "passage_ids": [
+            "T1497.003:overview"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-15",
+      "category": "paraphrase",
+      "question": "Is there any way to prevent attackers from recording what users type?",
+      "expected": "answer",
+      "gold": "T1056.001:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not contain information regarding techniques or mitigations for preventing attackers from recording user keystrokes.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "3-01",
+      "category": "cross_lingual",
+      "question": "攻擊者把惡意程式寫進登錄檔的開機啟動位置，要怎麼偵測？",
+      "expected": "answer",
+      "gold": "T1547.001:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "在 Windows 上，可以監控登錄檔 Run 鍵或啟動資料夾中使用者或系統登入腳本的修改與執行。",
+          "passage_ids": [
+            "T1037:detection"
+          ]
+        },
+        {
+          "text": "在 macOS 上，偵測需要將檔案建立或修改事件與後續的使用者登入或開機時程序執行進行關聯。",
+          "passage_ids": [
+            "T1037.005:detection"
+          ]
+        },
+        {
+          "text": "在 Windows 上，可以偵測攻擊者修改登錄檔金鑰以在啟動時載入惡意腳本的行為。",
+          "passage_ids": [
+            "T1137:detection"
+          ]
+        },
+        {
+          "text": "在 Windows 上，可以觀察系統無障礙二進位檔案的可疑替換或篡改，以及用於重定向無障礙程式的登錄檔金鑰異常修改。",
+          "passage_ids": [
+            "T1546.008:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "3-02",
+      "category": "cross_lingual",
+      "question": "密碼噴灑攻擊是什麼？",
+      "expected": "answer",
+      "gold": "T1110.003:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "密碼噴灑攻擊是指攻擊者使用單一或一小份常見密碼清單，針對許多不同的帳戶嘗試取得有效的帳戶憑證。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ]
+        },
+        {
+          "text": "此技術屬於 T1110 暴力破解的子技術，並歸類於憑證存取戰術。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ]
+        },
+        {
+          "text": "攻擊者透過對網路上的多個帳戶使用相同密碼進行登入嘗試，以避免因對單一帳戶進行暴力破解而觸發帳戶鎖定。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ]
+        },
+        {
+          "text": "密碼噴灑攻擊通常針對 SSH、Telnet、FTP、NetBIOS/SMB/Samba、LDAP、Kerberos、RDP、HTTP/HTTPS、MSSQL、Oracle、MySQL 及 VNC 等常見管理服務。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ]
+        },
+        {
+          "text": "攻擊者也可能針對使用聯合驗證協定的單一登入（SSO）及雲端應用程式，以及 Office 365 等對外郵件應用程式進行密碼噴灑。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ]
+        },
+        {
+          "text": "為了避免觸發安全警報，攻擊者可能會刻意減緩密碼噴灑嘗試的頻率，或利用較少觸發高可見度事件的 LDAP 和 Kerberos 驗證嘗試。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "3-03",
+      "category": "cross_lingual",
+      "question": "怎麼防止員工打開釣魚郵件裡的惡意附件？",
+      "expected": "answer",
+      "gold": "T1566.001:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "使用反病毒或反惡意軟體工具可以自動隔離可疑檔案。",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "啟用稽核與監控功能，針對電子郵件附件和檔案傳輸進行偵測與調查，並定期檢視日誌以發現異常活動。",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "使用網路入侵防禦系統或專門掃描並移除惡意電子郵件附件的系統來阻擋相關活動。",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "預設封鎖不應透過電子郵件傳輸的未知或未使用附件類型，例如 .scr、.exe、.pif 和 .cpl 等。",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "使用反偽造和電子郵件驗證機制（如 SPF、DKIM 和 DMARC）來過濾訊息並驗證發送者域名及訊息完整性。",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "應用使用者帳戶管理原則以限制與電子郵件附件互動的帳戶權限，確保僅必要帳戶能開啟或執行檔案。",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "訓練員工識別社會工程技術和釣魚電子郵件。",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "3-04",
+      "category": "cross_lingual",
+      "question": "勒索軟體把檔案加密了，要怎麼降低損害？",
+      "expected": "answer",
+      "gold": "T1486:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "應實施IT災難復原計畫，包含定期備份與測試資料備份的程序，以便還原組織資料。",
+          "passage_ids": [
+            "T1486:mitigation"
+          ]
+        },
+        {
+          "text": "備份應儲存在系統外部，並保護備份免受攻擊者常用方法存取或破壞，以防止資料無法恢復。",
+          "passage_ids": [
+            "T1486:mitigation"
+          ]
+        },
+        {
+          "text": "在雲端環境中應考慮啟用版本控制，以維護儲存物件的備份副本。",
+          "passage_ids": [
+            "T1486:mitigation"
+          ]
+        },
+        {
+          "text": "在Windows 10上應啟用雲端交付保護和攻擊面減少（ASR）規則，以阻擋類似勒索軟體的檔案執行。",
+          "passage_ids": [
+            "T1486:mitigation"
+          ]
+        },
+        {
+          "text": "在AWS環境中應建立IAM策略，以限制或阻擋在S3儲存桶上使用SSE-C。",
+          "passage_ids": [
+            "T1486:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "3-05",
+      "category": "cross_lingual",
+      "question": "怎麼偵測有人從 LSASS 記憶體偷密碼？",
+      "expected": "answer",
+      "gold": "T1003.001:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "偵測非特權或異常程序嘗試以完整存取權限（0x1F0FFF）開啟 lsass.exe 的句柄，並隨後呼叫記憶體傾倒、檔案建立或登錄修改等行為。",
+          "passage_ids": [
+            "T1003.001:detection"
+          ]
+        },
+        {
+          "text": "偵測在受信任的安全工具之外，有程序存取 LSASS 記憶體或 SAM 登錄蜂巢，且通常隨後發生檔案建立或橫向移動。",
+          "passage_ids": [
+            "T1003:detection"
+          ]
+        },
+        {
+          "text": "監控對 LSASS 等密碼儲存庫的可疑存取，偵測異常的程序間存取（例如 Mimikatz 存取 LSASS）以及非標準程序執行與密碼儲存庫檔案讀取的關聯性。",
+          "passage_ids": [
+            "T1555:detection"
+          ]
+        },
+        {
+          "text": "偵測網域控制站上對 LSASS 的異常程序存取，並將其與後續異常的登入活動模式進行關聯。",
+          "passage_ids": [
+            "T1556.001:detection"
+          ]
+        },
+        {
+          "text": "監控 `HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\Security Packages` 或 `...\\OSConfig\\Security Packages` 的登錄修改，特別是新增 DLL 條目，並將其與後續 DLL 模組載入到 `lsass.exe` 的行為進行關聯。",
+          "passage_ids": [
+            "T1547.005:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "3-06",
+      "category": "cross_lingual",
+      "question": "攻擊者透過遠端桌面橫向移動，要怎麼防？",
+      "expected": "answer",
+      "gold": "T1021.001:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "應定期稽核遠端桌面使用者群組的成員資格，並從該群組中移除不必要的帳戶與群組。",
+          "passage_ids": [
+            "T1563.002:mitigation"
+          ]
+        },
+        {
+          "text": "如果遠端桌面服務非必要，應將其停用。",
+          "passage_ids": [
+            "T1563.002:mitigation"
+          ]
+        },
+        {
+          "text": "應使用遠端桌面閘道來管理連線與安全性設定。",
+          "passage_ids": [
+            "T1563.002:mitigation"
+          ]
+        },
+        {
+          "text": "應啟用防火牆規則，以封鎖網路安全區域之間的 RDP 流量。",
+          "passage_ids": [
+            "T1563.002:mitigation"
+          ]
+        },
+        {
+          "text": "應變更群組原則（GPO）以縮短會話逾時時間、限制單一會話的最大活躍時間，並指定已斷開連線的會話在 RD 會話主機伺服器上保持活躍的最大時間。",
+          "passage_ids": [
+            "T1563.002:mitigation"
+          ]
+        },
+        {
+          "text": "應考慮將本機管理員群組從允許透過 RDP 登入的群組清單中移除。",
+          "passage_ids": [
+            "T1563.002:mitigation"
+          ]
+        },
+        {
+          "text": "如果必須進行遠端存取，應限制遠端使用者的權限。",
+          "passage_ids": [
+            "T1563.002:mitigation"
+          ]
+        },
+        {
+          "text": "應使用應用程式控制工具（如 Windows Defender Application Control、AppLocker 或軟體限制政策）來識別並封鎖透過輔助功能功能執行的潛在惡意軟體。",
+          "passage_ids": [
+            "T1546.008:mitigation"
+          ]
+        },
+        {
+          "text": "應確保啟用網路層級驗證（Network Level Authentication），以強制遠端桌面會話在建立會話及顯示登入畫面之前進行驗證。",
+          "passage_ids": [
+            "T1546.008:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "3-07",
+      "category": "cross_lingual",
+      "question": "什麼是 Kerberoasting？",
+      "expected": "answer",
+      "gold": "T1558.003:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Kerberoasting 是 T1558「竊取或偽造 Kerberos 票證」技術下的子技術 T1558.003。",
+          "passage_ids": [
+            "T1558.003:overview"
+          ]
+        },
+        {
+          "text": "攻擊者可能濫用有效的 Kerberos 票證授予票證（TGT）或嗅探網路流量，以取得可能易受暴力破解攻擊的票證授予服務（TGS）票證。",
+          "passage_ids": [
+            "T1558.003:overview"
+          ]
+        },
+        {
+          "text": "攻擊者持有有效的 TGT 時，可向網域控制器請求任何服務主體名稱（SPN）的 TGS 服務票證。",
+          "passage_ids": [
+            "T1558.003:overview"
+          ]
+        },
+        {
+          "text": "這些票證的部分內容可能使用 RC4 演算法加密，使得與 SPN 關聯的服務帳戶的 Kerberos 5 TGS-REP etype 23 雜湊值可被離線暴力破解以暴露明文憑證。",
+          "passage_ids": [
+            "T1558.003:overview"
+          ]
+        },
+        {
+          "text": "Kerberoasting 屬於憑證存取（Credential Access）戰術，且適用於 Windows 平台。",
+          "passage_ids": [
+            "T1558.003:overview"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "3-08",
+      "category": "cross_lingual",
+      "question": "攻擊者用 PowerShell 下載並執行惡意腳本，該怎麼偵測？",
+      "expected": "answer",
+      "gold": "T1059.001:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "偵測 PowerShell 被濫用進行任意執行，包括啟動時使用編碼命令、異常的父進程或載入可疑模組的行為鏈。",
+          "passage_ids": [
+            "T1059.001:detection"
+          ]
+        },
+        {
+          "text": "偵測 PowerShell 執行後可能跟隨的網路連線或子進程生成行為。",
+          "passage_ids": [
+            "T1059.001:detection"
+          ]
+        },
+        {
+          "text": "偵測直接透過 powershell.exe 或間接透過 .NET 自動化調用的 PowerShell 執行。",
+          "passage_ids": [
+            "T1059.001:detection"
+          ]
+        },
+        {
+          "text": "偵測透過 wscript.exe 執行 SyncAppvPublishingServer.vbs 且命令列中包含嵌入式 PowerShell 的情況，以識別代理執行。",
+          "passage_ids": [
+            "T1216.002:detection"
+          ]
+        },
+        {
+          "text": "透過關聯已知配置文件位置的檔案建立或修改，以及後續未使用 -NoProfile 標誌的 PowerShell 進程啟動，來識別基於 PowerShell 配置檔的持久化。",
+          "passage_ids": [
+            "T1546.013:detection"
+          ]
+        },
+        {
+          "text": "識別在特權上下文中載入異常模組或啟動外部程式的 PowerShell 配置腳本，這些行為可能代表敵對持久化或特權提升。",
+          "passage_ids": [
+            "T1546.013:detection"
+          ]
+        },
+        {
+          "text": "偵測啟動降級版本（例如 v2）或缺少日誌記錄和安全功能的 PowerShell 進程。",
+          "passage_ids": [
+            "T1689:detection"
+          ]
+        },
+        {
+          "text": "監控可能指示故意降級的 Defender 或 HVCI 註冊表項變更。",
+          "passage_ids": [
+            "T1689:detection"
+          ]
+        },
+        {
+          "text": "偵測透過 WMIC、PowerShell 或 COM API 利用 WMI 執行本地或遠端命令的行為鏈，包括進程創建、命令執行及相應的網路連線。",
+          "passage_ids": [
+            "T1047:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "3-09",
+      "category": "cross_lingual",
+      "question": "攻擊者竄改檔案的時間戳記來躲避調查，這是什麼手法？",
+      "expected": "answer",
+      "gold": "T1070.006:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "攻擊者透過修改檔案的時間戳記來隱藏新檔案或現有檔案的變更，這種手法稱為 Timestomp（T1070.006）。",
+          "passage_ids": [
+            "T1070.006:overview"
+          ]
+        },
+        {
+          "text": "Timestomp 是指標移除（T1070）的子技術，屬於隱蔽（Stealth）戰術。",
+          "passage_ids": [
+            "T1070.006:overview"
+          ]
+        },
+        {
+          "text": "攻擊者修改檔案時間戳記的目的是使其在法證調查人員或檔案分析工具中不顯得突兀。",
+          "passage_ids": [
+            "T1070.006:overview"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "3-10",
+      "category": "cross_lingual",
+      "question": "螢幕截圖這種攻擊有辦法預防嗎？",
+      "expected": "answer",
+      "gold": "T1113:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "ATT&CK v19.2 未列出 T1113 螢幕截圖技術的任何預防性緩解措施。",
+          "passage_ids": [
+            "T1113:mitigation"
+          ]
+        },
+        {
+          "text": "該技術無法透過預防性控制輕鬆防止，應依賴其偵測指引。",
+          "passage_ids": [
+            "T1113:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "3-11",
+      "category": "cross_lingual",
+      "question": "挖礦程式偷用公司電腦的資源，要怎麼偵測？",
+      "expected": "answer",
+      "gold": "T1496:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "在 Windows 系統上，可偵測持續的高 CPU 使用率，並結合可疑的指令列執行（例如挖礦工具或混淆腳本）以及通往挖礦或代理網路的出站連線。",
+          "passage_ids": [
+            "T1496:detection"
+          ]
+        },
+        {
+          "text": "在 Linux 系統上，可偵測未授權程序異常的 CPU 或記憶體使用，並檢查是否有通往已知挖礦池的出站連線，或使用 cron 工作/腳本來維持持久性。",
+          "passage_ids": [
+            "T1496:detection"
+          ]
+        },
+        {
+          "text": "在 macOS 系統上，可偵測具有高 CPU 使用率並存取外部挖礦服務的後台啟動代理或守護程序。",
+          "passage_ids": [
+            "T1496:detection"
+          ]
+        },
+        {
+          "text": "在 IaaS 環境中，可偵測雲端虛擬機器 CPU 使用率的突然飆升、通往挖礦池的出站流量以及未授權的實例建立。",
+          "passage_ids": [
+            "T1496:detection"
+          ]
+        },
+        {
+          "text": "在容器環境中，可偵測執行挖礦二進位檔或公共代理工具的未授權容器所造成的高 CPU 使用率。",
+          "passage_ids": [
+            "T1496:detection"
+          ]
+        },
+        {
+          "text": "在 Windows 上，可偵測透過排程任務、WMI 或 PowerShell 啟動的資源密集型程序（如加密貨幣挖礦器）的持續執行，這些程序常建立持久性外部連線並嘗試使用偽裝或更名的二進位檔來規避偵測。",
+          "passage_ids": [
+            "T1496.001:detection"
+          ]
+        },
+        {
+          "text": "在 Linux 上，可偵測透過 cron、shell 腳本或 Docker 啟動的異常長時間執行且消耗高 CPU 週期的程序，並檢查通往已知挖礦池的連線或作為規避手段的 DNS over HTTPS 使用。",
+          "passage_ids": [
+            "T1496.001:detection"
+          ]
+        },
+        {
+          "text": "在 macOS 上，可偵測產生高 CPU 程序（如 xmrig 或 cpuminer）的持久性或後台守護程序（如 plist 或 launchd 工作），以及通往常用於挖礦代理的 IP 或域名的出站加密流量。",
+          "passage_ids": [
+            "T1496.001:detection"
+          ]
+        },
+        {
+          "text": "在容器環境中，可偵測使用公共映像（例如來自 DockerHub）的短暫或未授權容器實例，這些容器在啟動後不久即開始高 CPU 使用，且常透過 Kubernetes 或 Docker socket 濫用進行排程。",
+          "passage_ids": [
+            "T1496.001:detection"
+          ]
+        },
+        {
+          "text": "在 IaaS 環境中，可偵測在未監控或未使用區域中的未授權實例建立，或在 spot 實例中計算密集型工作的爆發，或在合法虛擬機器中資源使用的突然飆升。",
+          "passage_ids": [
+            "T1496.001:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "3-12",
+      "category": "cross_lingual",
+      "question": "攻擊者在 Linux 上用 cron 排程來維持存取權限，要怎麼偵測？",
+      "expected": "answer",
+      "gold": "T1053.003:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "偵測非 root 使用者或異常父程序建立或修改 crontab 條目，隨後在預定間隔執行不常見的二進位檔。",
+          "passage_ids": [
+            "T1053.003:detection"
+          ]
+        },
+        {
+          "text": "偵測透過 crontab、/etc/cron.* 目錄或 systemd timer 單位建立或修改 cron 工作，且由異常使用者或非標準間隔執行。",
+          "passage_ids": [
+            "T1053:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "3-13",
+      "category": "cross_lingual",
+      "question": "把惡意程式的檔名改成和系統正常檔案一樣來偽裝，是什麼技巧？",
+      "expected": "answer",
+      "gold": "T1036.005:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "將惡意程式的檔案名稱或位置操縱以使其看起來合法或良性，屬於偽裝（Masquerading）技巧。",
+          "passage_ids": [
+            "T1036:overview"
+          ]
+        },
+        {
+          "text": "偽裝（T1036）涉及操縱物件的名稱或位置，以規避防禦和觀察。",
+          "passage_ids": [
+            "T1036:overview"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "3-14",
+      "category": "cross_lingual",
+      "question": "怎麼防止攻擊者用 DNS 或其他非常規的協定把資料偷傳出去？",
+      "expected": "answer",
+      "gold": "T1048:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "可以強制使用代理伺服器，並指定專用伺服器處理 DNS 等服務，僅允許這些系統透過對應的埠或協定進行通訊。",
+          "passage_ids": [
+            "T1048.002:mitigation"
+          ]
+        },
+        {
+          "text": "資料外洩防護系統可以偵測並阻擋透過網頁瀏覽器上傳的敏感資料。",
+          "passage_ids": [
+            "T1048.002:mitigation"
+          ]
+        },
+        {
+          "text": "使用網路入侵偵測與防禦系統，透過網路特徵碼識別特定敵對命令與控制基礎設施或惡意軟體的流量，以在網路層級緩解活動。",
+          "passage_ids": [
+            "T1048.002:mitigation"
+          ]
+        },
+        {
+          "text": "遵循網路防火牆配置的最佳實務，僅允許必要的埠和流量進入或離開網路，以實施網路分段。",
+          "passage_ids": [
+            "T1048.002:mitigation"
+          ]
+        },
+        {
+          "text": "可以過濾發往未知、不受信任或已知惡意網域和資源的 DNS 請求。",
+          "passage_ids": [
+            "T1071.004:mitigation"
+          ]
+        },
+        {
+          "text": "使用內部或代理伺服器解析 DNS 請求，可能中斷攻擊者嘗試將資料隱藏在 DNS 封包中的行為。",
+          "passage_ids": [
+            "T1071.004:mitigation"
+          ]
+        },
+        {
+          "text": "使用網路入侵偵測與防禦系統，透過網路特徵碼識別特定敵對惡意軟體的流量，以在網路層級緩解活動。",
+          "passage_ids": [
+            "T1071.004:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "3-15",
+      "category": "cross_lingual",
+      "question": "瀏覽器的登入狀態被攻擊者劫持，要怎麼偵測？",
+      "expected": "answer",
+      "gold": "T1185:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "偵測瀏覽器會話劫持可透過監控特權、句柄存取以及遠程線程注入瀏覽器的行為。",
+          "passage_ids": [
+            "T1185:detection"
+          ]
+        },
+        {
+          "text": "在 Windows 環境中，偵測攻擊者獲取高完整性或特殊特權（如 SeDebugPrivilege）、定位運行中的瀏覽器進程、以寫入或注入權限開啟該進程並進行修改（例如 CreateRemoteThread 或 DLL 加載）以繼承 Cookie 或令牌。",
+          "passage_ids": [
+            "T1185:detection"
+          ]
+        },
+        {
+          "text": "偵測攻擊者創建新的登錄會話或使用明確憑據，並驅動受害者的瀏覽器訪問內網資源的行為。",
+          "passage_ids": [
+            "T1185:detection"
+          ]
+        },
+        {
+          "text": "偵測對瀏覽器會話 Cookie 存儲（如 Chrome 的 Cookies SQLite 數據庫）或瀏覽器進程內存的可疑訪問。",
+          "passage_ids": [
+            "T1539:detection"
+          ]
+        },
+        {
+          "text": "在 Windows 上偵測針對 chrome.exe、firefox.exe 或 msedge.exe 等瀏覽器進程的異常注入或內存轉儲工具。",
+          "passage_ids": [
+            "T1539:detection"
+          ]
+        },
+        {
+          "text": "在 Linux 上偵測對已知瀏覽器 Cookie 文件（如 ~/.mozilla/firefox/*.default/cookies.sqlite 或 ~/.config/google-chrome/）的訪問，以及通過 /proc/[pid]/mem 或 ptrace 對瀏覽器內存的可疑讀取。",
+          "passage_ids": [
+            "T1539:detection"
+          ]
+        },
+        {
+          "text": "在 macOS 上偵測對瀏覽器 Cookie 路徑（如 ~/Library/Application Support/Google/Chrome/Default/Cookies）的未授權訪問，或對 Safari/Chrome 內存空間的 task_for_pid/vm_read 調用。",
+          "passage_ids": [
+            "T1539:detection"
+          ]
+        },
+        {
+          "text": "在 SaaS 環境中偵測來自異常用戶代理或位置的會話 Cookie 或身份驗證令牌使用，以及未重新驗證的令牌重用或嘗試使用先前竊取的 Cookie 繞過多因素身份驗證。",
+          "passage_ids": [
+            "T1539:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-01",
+      "category": "near_id",
+      "question": "How do I detect T1543.001?",
+      "expected": "answer",
+      "gold": "T1543.001:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Detect the creation or modification of user-level Launch Agents in monitored directories by looking for .plist files with suspicious ProgramArguments or RunAtLoad keys.",
+          "passage_ids": [
+            "T1543.001:detection"
+          ]
+        },
+        {
+          "text": "Correlate file write activity with the execution of launchctl or unsigned binaries invoked at login.",
+          "passage_ids": [
+            "T1543.001:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-02",
+      "category": "near_id",
+      "question": "Mitigations for T1543.002",
+      "expected": "answer",
+      "gold": "T1543.002:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "限制软件安装：仅允许从受信任的软件仓库安装软件，并谨慎处理孤立的软件包。",
+          "passage_ids": [
+            "T1543.002:mitigation"
+          ]
+        },
+        {
+          "text": "特权账户管理：创建和修改 systemd 服务单元文件通常仅限于管理员，例如 Linux root 用户和其他具有超级用户权限的用户。",
+          "passage_ids": [
+            "T1543.002:mitigation"
+          ]
+        },
+        {
+          "text": "限制文件和目录权限：将 systemd 单元文件的读写访问权限限制为仅授予有合法需求管理系统的特权用户。",
+          "passage_ids": [
+            "T1543.002:mitigation"
+          ]
+        },
+        {
+          "text": "用户账户管理：将用户对 systemctl 等系统实用程序的访问权限限制为仅授予有合法需求的用户。",
+          "passage_ids": [
+            "T1543.002:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-03",
+      "category": "near_id",
+      "question": "What is T1059.003?",
+      "expected": "answer",
+      "gold": "T1059.003:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "T1059.003 是 Windows Command Shell，為 T1059 Command and Scripting Interpreter 的子技術。",
+          "passage_ids": [
+            "T1059.003:overview"
+          ]
+        },
+        {
+          "text": "T1059.003 描述攻擊者濫用 Windows 命令提示字元（cmd）進行執行。",
+          "passage_ids": [
+            "T1059.003:overview"
+          ]
+        },
+        {
+          "text": "T1059.003 的戰術為 Execution，平台為 Windows。",
+          "passage_ids": [
+            "T1059.003:overview"
+          ]
+        },
+        {
+          "text": "T1059.003 是 T1059 Command and Scripting Interpreter 的子技術之一。",
+          "passage_ids": [
+            "T1059:overview"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-04",
+      "category": "near_id",
+      "question": "Detection for T1059.004",
+      "expected": "answer",
+      "gold": "T1059.004:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Behavioral detection for T1059.004 on Linux focuses on detecting bash, sh, zsh, or BusyBox shell execution initiated via remote sessions, unauthorized users, or embedded within secondary script interpreters, with an emphasis on chained behavior such as shell execution followed by suspicious commands and network discovery or persistence indicators.",
+          "passage_ids": [
+            "T1059.004:detection"
+          ]
+        },
+        {
+          "text": "Behavioral detection for T1059.004 on macOS identifies the use of sh, bash, or zsh in suspicious contexts, such as user scripts launched from non-standard apps like Preview.app, embedded in LaunchDaemons, executed outside Terminal.app, or misused in Automator, LaunchAgents, or NSAppleScript-executed shell.",
+          "passage_ids": [
+            "T1059.004:detection"
+          ]
+        },
+        {
+          "text": "Behavioral detection for T1059.004 on ESXi detects BusyBox or Ash shell execution from unauthorized logins or remote connections, focusing on rare shell invocations from DCUI, SSH sessions, or remote management paths, and watches for payload droppers or persistence artifacts using shell.",
+          "passage_ids": [
+            "T1059.004:detection"
+          ]
+        },
+        {
+          "text": "Behavioral detection for T1059.004 on network devices detects Unix shell usage on appliances such as routers, firewalls, and embedded Linux systems through rare console commands, CLI interfaces, or script injection via exposed APIs or SSH.",
+          "passage_ids": [
+            "T1059.004:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-05",
+      "category": "near_id",
+      "question": "T1055.001 mitigation",
+      "expected": "answer",
+      "gold": "T1055.001:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Behavior Prevention on Endpoint: Some endpoint security solutions can be configured to block some types of process injection based on common sequences of behavior that occur during the injection process.",
+          "passage_ids": [
+            "T1055.001:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-06",
+      "category": "near_id",
+      "question": "What is T1055.003?",
+      "expected": "answer",
+      "gold": "T1055.003:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "T1055.003 是 T1055 程序注入的子技術，稱為執行緒執行劫持。",
+          "passage_ids": [
+            "T1055.003:overview"
+          ]
+        },
+        {
+          "text": "T1055.003 是一種在另一個存活程序的位址空間中執行任意代碼的方法。",
+          "passage_ids": [
+            "T1055.003:overview"
+          ]
+        },
+        {
+          "text": "T1055.003 通常透過暫停現有程序並解除映射或掏空其記憶體，然後用惡意代碼或 DLL 路徑進行替換來實現。",
+          "passage_ids": [
+            "T1055.003:overview"
+          ]
+        },
+        {
+          "text": "T1055.003 的目標平台是 Windows。",
+          "passage_ids": [
+            "T1055.003:overview"
+          ]
+        },
+        {
+          "text": "T1055.003 對應的戰術是隱蔽和特權提升。",
+          "passage_ids": [
+            "T1055.003:overview"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-07",
+      "category": "near_id",
+      "question": "How to detect T1218.010?",
+      "expected": "answer",
+      "gold": "T1218.010:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Detection focuses on identifying anomalous regsvr32.exe executions that deviate from normal administrative or system use.",
+          "passage_ids": [
+            "T1218.010:detection"
+          ]
+        },
+        {
+          "text": "Defenders may observe regsvr32.exe loading scriptlets or DLLs from unusual paths, especially temporary directories or remote URLs.",
+          "passage_ids": [
+            "T1218.010:detection"
+          ]
+        },
+        {
+          "text": "Detection includes monitoring command-line arguments invoking /i or /u with suspicious file references.",
+          "passage_ids": [
+            "T1218.010:detection"
+          ]
+        },
+        {
+          "text": "Defenders should look for network connections initiated by regsvr32.exe.",
+          "passage_ids": [
+            "T1218.010:detection"
+          ]
+        },
+        {
+          "text": "Detection involves identifying unsigned or untrusted DLLs being loaded shortly after regsvr32.exe invocation.",
+          "passage_ids": [
+            "T1218.010:detection"
+          ]
+        },
+        {
+          "text": "Correlated sequences include regsvr32.exe process creation, module load of a DLL or scriptlet, and optional outbound network traffic.",
+          "passage_ids": [
+            "T1218.010:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-08",
+      "category": "near_id",
+      "question": "T1218.005 mitigations",
+      "expected": "answer",
+      "gold": "T1218.005:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Mshta.exe 可能不需要在特定環境中，因為其功能與已達到生命週期結束的舊版 Internet Explorer 相關，因此可以禁用或移除該功能或程式。",
+          "passage_ids": [
+            "T1218.005:mitigation"
+          ]
+        },
+        {
+          "text": "如果系統或網路不需要 mshta.exe，應使用應用程式控制來阻止其執行，以防止潛在的濫用。",
+          "passage_ids": [
+            "T1218.005:mitigation"
+          ]
+        },
+        {
+          "text": "在 Windows 10 和 Windows Server 2016 及以上版本中，可以應用 Windows Defender Application Control (WDAC) 策略規則來阻止 mshta.exe 應用程式並防止其被濫用。",
+          "passage_ids": [
+            "T1218.005:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-09",
+      "category": "near_id",
+      "question": "What is T1021.006?",
+      "expected": "answer",
+      "gold": "T1021.006:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "T1021.006 是 Windows Remote Management（Windows 遠端管理），為 T1021 Remote Services 的子技術。",
+          "passage_ids": [
+            "T1021.006:overview"
+          ]
+        },
+        {
+          "text": "攻擊者可能使用有效帳戶透過 Windows Remote Management（WinRM）與遠端系統互動，並以登入使用者的身分執行動作。",
+          "passage_ids": [
+            "T1021.006:overview"
+          ]
+        },
+        {
+          "text": "WinRM 是 Windows 服務與協定的名稱，允許使用者與遠端系統互動，例如執行可執行檔、修改登錄或修改服務。",
+          "passage_ids": [
+            "T1021.006:overview"
+          ]
+        },
+        {
+          "text": "T1021.006 對應的戰術為 Lateral Movement（橫向移動），平台為 Windows。",
+          "passage_ids": [
+            "T1021.006:overview"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-10",
+      "category": "near_id",
+      "question": "Detection for T1021.002",
+      "expected": "answer",
+      "gold": "T1021.002:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Detection for T1021.002 involves identifying multi-event patterns where SMB-based remote file share access is followed by lateral movement actions such as remote service creation, task scheduling, or suspicious process execution on the target host using ADMIN$ or C$ shares.",
+          "passage_ids": [
+            "T1021.002:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-11",
+      "category": "near_id",
+      "question": "How do I mitigate T1110.004?",
+      "expected": "answer",
+      "gold": "T1110.004:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Set account lockout policies after a certain number of failed login attempts to prevent passwords from being guessed.",
+          "passage_ids": [
+            "T1110.004:mitigation"
+          ]
+        },
+        {
+          "text": "Use conditional access policies to block logins from non-compliant devices or from outside defined organization IP ranges.",
+          "passage_ids": [
+            "T1110.004:mitigation"
+          ]
+        },
+        {
+          "text": "Consider blocking risky authentication requests, such as those originating from anonymizing services or proxies.",
+          "passage_ids": [
+            "T1110.004:mitigation"
+          ]
+        },
+        {
+          "text": "Use multi-factor authentication, including on externally facing services where possible.",
+          "passage_ids": [
+            "T1110.004:mitigation"
+          ]
+        },
+        {
+          "text": "Refer to NIST guidelines when creating password policies.",
+          "passage_ids": [
+            "T1110.004:mitigation"
+          ]
+        },
+        {
+          "text": "Proactively reset accounts that are known to be part of breached credentials either immediately or after detecting brute force attempts.",
+          "passage_ids": [
+            "T1110.004:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-12",
+      "category": "near_id",
+      "question": "What is T1110.001?",
+      "expected": "answer",
+      "gold": "T1110.001:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "T1110.001 是 T1110 暴力破解（Brute Force）的子技術，名稱為密碼猜測（Password Guessing）。",
+          "passage_ids": [
+            "T1110.001:overview"
+          ]
+        },
+        {
+          "text": "該技術屬於憑證存取（Credential Access）戰術。",
+          "passage_ids": [
+            "T1110.001:overview"
+          ]
+        },
+        {
+          "text": "攻擊者可能在沒有先前知識的情況下，使用常見密碼列表系統性地猜測帳戶密碼以嘗試存取。",
+          "passage_ids": [
+            "T1110.001:overview"
+          ]
+        },
+        {
+          "text": "T1110.001 適用於容器、ESXi、IaaS、身份提供者、Linux、macOS、網路設備、辦公套件、SaaS 和 Windows 平台。",
+          "passage_ids": [
+            "T1110.001:overview"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-13",
+      "category": "near_id",
+      "question": "T1053.003 detection",
+      "expected": "answer",
+      "gold": "T1053.003:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "在 Linux 環境中，偵測非 root 使用者或異常父進程創建或修改 crontab 條目，隨後在預定間隔執行不常見的二進制文件。",
+          "passage_ids": [
+            "T1053.003:detection"
+          ]
+        },
+        {
+          "text": "在 macOS 環境中，偵測透過 `crontab` 工具或直接編輯添加或修改 crontab 任務，特別是互動式使用者執行隱藏或重命名腳本的情況。",
+          "passage_ids": [
+            "T1053.003:detection"
+          ]
+        },
+        {
+          "text": "在 ESXi 環境中，偵測直接修改 /var/spool/cron/crontabs/root 或 /etc/rc.local.d/local.sh 中的 crontab 條目，隨後執行與橫向移動或惡意軟件持久化相關的腳本。",
+          "passage_ids": [
+            "T1053.003:detection"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-14",
+      "category": "near_id",
+      "question": "Mitigation for T1003.006",
+      "expected": "answer",
+      "gold": "T1003.006:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "管理「Replicating Directory Changes」及與網域控制器複製相關的其他權限的存取控制清單。",
+          "passage_ids": [
+            "T1003.006:mitigation"
+          ]
+        },
+        {
+          "text": "確保本機管理員帳戶在所有網路系統上具有複雜且唯一的密碼。",
+          "passage_ids": [
+            "T1003.006:mitigation"
+          ]
+        },
+        {
+          "text": "除非受到嚴格控制，否則不要將使用者或管理員網域帳戶加入各系統的本機管理員群組，並遵循企業網路設計與管理最佳實務以限制特權帳戶在管理層級中的使用。",
+          "passage_ids": [
+            "T1003.006:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "4-15",
+      "category": "near_id",
+      "question": "How to mitigate T1070.004?",
+      "expected": "answer",
+      "gold": "T1070.004:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "ATT&CK v19.2 lists no preventive mitigations for T1070.004 File Deletion.",
+          "passage_ids": [
+            "T1070.004:mitigation"
+          ]
+        },
+        {
+          "text": "This technique cannot be easily prevented with preventive controls.",
+          "passage_ids": [
+            "T1070.004:mitigation"
+          ]
+        },
+        {
+          "text": "Security teams should rely on the Detection guidance for T1070.004 instead of preventive mitigations.",
+          "passage_ids": [
+            "T1070.004:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "6-01",
+      "category": "unsupported",
+      "question": "Which techniques does APT29 use?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not contain information about which techniques APT29 uses.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-02",
+      "category": "unsupported",
+      "question": "What TTPs are associated with NobleBaron?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "relevance",
+      "refusal_reason": "The question does not match any ATT&CK technique.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-03",
+      "category": "unsupported",
+      "question": "Lazarus Group 用過哪些攻擊手法？",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "relevance",
+      "refusal_reason": "The question does not match any ATT&CK technique.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-04",
+      "category": "unsupported",
+      "question": "Does FIN7 use spearphishing?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not contain information about which specific groups, such as FIN7, use spearphishing techniques.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-05",
+      "category": "unsupported",
+      "question": "Which groups use T1059.001?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not list which adversary groups use T1059.001.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-06",
+      "category": "unsupported",
+      "question": "Octo Tempest 常用哪些技巧？",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "提供的参考段落中未包含关于威胁组织 Octo Tempest 使用哪些技巧的信息。",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-07",
+      "category": "unsupported",
+      "question": "Which techniques does Mimikatz implement?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not contain a comprehensive list of all techniques implemented by Mimikatz, only mentioning its use in specific sub-techniques.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-08",
+      "category": "unsupported",
+      "question": "What can Cobalt Strike do according to ATT&CK?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "relevance",
+      "refusal_reason": "The question does not match any ATT&CK technique.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-09",
+      "category": "unsupported",
+      "question": "Emotet 使用了哪些技巧？",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "提供的参考段落中未包含关于 Emotet 使用哪些技巧的信息。",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-10",
+      "category": "unsupported",
+      "question": "List all techniques that affect macOS.",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages only list techniques that affect macOS, but do not contain the complete list of all techniques in MITRE ATT&CK v19.2 that affect macOS.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-11",
+      "category": "unsupported",
+      "question": "Which tactic has the most techniques?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not contain information about the total number of techniques associated with each tactic across the entire ATT&CK framework.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-12",
+      "category": "unsupported",
+      "question": "How many sub-techniques are there in ATT&CK?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages only list sub-techniques for specific techniques and do not contain the total count of sub-techniques in the entire ATT&CK framework.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-13",
+      "category": "unsupported",
+      "question": "Which techniques have no mitigations?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "ATT&CK v19.2 lists no mitigations for T1020 Automated Exfiltration itself.",
+          "passage_ids": [
+            "T1020:mitigation"
+          ]
+        },
+        {
+          "text": "ATT&CK v19.2 lists no preventive mitigations for T1587 Develop Capabilities.",
+          "passage_ids": [
+            "T1587:mitigation"
+          ]
+        },
+        {
+          "text": "ATT&CK v19.2 lists no preventive mitigations for T1074 Data Staged.",
+          "passage_ids": [
+            "T1074:mitigation"
+          ]
+        },
+        {
+          "text": "ATT&CK v19.2 lists no mitigations for T1496 Resource Hijacking itself.",
+          "passage_ids": [
+            "T1496:mitigation"
+          ]
+        },
+        {
+          "text": "ATT&CK v19.2 lists no preventive mitigations for T1608 Stage Capabilities.",
+          "passage_ids": [
+            "T1608:mitigation"
+          ]
+        }
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-14",
+      "category": "unsupported",
+      "question": "列出所有跟竊取憑證有關的技巧",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "提供的段落僅包含特定技巧（T1649、T1003、T1588.003、T1558.003）的詳細資訊，無法列出 ATT&CK 中所有與竊取憑證有關的技巧。",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "6-15",
+      "category": "unsupported",
+      "question": "What are the most commonly used techniques?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not contain data on the frequency or prevalence of techniques across the entire ATT&CK framework, only specific details for the listed techniques.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "7-01",
+      "category": "unanswerable",
+      "question": "What's the weather in Taipei tomorrow?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "relevance",
+      "refusal_reason": "The question does not match any ATT&CK technique.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "7-02",
+      "category": "unanswerable",
+      "question": "How do I bake sourdough bread?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "relevance",
+      "refusal_reason": "The question does not match any ATT&CK technique.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "7-03",
+      "category": "unanswerable",
+      "question": "How do I configure a Kubernetes ingress controller?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not contain information on how to configure a Kubernetes ingress controller.",
+      "claims": [],
+      "retrieved": [
+        "T1610:mitigation",
+        "T1609:overview",
+        "T1098.006:overview",
+        "T1609:mitigation",
+        "T1059.013:overview"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "7-04",
+      "category": "unanswerable",
+      "question": "台積電今天的股價多少？",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "relevance",
+      "refusal_reason": "The question does not match any ATT&CK technique.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "7-05",
+      "category": "unanswerable",
+      "question": "Write me a Python function that sorts a list.",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages contain information about MITRE ATT&CK techniques and do not include instructions or code for writing a Python function to sort a list.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "7-06",
+      "category": "unanswerable",
+      "question": "What is the CVSS score of T1486?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not contain any information regarding the CVSS score for T1486.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "7-07",
+      "category": "unanswerable",
+      "question": "Which EDR product is best at detecting T1055.012?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not identify or compare specific EDR products for detecting T1055.012.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "7-08",
+      "category": "unanswerable",
+      "question": "How many companies were hit by Kerberoasting in 2025?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not contain information about the number of companies affected by Kerberoasting in 2025.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "7-09",
+      "category": "unanswerable",
+      "question": "What changed for T1059 in ATT&CK v20?",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not contain information regarding changes to T1059 in ATT&CK v20.",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "7-10",
+      "category": "unanswerable",
+      "question": "T1059 是哪一年被加進 ATT&CK 的？",
+      "expected": "refuse",
+      "gold": null,
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "提供的段落中沒有包含 T1059 被加入 ATT&CK 的年份資訊。",
+      "claims": [],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "8-01",
+      "category": "revoked_id",
+      "question": "How do I detect T1086?",
+      "expected": "answer",
+      "gold": "T1059.001:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Detect behavioral chains where PowerShell is launched with encoded commands, unusual parent processes, or suspicious modules loaded, potentially followed by network connections or child process spawning.",
+          "passage_ids": [
+            "T1059.001:detection"
+          ]
+        },
+        {
+          "text": "Detection supports both direct invocations via powershell.exe and indirect invocations through .NET automation.",
+          "passage_ids": [
+            "T1059.001:detection"
+          ]
+        },
+        {
+          "text": "Note that T1086 was revoked and replaced by T1059.001 in ATT&CK v19.2.",
+          "passage_ids": [
+            "T1059.001:overview"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1059.001:detection",
+        "T1059.001:overview",
+        "T1059.001:mitigation",
+        "T1595.002:detection",
+        "T1595.001:detection"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-02",
+      "category": "revoked_id",
+      "question": "What is T1093?",
+      "expected": "answer",
+      "gold": "T1055.012:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "T1055.012 是 Process Hollowing（程序空洞化），為 T1055 Process Injection 的子技術。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ]
+        },
+        {
+          "text": "該技術透過在暫停狀態下建立程序、解除其記憶體映射並替換為惡意代碼，以在目標程序的地址空間中執行任意代碼。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ]
+        },
+        {
+          "text": "T1055.012 主要用於規避基於程序的防禦機制，並可能用於特權提升。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ]
+        },
+        {
+          "text": "此技術僅適用於 Windows 平台。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ]
+        },
+        {
+          "text": "T1055.012 與 T1055.005 Thread Local Storage 類似，但前者是建立新程序而非針對現有程序。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ]
+        },
+        {
+          "text": "由於注入的程序繼承自注入程序的權限上下文，此行為通常不會導致特權提升。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ]
+        },
+        {
+          "text": "T1055.012 的戰術分類為 Stealth 和 Privilege Escalation。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1055.012:overview",
+        "T1055.012:mitigation",
+        "T1055.012:detection",
+        "T1055.005:overview",
+        "T1055:overview"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-03",
+      "category": "revoked_id",
+      "question": "How to detect T1070.001?",
+      "expected": "answer",
+      "gold": "T1685.005:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Detect the behavioral sequence where an adversary gains elevated privileges and clears event logs using native binaries such as wevtutil, PowerShell, or direct file deletion of .evtx files.",
+          "passage_ids": [
+            "T1685.005:detection"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1685.005:detection",
+        "T1685.005:mitigation",
+        "T1685.005:overview",
+        "T1622:detection",
+        "T1558.003:detection"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-04",
+      "category": "revoked_id",
+      "question": "Mitigations for T1562.001",
+      "expected": "answer",
+      "gold": "T1685:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Audit: Periodically verify that tools are functioning appropriately, such as ensuring all expected hosts with EDRs or monitoring agents are checking in to the central console and checking for unexpected exclusion paths.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        },
+        {
+          "text": "Disable or Remove Feature or Program: Consider removing previous versions of tools that are unnecessary to the environment when possible.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        },
+        {
+          "text": "Execution Prevention: Use application control to ensure only approved security applications are used and running on enterprise systems, especially regarding tools abused to impair system defenses.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        },
+        {
+          "text": "Restrict File and Directory Permissions: Ensure proper process and file permissions are in place to prevent adversaries from disabling or interfering with security services.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        },
+        {
+          "text": "Restrict Registry Permissions: Ensure proper Registry permissions are in place to prevent adversaries from disabling or interfering with security services.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        },
+        {
+          "text": "Software Configuration: Consider automatically relaunching forwarding mechanisms at recurring intervals and applying appropriate change management to firewall rules and other related system configurations.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        },
+        {
+          "text": "User Account Management: Ensure proper user permissions are in place to prevent adversaries from disabling or interfering with security services.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1685:mitigation",
+        "T1685:overview",
+        "T1685:detection",
+        "T1595:mitigation",
+        "T1687:mitigation"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-05",
+      "category": "revoked_id",
+      "question": "What is T1574.002?",
+      "expected": "answer",
+      "gold": "T1574.001:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "T1574.001 is the sub-technique 'DLL' under T1574 Hijack Execution Flow.",
+          "passage_ids": [
+            "T1574.001:overview"
+          ]
+        },
+        {
+          "text": "Adversaries abuse dynamic-link library (DLL) files to achieve persistence, escalate privileges, and evade defenses.",
+          "passage_ids": [
+            "T1574.001:overview"
+          ]
+        },
+        {
+          "text": "Specific abuse mechanisms include DLL sideloading, DLL search order hijacking, DLL redirection, phantom DLL hijacking, and DLL substitution.",
+          "passage_ids": [
+            "T1574.001:overview"
+          ]
+        },
+        {
+          "text": "The technique is associated with the Stealth and Execution tactics and applies to the Windows platform.",
+          "passage_ids": [
+            "T1574.001:overview"
+          ]
+        },
+        {
+          "text": "T1574.002 was revoked and replaced by T1574.001 in ATT&CK v19.2.",
+          "passage_ids": [
+            "T1574.001:overview"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1574.001:overview",
+        "T1574.001:detection",
+        "T1574.001:mitigation",
+        "T1597.001:overview",
+        "T1574.008:overview"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-06",
+      "category": "revoked_id",
+      "question": "How can we mitigate T1193?",
+      "expected": "answer",
+      "gold": "T1566.001:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Anti-virus software can be used to automatically quarantine suspicious files.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Enable auditing and monitoring for email attachments and file transfers to detect and investigate suspicious activity.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Network intrusion prevention systems can be used to block activity and scan for malicious email attachments.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Block unknown or unused attachments by default, such as .scr, .exe, .pif, and .cpl files, to prevent certain attack vectors.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Use anti-spoofing and email authentication mechanisms like SPF, DKIM, and DMARC to filter messages based on sender validity and message integrity.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Apply user account management principles to limit permissions for accounts interacting with email attachments.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Train users to identify social engineering techniques and spearphishing emails.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1566.001:mitigation",
+        "T1566.001:overview",
+        "T1566.001:detection",
+        "T1496:mitigation",
+        "T1546.016:mitigation"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-07",
+      "category": "revoked_id",
+      "question": "Detection for T1050",
+      "expected": "answer",
+      "gold": "T1543.003:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Detection of T1543.003 Windows Service involves monitoring for the creation or modification of Windows Services through command-line tools such as sc.exe and powershell.exe.",
+          "passage_ids": [
+            "T1543.003:detection"
+          ]
+        },
+        {
+          "text": "Detection includes identifying Registry key changes under HKLM\\System\\CurrentControlSet\\Services.",
+          "passage_ids": [
+            "T1543.003:detection"
+          ]
+        },
+        {
+          "text": "Detection involves observing service execution under SYSTEM privileges with unsigned or anomalous binary paths.",
+          "passage_ids": [
+            "T1543.003:detection"
+          ]
+        },
+        {
+          "text": "Detection can identify privilege escalation via driver installation or the usage of the CreateServiceW function.",
+          "passage_ids": [
+            "T1543.003:detection"
+          ]
+        },
+        {
+          "text": "Detection correlates parent-child lineage, startup behavior, and rare service names.",
+          "passage_ids": [
+            "T1543.003:detection"
+          ]
+        },
+        {
+          "text": "T1543.003 is the current sub-technique that replaced the revoked T1050 technique in ATT&CK v19.2.",
+          "passage_ids": [
+            "T1543.003:overview"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1543.003:detection",
+        "T1543.003:mitigation",
+        "T1543.003:overview",
+        "T1587.004:detection",
+        "T1588.006:detection"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-08",
+      "category": "revoked_id",
+      "question": "T1077 要怎麼防？",
+      "expected": "answer",
+      "gold": "T1021.002:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "建議使用主機防火牆來限制如 SMB 等檔案共享通訊。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ]
+        },
+        {
+          "text": "建議停用 Windows 管理員共享（administrative shares）。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ]
+        },
+        {
+          "text": "不要在系統間重複使用本機管理員帳號密碼，並確保密碼的複雜度與唯一性以防止被破解或猜測。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ]
+        },
+        {
+          "text": "拒絕使用本機管理員憑證進行遠端登入，並避免讓網域使用者帳號在多個系統的本機管理員群組中。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1021.002:mitigation",
+        "T1021.002:detection",
+        "T1021.002:overview",
+        "T1027.001:mitigation",
+        "T1027.003:mitigation"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    }
+  ]
+}

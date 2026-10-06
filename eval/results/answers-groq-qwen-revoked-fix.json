@@ -1,0 +1,447 @@
+{
+  "label": "answers-groq-qwen-revoked-fix",
+  "llm": "groq",
+  "summary": [
+    {
+      "category": "revoked_id",
+      "n": 8,
+      "answered": 8,
+      "refused": 0,
+      "errors": 0,
+      "cites_gold_passage": 8,
+      "cites_gold_technique": 8,
+      "gold_retrieved": 8,
+      "refused_by": {}
+    }
+  ],
+  "questions": [
+    {
+      "id": "8-01",
+      "category": "revoked_id",
+      "question": "How do I detect T1086?",
+      "expected": "answer",
+      "gold": "T1059.001:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Detect behavioral chains where PowerShell is launched with encoded commands, unusual parent processes, or suspicious modules loaded.",
+          "passage_ids": [
+            "T1059.001:detection"
+          ]
+        },
+        {
+          "text": "Monitor for network connections or child process spawning that potentially follow the suspicious PowerShell execution.",
+          "passage_ids": [
+            "T1059.001:detection"
+          ]
+        },
+        {
+          "text": "Support detection of both direct invocations via powershell.exe and indirect invocations through .NET automation.",
+          "passage_ids": [
+            "T1059.001:detection"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1059.001:detection",
+        "T1059.001:overview",
+        "T1059.001:mitigation",
+        "T1595.002:detection",
+        "T1595.001:detection"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-02",
+      "category": "revoked_id",
+      "question": "What is T1093?",
+      "expected": "answer",
+      "gold": "T1055.012:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "T1055.012 是 T1055 程序注入的子技術，稱為程序掏空（Process Hollowing）。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ]
+        },
+        {
+          "text": "攻擊者可能將惡意代碼注入到已掛起並被掏空的程序中，以規避基於程序的防禦。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ]
+        },
+        {
+          "text": "程序掏空是一種在另一個存活程序的地址空間中執行任意代碼的方法。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ]
+        },
+        {
+          "text": "該技術通常通過創建處於掛起狀態的程序，然後解除映射/掏空其內存，並用惡意代碼替換來實現。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ]
+        },
+        {
+          "text": "T1055.012 對應的戰術為隱蔽（Stealth）和特權提升（Privilege Escalation）。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ]
+        },
+        {
+          "text": "T1055.012 僅適用於 Windows 平台。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1055.012:overview",
+        "T1055.012:mitigation",
+        "T1055.012:detection",
+        "T1055.005:overview",
+        "T1055:overview"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-03",
+      "category": "revoked_id",
+      "question": "How to detect T1070.001?",
+      "expected": "answer",
+      "gold": "T1685.005:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Detect the behavioral sequence where an adversary gains elevated privileges and clears event logs using native binaries such as wevtutil, PowerShell, or direct file deletion of .evtx files.",
+          "passage_ids": [
+            "T1685.005:detection"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1685.005:detection",
+        "T1685.005:mitigation",
+        "T1685.005:overview",
+        "T1622:detection",
+        "T1558.003:detection"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-04",
+      "category": "revoked_id",
+      "question": "Mitigations for T1562.001",
+      "expected": "answer",
+      "gold": "T1685:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Audit: Periodically verify that tools are functioning appropriately, such as ensuring all expected hosts with EDRs or monitoring agents are checking in to the central console and checking for unexpected exclusion paths.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        },
+        {
+          "text": "Disable or Remove Feature or Program: Consider removing previous versions of tools that are unnecessary to the environment when possible.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        },
+        {
+          "text": "Execution Prevention: Use application control to ensure only approved security applications are used and running on enterprise systems, especially regarding tools outside of security policies.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        },
+        {
+          "text": "Restrict File and Directory Permissions: Ensure proper process and file permissions are in place to prevent adversaries from disabling or interfering with security services.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        },
+        {
+          "text": "Restrict Registry Permissions: Ensure proper Registry permissions are in place to prevent adversaries from disabling or interfering with security services.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        },
+        {
+          "text": "Software Configuration: Consider automatically relaunching forwarding mechanisms at recurring intervals and applying appropriate change management to firewall rules and other related system configurations.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        },
+        {
+          "text": "User Account Management: Ensure proper user permissions are in place to prevent adversaries from disabling or interfering with security services.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1685:mitigation",
+        "T1685:overview",
+        "T1685:detection",
+        "T1595:mitigation",
+        "T1687:mitigation"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-05",
+      "category": "revoked_id",
+      "question": "What is T1574.002?",
+      "expected": "answer",
+      "gold": "T1574.001:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "T1574.001 is a sub-technique of T1574 Hijack Execution Flow that involves adversaries abusing dynamic-link library (DLL) files to achieve persistence, escalate privileges, and evade defenses.",
+          "passage_ids": [
+            "T1574.001:overview"
+          ]
+        },
+        {
+          "text": "Specific methods of abuse under T1574.001 include DLL sideloading, DLL search order hijacking, DLL redirection, phantom DLL hijacking, and DLL substitution.",
+          "passage_ids": [
+            "T1574.001:overview"
+          ]
+        },
+        {
+          "text": "T1574.001 is associated with the Stealth and Execution tactics and applies to the Windows platform.",
+          "passage_ids": [
+            "T1574.001:overview"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1574.001:overview",
+        "T1574.001:detection",
+        "T1574.001:mitigation",
+        "T1597.001:overview",
+        "T1574.008:overview"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-06",
+      "category": "revoked_id",
+      "question": "How can we mitigate T1193?",
+      "expected": "answer",
+      "gold": "T1566.001:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Anti-virus software can automatically quarantine suspicious files to mitigate T1566.001.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Enabling auditing and monitoring for email attachments and file transfers helps detect and investigate suspicious activity.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Network intrusion prevention systems can be used to block activity by scanning and removing malicious email attachments.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Blocking unknown or unused attachments by default, such as .scr, .exe, .pif, and .cpl files, prevents some attack vectors.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Using anti-spoofing and email authentication mechanisms like SPF, DKIM, and DMARC filters messages based on sender validity and integrity.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Applying user account management principles limits permissions for accounts interacting with email attachments to reduce the impact of malicious files.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Training users to identify social engineering techniques and spearphishing emails is a mitigation strategy.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1566.001:mitigation",
+        "T1566.001:overview",
+        "T1566.001:detection",
+        "T1496:mitigation",
+        "T1546.016:mitigation"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-07",
+      "category": "revoked_id",
+      "question": "Detection for T1050",
+      "expected": "answer",
+      "gold": "T1543.003:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "偵測 Windows 服務的建立或修改可透過監控命令列工具（例如 sc.exe、powershell.exe）的使用來實現。",
+          "passage_ids": [
+            "T1543.003:detection"
+          ]
+        },
+        {
+          "text": "偵測 Windows 服務的建立或修改可透過監控 HKLM\\System\\CurrentControlSet\\Services 下的登錄表鍵值變更來實現。",
+          "passage_ids": [
+            "T1543.003:detection"
+          ]
+        },
+        {
+          "text": "偵測 Windows 服務的建立或修改可透過識別以 SYSTEM 權限執行且使用未簽名或異常二進位路徑的服務來實現。",
+          "passage_ids": [
+            "T1543.003:detection"
+          ]
+        },
+        {
+          "text": "偵測 Windows 服務的建立或修改可透過識別驅動程式安裝或 CreateServiceW 函數的使用來偵測特權提升。",
+          "passage_ids": [
+            "T1543.003:detection"
+          ]
+        },
+        {
+          "text": "偵測 Windows 服務的建立或修改可透過關聯父進程與子進程的血緣關係、啟動行為以及罕見的服務名稱來實現。",
+          "passage_ids": [
+            "T1543.003:detection"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1543.003:detection",
+        "T1543.003:mitigation",
+        "T1543.003:overview",
+        "T1587.004:detection",
+        "T1588.006:detection"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "8-08",
+      "category": "revoked_id",
+      "question": "T1077 要怎麼防？",
+      "expected": "answer",
+      "gold": "T1021.002:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "考慮使用主機防火牆來限制如 SMB 等檔案共享通訊。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ]
+        },
+        {
+          "text": "考慮停用 Windows 管理員共享。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ]
+        },
+        {
+          "text": "不要在系統之間重複使用本機管理員帳戶密碼。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ]
+        },
+        {
+          "text": "確保密碼具有複雜性和唯一性，使其無法被破解或猜測。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ]
+        },
+        {
+          "text": "拒絕使用本機管理員憑證進行遠端登入。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ]
+        },
+        {
+          "text": "不允許網域使用者帳戶在多個系統的本機管理員群組中。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1021.002:mitigation",
+        "T1021.002:detection",
+        "T1021.002:overview",
+        "T1027.001:mitigation",
+        "T1027.003:mitigation"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    }
+  ]
+}

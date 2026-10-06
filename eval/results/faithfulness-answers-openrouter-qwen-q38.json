@@ -1,0 +1,2719 @@
+{
+  "label": "faithfulness-answers-openrouter-qwen-q38",
+  "answers": "answers-openrouter-qwen-q38",
+  "judge": "openrouter/anthropic/claude-sonnet-5.5",
+  "summary": [
+    {
+      "group": "all",
+      "answers": 51,
+      "claims": 227,
+      "supported": 225,
+      "partial": 2,
+      "unsupported": 0,
+      "completeness": {
+        "complete": 34,
+        "partial": 17
+      },
+      "supported_rate": 0.9911894273127754
+    },
+    {
+      "group": "gold retrieved",
+      "answers": 44,
+      "claims": 198,
+      "supported": 196,
+      "partial": 2,
+      "unsupported": 0,
+      "completeness": {
+        "complete": 34,
+        "partial": 10
+      },
+      "supported_rate": 0.98989898989899
+    },
+    {
+      "group": "gold not retrieved",
+      "answers": 7,
+      "claims": 29,
+      "supported": 29,
+      "partial": 0,
+      "unsupported": 0,
+      "completeness": {
+        "partial": 7
+      },
+      "supported_rate": 1.0
+    }
+  ],
+  "answers_judged": [
+    {
+      "id": "2-01",
+      "category": "paraphrase",
+      "question": "How can I tell if someone is dumping credentials from the Windows process that keeps login secrets in memory?",
+      "gold": "T1003.001:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "You can detect credential dumping from the Windows process that keeps login secrets in memory by identifying a non-privileged or abnormal process that attempts to open a handle with full access (0x1F0FFF) to lsass.exe and subsequently invokes memory dump, file creation, or registry modification.",
+          "passage_ids": [
+            "T1003.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The cited T1003.001 passage says a \"non-privileged or abnormal process attempts to open a handle with full access (0x1F0FFF) to lsass.exe and subsequently invokes memory dump, file creation, or registry modification\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "This activity can also be detected by correlating processes accessing LSASS memory outside of trusted security tools with subsequent file creation or lateral movement.",
+          "passage_ids": [
+            "T1003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The cited T1003 passage says \"Processes accessing LSASS memory or SAM registry hives outside of trusted security tools, often followed by file creation or lateral movement\", which matches the claim. \"Often followed\" is a modest softening that the claim's \"subsequent\" does not distort.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers the reference's main point, the 0x1F0FFF handle to lsass.exe followed by memory dump, file creation or registry modification. It omits only the closing remark that this chain reflects staged credential theft, and adds a second detection method."
+    },
+    {
+      "id": "2-02",
+      "category": "paraphrase",
+      "question": "Attackers are trying one common password against many accounts to avoid lockouts — what is this?",
+      "gold": "T1110.003:overview",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "使用單一或小型的常用密碼清單對許多不同帳戶進行嘗試以獲取有效憑證的行為稱為密碼噴濺（Password Spraying）。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage defines Password Spraying (T1110.003) as using \"a single or small list of commonly used passwords against many different accounts to attempt to acquire valid account credentials\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "密碼噴濺旨在避免在對單一帳戶進行暴力破解時通常會發生的帳戶鎖定。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says logins are attempted against many accounts \"to avoid account lockouts that would normally occur when brute forcing a single account with many passwords\", which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The answer names the technique and gives the core idea of one or few passwords against many accounts to avoid lockouts. It omits the reference's other details: the commonly targeted services and ports, the SSO/cloud/email targets, and the throttling and LDAP/Kerberos detection-evasion points."
+    },
+    {
+      "id": "2-03",
+      "category": "paraphrase",
+      "question": "How do I stop users from getting compromised by malicious documents attached to emails?",
+      "gold": "T1566.001:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Network intrusion prevention systems and systems designed to scan and remove malicious email attachments can be used to block activity.",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "Both cited passages say \"Network intrusion prevention systems and systems designed to scan and remove malicious email attachments... can be used to block activity.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Anti-virus can automatically quarantine suspicious files.",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "Both passages state \"Anti-virus can (also) automatically quarantine suspicious files.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Blocking unknown or unused attachments by default, such as .scr, .exe, .pif, and .cpl files, is a best practice to prevent some vectors.",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1566.001 says to \"Block unknown or unused attachments by default... as a best practice to prevent some vectors, such as .scr, .exe, .pif, .cpl\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Some email scanning devices can open and analyze compressed and encrypted formats, such as zip and rar, that may be used to conceal malicious attachments.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1566.001 says \"Some email scanning devices can open and analyze compressed and encrypted formats, such as zip and rar that may be used to conceal malicious attachments.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Enabling auditing and monitoring for email attachments and file transfers helps detect and investigate suspicious activity and identify spearphishing attempts before further compromise.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The Audit entry says to enable auditing and monitoring for attachments and file transfers to detect suspicious activity, and that this \"helps identify spearphishing attempts before they can lead to further compromise.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Users can be trained to identify social engineering techniques and spearphishing emails.",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "Both passages say \"Users can be trained to identify social engineering techniques and spearphishing emails.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Applying user account management principles to limit permissions for accounts interacting with email attachments reduces the potential impact of malicious attachments by preventing unauthorized execution or spread of malware.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The User Account Management entry says limiting permissions for accounts interacting with attachments \"reduces the potential impact of malicious attachments by preventing unauthorized execution or spread of malware.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Using anti-spoofing and email authentication mechanisms like SPF, DKIM, and DMARC can filter messages based on sender domain validity and message integrity.",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "Both passages describe SPF, DKIM and DMARC as anti-spoofing/email authentication mechanisms that filter on sender domain validity and message integrity.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Disabling Microsoft Office macros or active content can prevent the execution of malicious payloads in documents.",
+          "passage_ids": [
+            "T1221:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1221 says \"Consider disabling Microsoft Office macros/active content to prevent the execution of malicious payloads in documents.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Network/host intrusion prevention systems, antivirus, and detonation chambers can be employed to prevent documents from fetching and/or executing malicious payloads.",
+          "passage_ids": [
+            "T1221:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1221 says \"Network/Host intrusion prevention systems, antivirus, and detonation chambers can be employed to prevent documents from fetching and/or executing malicious payloads.\"",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers all seven reference mitigations (antivirus quarantine, auditing, network intrusion prevention, attachment blocking including zip/rar scanning, SPF/DKIM/DMARC, user account management, user training) and adds macro-disabling content from another passage."
+    },
+    {
+      "id": "2-05",
+      "category": "paraphrase",
+      "question": "How would I notice an attacker requesting service tickets so they can crack service account passwords offline?",
+      "gold": "T1558.003:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "You can detect this activity by monitoring for anomalous Kerberos TGS requests (Event ID 4769) that use RC4 encryption (etype 0x17).",
+          "passage_ids": [
+            "T1558.003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says detection works by \"monitoring for anomalous Kerberos TGS requests (Event ID 4769) with RC4 encryption (etype 0x17)\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Look for accounts requesting an unusual number of service tickets in a short period of time.",
+          "passage_ids": [
+            "T1558.003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage lists \"accounts requesting an unusual number of service tickets in a short period\" as a detection signal, which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Identify service accounts that are targeted outside of their normal usage baselines.",
+          "passage_ids": [
+            "T1558.003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage includes \"service accounts targeted outside normal usage baselines\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Correlate suspicious process activity, such as Mimikatz invoking LSASS access, with the observed Kerberos ticket anomalies.",
+          "passage_ids": [
+            "T1558.003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says it \"correlates suspicious process activity (e.g., Mimikatz invoking LSASS access) with Kerberos ticket anomalies\", which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers all four points in the reference: the 4769/RC4 TGS requests, the unusual ticket volume, the service accounts outside baselines, and the correlation with suspicious process activity such as Mimikatz."
+    },
+    {
+      "id": "2-06",
+      "category": "paraphrase",
+      "question": "What is it called when malware hides its command traffic inside normal web browsing?",
+      "gold": "T1071.001:overview",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "When malware hides its command traffic inside normal web browsing, it is called using Web Protocols.",
+          "passage_ids": [
+            "T1071.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage is titled \"T1071.001 Web Protocols\" and describes blending command traffic into web traffic, so naming the technique \"Web Protocols\" is supported; the phrase \"using Web Protocols\" is slightly awkward but the meaning matches.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "This technique involves communicating using application layer protocols associated with web traffic, such as HTTP/S and WebSocket, to blend in with existing traffic.",
+          "passage_ids": [
+            "T1071.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says adversaries \"communicate using application layer protocols associated with web traffic\" and names \"HTTP/S and WebSocket\" to blend \"with existing traffic\", which matches the claim directly.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The answer gives the technique name (Web Protocols), the blending purpose, and HTTP/S and WebSocket, but omits that commands and results are embedded in the traffic, that HTTP/S headers and fields can conceal data, and the tactic, platform and parent technique details."
+    },
+    {
+      "id": "2-07",
+      "category": "paraphrase",
+      "question": "How do I spot attackers deleting backup snapshots so we can't restore our systems?",
+      "gold": "T1490:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "On Windows, look for process chains using native utilities like vssadmin, wbadmin, diskshadow, bcdedit, REAgentC, or wmic with arguments that delete shadow copies, disable recovery, or remove backup catalogs.",
+          "passage_ids": [
+            "T1490:detection"
+          ],
+          "verdict": "supported",
+          "reason": "T1490:detection lists the same Windows utilities (vssadmin, wbadmin, diskshadow, bcdedit, REAgentC, wmic) and the same purposes: \"delete shadow copies, disable recovery, or remove backup catalogs\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "On Linux, monitor for shell utilities or scripts that delete /etc/systemd/system/rescue.target, /etc/fstab backups, or /boot/efi partitions, as well as the use of chattr to block snapshot auto-recovery.",
+          "passage_ids": [
+            "T1490:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The Linux bullet in T1490:detection names the same paths (rescue.target, /etc/fstab backups, /boot/efi) and \"chattr used to block snapshot auto-recovery\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "On ESXi, detect ESXi shell or vim-cmd execution that deletes all VM snapshots using vmsvc/snapshot.removeall or rm on snapshot paths.",
+          "passage_ids": [
+            "T1490:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The ESXi bullet in T1490:detection matches: \"vim-cmd execution that deletes all VM snapshots using vmsvc/snapshot.removeall or rm on snapshot paths\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "On network devices, identify the execution of erase, format, and reload commands in immediate sequence from a privileged AAA session.",
+          "passage_ids": [
+            "T1490:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The network devices bullet in T1490:detection says \"erase, format, and reload in immediate sequence from a privileged AAA session\", which is the same.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "In IaaS environments, detect cloud API calls that disable snapshot scheduling, backup policies, or versioning, followed by DeleteSnapshot or DeleteVolume operations.",
+          "passage_ids": [
+            "T1490:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The IaaS bullet in T1490:detection matches: API calls disabling snapshot scheduling, backup policies, versioning, followed by DeleteSnapshot/DeleteVolume.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "In IaaS environments, monitor for adversaries deleting critical infrastructure such as snapshots or volumes using elevated IAM credentials, which frequently includes batch API calls with Delete* or TerminateInstances.",
+          "passage_ids": [
+            "T1485:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1485:detection IaaS bullet says the adversary deletes EC2 instances, S3 buckets, snapshots, or volumes using elevated IAM credentials, with batch API calls including Delete* or TerminateInstances.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "On ESXi, detect adversaries destroying virtual disks, images, or VMs by invoking vim-cmd, deleting datastore contents, or purging snapshots.",
+          "passage_ids": [
+            "T1485:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1485:detection ESXi bullet says the adversary \"destroys virtual disks (VMDK), images, or VMs by invoking vim-cmd, deleting datastore contents, or purging snapshots\", which the claim restates.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "Claims 0-4 cover all five platform bullets in the reference (Windows, Linux, ESXi, network devices, IaaS) with their details. The extra T1485 claims add context without omitting anything."
+    },
+    {
+      "id": "2-09",
+      "category": "paraphrase",
+      "question": "How can we protect our internet-facing web servers from being hacked through software bugs?",
+      "gold": "T1190:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Web Application Firewalls can be used to limit exposure of applications and prevent exploit traffic from reaching them.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Web Application Firewalls may be used to limit exposure of applications to prevent exploit traffic from reaching the application\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Software should be updated regularly by employing patch management for externally exposed applications.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Update software regularly by employing patch management for externally exposed applications\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Externally facing systems should be regularly scanned for vulnerabilities, and procedures should be established to rapidly patch systems when critical vulnerabilities are discovered.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Regularly scan externally facing systems for vulnerabilities and establish procedures to rapidly patch systems when critical vulnerabilities are discovered\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Application isolation and sandboxing can limit what other processes and system features an exploited target can access.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Application isolation will limit what other processes and system features the exploited target can access\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Least privilege should be used for service accounts to limit the permissions an exploited process has on the rest of the system.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Use least privilege for service accounts\" to limit the permissions the exploited process gets, which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Externally facing servers and services should be segmented from the rest of the network using a DMZ or separate hosting infrastructure.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Segment externally facing servers and services from the rest of the network with a DMZ or on separate hosting infrastructure\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Outbound network traffic from public-facing servers should be restricted to prevent unauthorized connections to attacker-controlled infrastructure.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Restrict outbound network traffic from public-facing servers to prevent unauthorized connections from initiating communications with attacker-controlled infrastructure\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Access to publicly exposed services should be restricted to ensure only intended services are available externally.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Ensure that all publicly exposed services are actually intended to be so, and restrict access to any that should only be available internally\", which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers all eight mitigations in the reference (WAF, patching, scanning, isolation, least privilege, segmentation, outbound filtering, limiting exposed services). It omits only the note that outbound filtering limits post-exploit impact but does not stop initial exploitation, which is a minor detail."
+    },
+    {
+      "id": "2-11",
+      "category": "paraphrase",
+      "question": "An attacker pretends to be a domain controller to pull password hashes — how do I detect that?",
+      "gold": "T1003.006:detection",
+      "gold_retrieved": false,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Detect rogue Domain Controller registration and Active Directory replication abuse by correlating the creation or modification of nTDSDSA and server objects in the Configuration partition, unexpected usage of Directory Replication Service SPNs, replication RPC calls originating from non-DC hosts, and Kerberos authentication by non-DC machines using DRS-related SPNs.",
+          "passage_ids": [
+            "T1207:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage lists exactly these four correlated signals: \"creation/modification of nTDSDSA and server objects in the Configuration partition\", unexpected DRS SPN usage, replication RPC calls from non-DC hosts, and Kerberos authentication by non-DC machines using DRS-related SPNs.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "These events in combination, especially from hosts outside the Domain Controllers OU, may indicate DCShadow or rogue DC activity.",
+          "passage_ids": [
+            "T1207:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"These events in combination, especially from hosts outside the Domain Controllers OU, may indicate DCShadow or rogue DC activity,\" which matches the claim and keeps the hedge \"may indicate\".",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The reference describes detecting DCSync, meaning unauthorized DRS replication operations from non-DC endpoints, often with Mimikatz. The answer covers DCShadow/rogue DC detection and does mention replication RPC calls from non-DC hosts. It never names DCSync, the unauthorized replication API abuse for credential pulling, or Mimikatz, so it covers only a small part of the reference."
+    },
+    {
+      "id": "2-12",
+      "category": "paraphrase",
+      "question": "How can I prevent attackers from forging the tokens our cloud single sign-on relies on?",
+      "gold": "T1606.002:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "To contain the impact of a previously forged SAML token, rotate the token-signing AD FS certificate in rapid succession twice to invalidate tokens generated with the previous certificate.",
+          "passage_ids": [
+            "T1606.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to rotate the token-signing AD FS certificate in rapid succession twice, \"which will invalidate any tokens generated using the previous certificate\" — matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Implement token binding strategies, such as Azure AD token protection or OAuth Proof of Possession, to cryptographically bind a token to a secret and prevent its use without knowledge of the secret or possession of the tied device.",
+          "passage_ids": [
+            "T1550.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage recommends \"token binding strategies, such as Azure AD token protection or OAuth Proof of Possession\" that cryptographically bind a token to a secret, preventing use without the secret or device; the claim restates this.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Restrict the use of access tokens outside of expected contexts, such as using data perimeters in AWS environments to prevent credential use outside of an expected network.",
+          "passage_ids": [
+            "T1550.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to consider \"restricting the use of access tokens outside of expected contexts\" and gives the AWS data perimeters example, which the claim restates.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Enable advanced auditing on AD FS, including checking success and failure audit options and enabling Audit Application Generated events via Group Policy Object.",
+          "passage_ids": [
+            "T1606.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to enable advanced auditing on AD FS, check success and failure audit options, and enable Audit Application Generated events via Group Policy Object; the claim matches.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Restrict permissions and access to the AD FS server to only originate from privileged access workstations.",
+          "passage_ids": [
+            "T1606.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Restrict permissions and access to the AD FS server to only originate from privileged access workstations\" — identical meaning.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Ensure that user accounts with administrative rights follow best practices, including the use of privileged access workstations, Just in Time/Just Enough Administration, and strong authentication.",
+          "passage_ids": [
+            "T1606.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage states that admin accounts should follow best practices \"including use of privileged access workstations, Just in Time/Just Enough Administration (JIT/JEA), and strong authentication.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Reduce the number of users that are members of highly privileged Directory Roles.",
+          "passage_ids": [
+            "T1606.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Reduce the number of users that are members of highly privileged Directory Roles.\"",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers all four mitigation points in the reference (certificate rotation, AD FS auditing, restricting AD FS access to privileged workstations, and admin account best practices including reducing privileged role membership), and adds token binding and context restrictions from another passage."
+    },
+    {
+      "id": "2-13",
+      "category": "paraphrase",
+      "question": "What is it when adversaries answer local name-lookup broadcasts to capture password hashes?",
+      "gold": "T1557.001:overview",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Adversaries may spoof an authoritative source for name resolution by responding to LLMNR, NBT-NS, or mDNS traffic to force victims to communicate with an adversary-controlled system.",
+          "passage_ids": [
+            "T1557.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"By responding to LLMNR/NBT-NS/mDNS network traffic, adversaries may spoof an authoritative source for name resolution to force communication with an adversary controlled system.\" The claim restates this.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "This activity, known as Name Resolution Poisoning and SMB Relay, allows adversaries to collect authentication materials such as NTLMv2 hashes sent by victims.",
+          "passage_ids": [
+            "T1557.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage is titled \"Name Resolution Poisoning and SMB Relay\" and says the username and NTLMv2 hash are sent to the adversary system and can be collected, so the claim matches it.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The answer names the technique and explains the spoofing and hash collection. It leaves out offline cracking of the hashes to get plaintext passwords, the relay of NTLM hashes, the ports and tools, and its tactics."
+    },
+    {
+      "id": "2-14",
+      "category": "paraphrase",
+      "question": "Malware that checks whether it is running inside an analysis VM before doing anything — what is that?",
+      "gold": "T1497:overview",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Adversaries may search for virtual machine environment (VME) artifacts before dropping secondary or additional payloads.",
+          "passage_ids": [
+            "T1497:overview",
+            "T1497.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "Both cited passages state \"They may also search for VME artifacts before dropping secondary or additional payloads.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Adversaries may use scripting to automate system checks into one script and then have the program exit if it determines the system to be a virtual environment.",
+          "passage_ids": [
+            "T1497.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "T1497.001 says \"Adversaries may use scripting to automate these checks into one script and then have the program exit if it determines the system to be a virtual environment.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "This behavior is classified as Virtualization/Sandbox Evasion (T1497), specifically the System Checks sub-technique (T1497.001).",
+          "passage_ids": [
+            "T1497:overview",
+            "T1497.001:overview"
+          ],
+          "verdict": "partial",
+          "reason": "The passages name the technique as T1497 Virtualization/Sandbox Evasion and the sub-technique as T1497.001 System Checks. However, they do not say this behavior is specifically the System Checks sub-technique rather than User Activity or Time Based Checks. The question is generic, so the claim narrows the classification beyond what the passages state.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The answer names T1497 and covers searching for VME artifacts before dropping payloads. It omits disengaging or concealing core functions on detection, and the methods (security tools, user activity, sleep timers). It also leaves out the other sub-techniques, so it covers only some of the reference's main points."
+    },
+    {
+      "id": "3-01",
+      "category": "cross_lingual",
+      "question": "攻擊者把惡意程式寫進登錄檔的開機啟動位置，要怎麼偵測？",
+      "gold": "T1547.001:detection",
+      "gold_retrieved": false,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "在 Windows 系統上，可以透過監控登錄檔 Run 鍵或啟動資料夾中使用者或系統登入腳本的修改與執行來偵測此類行為。",
+          "passage_ids": [
+            "T1037:detection"
+          ],
+          "verdict": "supported",
+          "reason": "T1037 passage's Windows line says \"Monitoring modification and execution of user or system logon scripts such as in registry Run keys or startup folders\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 Windows 系統上，偵測 Office 應用程式啟動持久性時，需關注攻擊者修改登錄檔金鑰或 Office 應用程式目錄以在啟動時載入惡意腳本。",
+          "passage_ids": [
+            "T1137:detection"
+          ],
+          "verdict": "supported",
+          "reason": "T1137 passage says the adversary \"modifies registry keys or Office application directories to load malicious scripts at startup\" and covers Office-based persistence, matching the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 Windows 系統上，偵測輔助功能劫持時，可觀察系統輔助功能二進位檔案的異常替換或篡改，以及用於重定向輔助功能程式的登錄檔金鑰（例如 IFEO 金鑰）的異常修改。",
+          "passage_ids": [
+            "T1546.008:detection"
+          ],
+          "verdict": "supported",
+          "reason": "T1546.008 passage mentions \"suspicious replacement or tampering of system accessibility binaries\" and \"anomalous modifications to registry keys used to redirect accessibility programs (such as IFEO keys)\", matching the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The reference calls for correlating Run/Startup key creation/modification with new or unusual binary paths or script payloads, plus registry modification followed by process execution from non-standard directories or abnormal parent-child relationships. The answer only mentions monitoring Run key modification generally, and adds Office and accessibility detections that are off-target. It omits the correlation with unusual binaries and the process-execution/parent-child analysis."
+    },
+    {
+      "id": "3-02",
+      "category": "cross_lingual",
+      "question": "密碼噴灑攻擊是什麼？",
+      "gold": "T1110.003:overview",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "密碼噴灑攻擊是指攻擊者使用單一或一小份常見密碼清單，針對許多不同的帳戶嘗試取得有效的帳戶憑證。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage opens with \"use a single or small list of commonly used passwords against many different accounts to attempt to acquire valid account credentials\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "此技術通常使用符合網域複雜度政策的單一密碼（例如 'Password01'）或常見密碼清單，對網路上的多個不同帳戶進行登入嘗試，以避免因對單一帳戶進行暴力破解而觸發帳戶鎖定。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage covers one password such as 'Password01' or a small list that may match the domain complexity policy, and logins against many accounts to avoid the lockouts that brute forcing a single account would cause.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "密碼噴灑攻擊通常透過常用端口的管理服務進行，目標服務包括 SSH、Telnet、FTP、NetBIOS/SMB/Samba、LDAP、Kerberos、RDP/Terminal Services、HTTP/HTTP 管理服務、MSSQL、Oracle、MySQL 和 VNC。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"management services over commonly used ports are used\" and lists the same services (SSH, Telnet, FTP, SMB, LDAP, Kerberos, RDP, HTTP, MSSQL, Oracle, MySQL, VNC).",
+          "judged_by": "judge"
+        },
+        {
+          "text": "除了管理服務外，攻擊者也可能針對使用聯合驗證協定的單一登入（SSO）和雲端應用程式，以及外部面向的電子郵件應用程式（如 Office 365）進行攻擊。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says adversaries may target SSO and cloud applications using federated authentication protocols, as well as externally facing email applications such as Office 365.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "為了避免偵測閾值，攻擊者可能會刻意減緩密碼噴灑嘗試的速度，以避免觸發安全警報。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says adversaries \"may deliberately throttle password spraying attempts to avoid triggering security alerting\" in order to avoid detection thresholds, which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "攻擊者可能利用 LDAP 和 Kerberos 驗證嘗試，因為這些嘗試較不太可能觸發如 Windows「登入失敗」事件 ID 4625 等高可見度事件，該事件通常由失敗的 SMB 連線嘗試觸發。",
+          "passage_ids": [
+            "T1110.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says LDAP and Kerberos attempts are less likely to trigger high-visibility events such as event ID 4625, which is commonly triggered by failed SMB connection attempts.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers the definition, the avoidance of lockouts, the targeted services, SSO, cloud and email targets, throttling, and the LDAP/Kerberos evasion of event 4625. It leaves out only minor details such as port numbers and the platform and tactic metadata."
+    },
+    {
+      "id": "3-03",
+      "category": "cross_lingual",
+      "question": "怎麼防止員工打開釣魚郵件裡的惡意附件？",
+      "gold": "T1566.001:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "使用反病毒或反惡意軟體工具可以自動隔離可疑檔案，以防止員工執行惡意附件。",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "Passages say \"Anti-virus can also automatically quarantine suspicious files\"; the claim's wording about preventing employees from executing malicious attachments is a reasonable paraphrase of that purpose.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "透過網路入侵防禦系統及掃描移除惡意郵件附件的系統，可以阻擋惡意附件的傳輸與活動。",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "Both passages say network intrusion prevention systems and systems that scan and remove malicious email attachments \"can be used to block activity\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "預設封鎖不應透過電子郵件傳輸的未知或未使用附件類型（如 .scr、.exe、.pif、.cpl 等），並利用郵件掃描設備分析壓縮或加密格式以揭露隱藏的惡意附件。",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1566.001 says to block unknown or unused attachments by default, lists .scr/.exe/.pif/.cpl, and says some email scanning devices can analyze compressed and encrypted formats that conceal malicious attachments. The claim matches this.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "啟用反欺騙及電子郵件驗證機制（如 SPF、DKIM 和 DMARC），以根據發件人域名有效性及訊息完整性過濾郵件。",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "Both passages describe anti-spoofing and email authentication using SPF, DKIM and DMARC to filter by sender domain validity and message integrity.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "應用使用者帳戶管理原則以限制與郵件附件互動的帳戶權限，確保僅必要帳戶能開啟或執行檔案，從而減少惡意附件的影響。",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1566.001 User Account Management says to limit permissions for accounts interacting with email attachments so only necessary accounts can open or execute files, reducing impact. This matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "對員工進行培訓，使其能夠識別社會工程技術及釣魚郵件，以降低開啟惡意附件的風險。",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "Passages say users can be trained to identify social engineering techniques and phishing emails. The added \"降低開啟惡意附件的風險\" is the implied purpose, not a new fact.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "啟用針對郵件附件及檔案傳輸的審計與監控，並定期檢視日誌以偵測與調查可疑活動。",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The Audit item in T1566.001 says to enable auditing and monitoring for email attachments and file transfers, regularly review logs, and detect and investigate suspicious activity, which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers all seven mitigations in the reference: antivirus, audit, network intrusion prevention, blocking attachment types, email authentication, account management and user training."
+    },
+    {
+      "id": "3-04",
+      "category": "cross_lingual",
+      "question": "勒索軟體把檔案加密了，要怎麼降低損害？",
+      "gold": "T1486:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "在 Windows 10 上啟用雲端交付保護和攻擊面減少 (ASR) 規則，以阻止類似勒索軟體的檔案執行。",
+          "passage_ids": [
+            "T1486:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"On Windows 10, enable cloud-delivered protection and Attack Surface Reduction (ASR) rules to block the execution of files that resemble ransomware,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 AWS 環境中，建立 IAM 策略以限制或阻止在 S3 儲存桶上使用 SSE-C。",
+          "passage_ids": [
+            "T1486:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"In AWS environments, create an IAM policy to restrict or block the use of SSE-C on S3 buckets,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "實施 IT 災難復原計畫，包含定期備份和測試數據備份的程序，以便恢復組織數據。",
+          "passage_ids": [
+            "T1486:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage recommends \"IT disaster recovery plans that contain procedures for regularly taking and testing data backups that can be used to restore organizational data,\" which the claim restates.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "確保備份儲存在系統外部，並受到保護以防止攻擊者存取或摧毀備份從而阻止恢復。",
+          "passage_ids": [
+            "T1486:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Ensure backups are stored off system and is protected from common methods adversaries may use to gain access and destroy the backups to prevent recovery,\" which the claim restates.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "考慮在雲端環境中啟用版本控制，以維護儲存物件的備份副本。",
+          "passage_ids": [
+            "T1486:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Consider enabling versioning in cloud environments to maintain backup copies of storage objects,\" which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers every point in the reference: ASR and cloud protection, the AWS SSE-C IAM policy, DR plans with tested backups, off-system protected backups, and cloud versioning."
+    },
+    {
+      "id": "3-05",
+      "category": "cross_lingual",
+      "question": "怎麼偵測有人從 LSASS 記憶體偷密碼？",
+      "gold": "T1003.001:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "偵測非特權或異常程序嘗試以完整存取權限（0x1F0FFF）開啟 lsass.exe 的句柄，並隨後執行記憶體傾印、檔案建立或登錄修改等行為。",
+          "passage_ids": [
+            "T1003.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"A non-privileged or abnormal process attempts to open a handle with full access (0x1F0FFF) to lsass.exe and subsequently invokes memory dump, file creation, or registry modification\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "監控對 LSASS 等密碼儲存庫的可疑存取，偵測異常的進程間存取（例如 Mimikatz 存取 LSASS）以及非標準程序執行與密碼儲存庫檔案讀取的關聯。",
+          "passage_ids": [
+            "T1555:detection"
+          ],
+          "verdict": "supported",
+          "reason": "T1555 says it \"Monitors suspicious access to password stores such as LSASS\", detects \"anomalous process-to-process access (e.g., Mimikatz accessing LSASS)\" and correlates credential store file reads with non-standard process execution, which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "偵測在受信任的安全工具之外，存取 LSASS 記憶體的進程，這些行為通常隨後會伴隨檔案建立或橫向移動。",
+          "passage_ids": [
+            "T1003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "T1003 says \"Processes accessing LSASS memory... outside of trusted security tools, often followed by file creation or lateral movement\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "偵測網域控制站上對 LSASS 的異常進程存取，並將其與後續異常的登入活動模式進行關聯。",
+          "passage_ids": [
+            "T1556.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "T1556.001 says it \"Detects anomalous process access to LSASS on domain controllers\" and \"Correlates LSASS access attempts with subsequent abnormal logon activity patterns\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "監控登錄中 Security Packages 的修改，並將其與隨後在 lsass.exe 中載入的 DLL 模組進行關聯，以追蹤未簽名或異常的 DLL 載入。",
+          "passage_ids": [
+            "T1547.005:detection"
+          ],
+          "verdict": "supported",
+          "reason": "T1547.005 says to monitor registry modifications to Security Packages, correlate them with later DLL loads into lsass.exe, and track unsigned or anomalous DLLs, which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The reference covers only the T1003.001 access-and-dump sequence (0x1F0FFF handle to lsass.exe, then memory dump, file creation or registry modification). Claim 0 states all of this, so the answer is complete even though it adds other material."
+    },
+    {
+      "id": "3-06",
+      "category": "cross_lingual",
+      "question": "攻擊者透過遠端桌面橫向移動，要怎麼防？",
+      "gold": "T1021.001:mitigation",
+      "gold_retrieved": false,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "應定期稽核 Remote Desktop Users 群組成員資格，並從該群組中移除不必要的帳戶與群組。",
+          "passage_ids": [
+            "T1563.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1563.002 says \"Audit the Remote Desktop Users group membership regularly. Remove unnecessary accounts and groups\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "若 RDP 服務非必要，應予以停用。",
+          "passage_ids": [
+            "T1563.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1563.002 says \"Disable the RDP service if it is unnecessary.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "應使用遠端桌面閘道（Remote Desktop Gateway）來管理連線與安全性設定。",
+          "passage_ids": [
+            "T1563.002:mitigation",
+            "T1546.008:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "Both cited passages recommend remote desktop gateways; T1546.008 says to \"use a Remote Desktop Gateway to manage connections and security configuration of RDP\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "應啟用防火牆規則，以封鎖網路安全區域之間的 RDP 流量。",
+          "passage_ids": [
+            "T1563.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1563.002 says \"Enable firewall rules to block RDP traffic between network security zones\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "應修改 GPO 以定義較短的會話逾時時間、單一會話的最大活躍時間，以及斷線會話在 RD 會話主機伺服器上保持活躍的最大時間。",
+          "passage_ids": [
+            "T1563.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1563.002 lists the GPO changes for shorter session timeouts, maximum active session time and maximum disconnected session time on the RD session host server.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "應考慮將本機 Administrators 群組從允許透過 RDP 登入的群組清單中移除。",
+          "passage_ids": [
+            "T1563.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1563.002 says \"Consider removing the local Administrators group from the list of groups allowed to log in through RDP.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "若需遠端存取，應限制遠端使用者的權限。",
+          "passage_ids": [
+            "T1563.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1563.002 says \"Limit remote user permissions if remote access is necessary.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "應啟用網路層級驗證（Network Level Authentication），以強制遠端桌面會話在建立會話及顯示登入畫面之前進行驗證。",
+          "passage_ids": [
+            "T1546.008:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1546.008 says to enable Network Level Authentication \"to force the remote desktop session to authenticate before the session is created and the login screen displayed\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "應使用應用程式控制工具（如 Windows Defender Application Control、AppLocker 或 Software Restriction Policies）來識別並封鎖透過輔助功能功能執行的潛在惡意軟體。",
+          "passage_ids": [
+            "T1546.008:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "T1546.008 recommends application control tools such as WDAC, AppLocker and SRP to block malicious software executed through accessibility features, so the claim matches. It is a mitigation for the accessibility features technique rather than for RDP lateral movement, but the cited passage does say it.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The answer covers audit, disabling RDP, gateways, firewall segmentation, GPO timeouts, removing the Administrators group and limiting user permissions. It omits multi-factor authentication for remote logins and not leaving RDP accessible from the internet. It adds off-topic content (application control)."
+    },
+    {
+      "id": "3-07",
+      "category": "cross_lingual",
+      "question": "什麼是 Kerberoasting？",
+      "gold": "T1558.003:overview",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Kerberoasting 是 T1558「竊取或偽造 Kerberos 票證」技術下的子技術 T1558.003。",
+          "passage_ids": [
+            "T1558.003:overview",
+            "T1558:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The T1558.003 heading says \"sub-technique of T1558 Steal or Forge Kerberos Tickets\", and the T1558 passage lists \"T1558.003 Kerberoasting\" among its sub-techniques.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "攻擊者可能濫用有效的 Kerberos 票證授予票證（TGT）或嗅探網路流量，以取得可能易受暴力破解攻擊的票證授予服務（TGS）票證。",
+          "passage_ids": [
+            "T1558.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The overview's first sentence says the same: abuse a valid TGT or sniff network traffic to obtain a TGS ticket that may be vulnerable to Brute Force.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "服務主體名稱（SPN）用於唯一識別每個 Windows 服務實例，且 Kerberos 要求 SPN 必須與至少一個服務登入帳戶關聯以啟用驗證。",
+          "passage_ids": [
+            "T1558.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage states that SPNs uniquely identify each instance of a Windows service and that Kerberos requires them to be associated with at least one service logon account.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "擁有有效 TGT 的攻擊者可向網域控制器請求任何 SPN 的 TGS 服務票證，這些票證的部分內容可能使用 RC4 演算法加密。",
+          "passage_ids": [
+            "T1558.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says adversaries with a valid TGT may request TGS tickets for any SPN from a DC, and that \"Portions of these tickets may be encrypted with the RC4 algorithm\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "由於 TGS-REP etype 23 雜湊值被用作私鑰，與 SPN 關聯的服務帳戶雜湊值易受離線暴力破解攻擊，從而可能暴露明文憑證。",
+          "passage_ids": [
+            "T1558.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says the service account's etype 23 hash is used as the private key and so is vulnerable to offline brute force that \"may expose plaintext credentials\"; the claim keeps this hedge.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "破解後的雜湊值可能透過存取有效帳戶（T1078）來啟用持久性、特權提升和橫向移動。",
+          "passage_ids": [
+            "T1558.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Cracked hashes may enable Persistence, Privilege Escalation, and Lateral Movement via access to Valid Accounts (T1078)\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Kerberoasting 屬於憑證存取戰術，且僅適用於 Windows 平台。",
+          "passage_ids": [
+            "T1558.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage lists \"Tactics: Credential Access\" and \"Platforms: Windows\", which supports both parts of the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers every main point of the reference: TGT abuse or network sniffing, SPN background, RC4/etype 23 offline cracking, the consequences of cracked hashes, and the tactic and platform. It leaves out only the sentence that the same behavior can use service tickets captured from network traffic, which claim 1 already partly covers."
+    },
+    {
+      "id": "3-08",
+      "category": "cross_lingual",
+      "question": "攻擊者用 PowerShell 下載並執行惡意腳本，該怎麼偵測？",
+      "gold": "T1059.001:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "偵測 PowerShell 被濫用進行任意執行時，應偵測 PowerShell 以編碼命令啟動、異常父進程或載入可疑模組的行為鏈，這些行為可能隨後伴隨網路連接或子進程生成。",
+          "passage_ids": [
+            "T1059.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says it detects chains where PowerShell is launched with \"encoded commands, unusual parent processes, or suspicious modules loaded, potentially followed by network connections or child process spawning\"; the claim restates this.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "偵測策略應支持識別直接（powershell.exe）和間接（.NET 自動化）的 PowerShell 調用方式。",
+          "passage_ids": [
+            "T1059.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage states it \"Supports detection of both direct (powershell.exe) and indirect (.NET automation) invocations\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "可偵測透過 wscript.exe 執行 SyncAppvPublishingServer.vbs 且命令行包含嵌入式 PowerShell 的情況，這代表利用微軟簽名的 VBScript 解釋器代理惡意 PowerShell 執行以規避偵測。",
+          "passage_ids": [
+            "T1216.002:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage describes execution of SyncAppvPublishingServer.vbs through wscript.exe with embedded PowerShell, proxied through a Microsoft-signed VBScript interpreter to evade detection; the claim matches.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "偵測 PowerShell 配置文件持久化時，應關聯已知配置文件位置中的文件創建或修改事件，與後續未使用 `-NoProfile` 標誌的 PowerShell 進程啟動事件。",
+          "passage_ids": [
+            "T1546.013:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to correlate file creation or modification in known profile locations with later PowerShell launches that do not use `-NoProfile`, as the claim states.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "若 PowerShell 配置文件腳本載入異常模組或啟動外部程序，特別是在提升權限的上下文中，應視為可疑的敵對持久化或特權提升行為。",
+          "passage_ids": [
+            "T1546.013:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage calls profile scripts loading unusual modules or launching external programs, \"particularly under elevated contexts\", suspicious and possibly persistence or privilege escalation. The claim says \"should be treated as suspicious\" in the same terms.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "偵測降級攻擊時，應監控啟動降級版 PowerShell（例如 v2）或缺少日誌記錄和安全功能的舊版二進位文件的進程，並關聯命令行參數、進程元數據和版本字段。",
+          "passage_ids": [
+            "T1689:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage covers processes launching downgraded PowerShell versions (e.g., v2) or legacy binaries lacking logging or security features, and correlating command-line arguments, process metadata and version fields.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "應監控 Defender 或 HVCI 註冊表項的變更，這些變更可能表明故意降級以規避安全控制。",
+          "passage_ids": [
+            "T1689:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says it monitors registry changes to Defender or HVCI keys \"that could indicate intentional downgrades\"; the claim matches this.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "偵測 WMI 執行濫用時，應識別透過 WMIC、PowerShell 或 COM API 執行本地或遠端命令的多事件鏈，包括進程創建、命令執行以及若為遠端則對應的網路連接。",
+          "passage_ids": [
+            "T1047:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage describes a multi-event chain of process creation, command execution and a network connection if remote, for WMI executing commands via WMIC, PowerShell or COM API; the claim matches.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The reference passage's main points are encoded commands, unusual parent processes, suspicious modules, subsequent network or child-process activity, and direct and indirect invocations. Claims 0 and 1 cover all of them. The other claims add material beyond the reference, which does not reduce completeness."
+    },
+    {
+      "id": "3-09",
+      "category": "cross_lingual",
+      "question": "攻擊者竄改檔案的時間戳記來躲避調查，這是什麼手法？",
+      "gold": "T1070.006:overview",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "攻擊者透過修改檔案的時間戳記（包括修改、存取、建立和變更時間）來隱藏新檔案或對現有檔案的變更，這種手法稱為 Timestomp（T1070.006）。",
+          "passage_ids": [
+            "T1070.006:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Adversaries may modify file time attributes to hide new files or changes to existing files\" and lists \"modify, access, create, and change times\"; it is titled T1070.006 Timestomp. Every part of the claim is covered.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Timestomp 是指標移除（T1070）的子技術，其目的是讓檔案看起來不突兀，以躲避法證調查人員或檔案分析工具的偵測。",
+          "passage_ids": [
+            "T1070.006:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage names it a \"sub-technique of T1070 Indicator Removal\" and says adversaries modify timestamps \"so that they do not appear conspicuous to forensic investigators or file analysis tools\". The claim restates both points.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The answer names the technique (Timestomp, T1070.006), its purpose of hiding files, and evasion of forensic tools. It leaves out the $SI/$FN details, double timestomping, the Linux touch commands, blending in with files in the same folder, and the pairing with Masquerading."
+    },
+    {
+      "id": "3-10",
+      "category": "cross_lingual",
+      "question": "螢幕截圖這種攻擊有辦法預防嗎？",
+      "gold": "T1113:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "ATT&CK v19.2 未列出 T1113 螢幕截圖技術的任何預防性緩解措施。",
+          "passage_ids": [
+            "T1113:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage states \"ATT&CK v19.2 lists no preventive mitigations for T1113 Screen Capture,\" which is exactly what the claim says.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "此技術無法透過預防性控制輕鬆防止，應依賴其偵測指引。",
+          "passage_ids": [
+            "T1113:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"cannot be easily prevented with preventive controls; rely on its Detection guidance instead,\" matching the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers both points in the reference: no preventive mitigations are listed, and the technique is hard to prevent so detection guidance should be used."
+    },
+    {
+      "id": "3-11",
+      "category": "cross_lingual",
+      "question": "挖礦程式偷用公司電腦的資源，要怎麼偵測？",
+      "gold": "T1496:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "在 Windows 系統上，可偵測持續的高 CPU 使用率，並結合可疑的指令列執行（例如挖礦工具或混淆腳本）以及通往挖礦或代理網路的出站連線。",
+          "passage_ids": [
+            "T1496:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1496 Windows bullet says \"Persistent high CPU utilization combined with suspicious command-line execution (e.g., mining tools or obfuscated scripts) and outbound connections to mining/proxy networks.\" The claim restates this.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 Windows 系統上，可偵測透過排程任務、WMI 或 PowerShell 啟動的資源密集型程序（例如加密貨幣挖礦器），這些程序通常會建立持續的外部連線，並嘗試使用偽裝或更名的二進位檔案來規避偵測。",
+          "passage_ids": [
+            "T1496.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1496.001 Windows bullet lists scheduled tasks, WMI, PowerShell, persistent external connections, and masqueraded or renamed binaries. The claim matches it.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 Linux 系統上，可偵測未授權程序異常的 CPU 或記憶體使用率，並觀察其是否與已知的挖礦池建立出站連線，或使用 cron 工作/腳本來維持持久性。",
+          "passage_ids": [
+            "T1496:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1496 Linux bullet gives \"Abnormal CPU/memory usage by unauthorized processes\", connections to known mining pools, and cron jobs/scripts for persistence. The claim matches.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 Linux 系統上，可偵測透過 cron、shell 腳本或 Docker 啟動的異常長時間執行且消耗高 CPU 週期的程序，並觀察其是否連線至已知的挖礦池或使用 DNS over HTTPS 作為規避手段。",
+          "passage_ids": [
+            "T1496.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1496.001 Linux bullet gives long-running high-CPU processes started via cron, shell scripts or Docker, plus known mining pool connections and DNS over HTTPS as evasion. The claim matches.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 macOS 系統上，可偵測具有高 CPU 使用率並存取外部挖礦服務的背景啟動代理或守護程序。",
+          "passage_ids": [
+            "T1496:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1496 macOS bullet says \"Background launch agents/daemons with high CPU use and network access to external mining services.\" The claim restates this.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 macOS 系統上，可偵測持續或背景守護程序（例如 plist 或 launchd 工作）生成高 CPU 程序（如 xmrig 或 cpuminer），並觀察其是否向常用於挖礦代理的 IP 或域名發送出站加密流量。",
+          "passage_ids": [
+            "T1496.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1496.001 macOS bullet covers plist/launchd daemons spawning xmrig or cpuminer and outbound encrypted traffic to mining proxy IPs/domains. The claim matches.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在容器環境中，可偵測執行挖礦二進位檔或公共代理工具的未授權容器所產生的高 CPU 使用率。",
+          "passage_ids": [
+            "T1496:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1496 Containers bullet says \"High CPU usage by unauthorized containers running mining binaries or public proxy tools.\" The claim matches.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在容器環境中，可偵測使用公共映像（例如來自 DockerHub）的短暫或未授權容器實例，這些容器在啟動後不久即開始高 CPU 使用，且通常透過 Kubernetes 或 Docker socket 濫用進行排程。",
+          "passage_ids": [
+            "T1496.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1496.001 Containers bullet covers ephemeral or unauthorized instances from public images like DockerHub, high CPU shortly after startup, and scheduling via Kubernetes or Docker socket abuse. The claim matches.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 IaaS 環境中，可偵測雲端虛擬機 CPU 使用率的突然飆升，並觀察其是否向挖礦池發送出站流量以及是否存在未授權的實例建立。",
+          "passage_ids": [
+            "T1496:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1496 IaaS bullet gives sudden spikes in cloud VM CPU usage, outbound traffic to mining pools, and unauthorized instance creation. The claim matches.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 IaaS 環境中，可偵測在未監控或未使用區域中的未授權實例建立，或在 spot 實例中突發的計算密集型工作，或在合法虛擬機中資源使用率的突然飆升。",
+          "passage_ids": [
+            "T1496.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1496.001 IaaS bullet gives unauthorized instance creation in unmonitored or unused regions, bursts of compute jobs in spot instances, and sudden resource spikes in legitimate VMs. The claim matches.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 SaaS 環境中，可偵測濫用雲端訊息平台發送大量垃圾郵件或消耗基於配額的資源的行為。",
+          "passage_ids": [
+            "T1496:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1496 SaaS bullet says \"Abuse of cloud messaging platforms to send mass spam or consume quota-based resources.\" The claim matches.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers every platform bullet in the reference (Windows, Linux, macOS, IaaS, Containers, SaaS) with the same signals, and adds detail from the sub-technique passage."
+    },
+    {
+      "id": "3-12",
+      "category": "cross_lingual",
+      "question": "攻擊者在 Linux 上用 cron 排程來維持存取權限，要怎麼偵測？",
+      "gold": "T1053.003:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "偵測非 root 使用者或來自異常父進程的 crontab 條目創建或修改，隨後在預定間隔執行不常見的二進制文件。",
+          "passage_ids": [
+            "T1053.003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The cited T1053.003 Linux line says it \"Detects creation or modification of crontab entries by non-root users or from abnormal parent processes, followed by the execution of uncommon binaries at scheduled intervals,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "偵測透過 crontab、/etc/cron.* 目錄或 systemd 計時器單元創建或修改 cron 作業，且由異常使用者或非標準間隔執行。",
+          "passage_ids": [
+            "T1053:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The cited T1053 Linux line says it detects creation or modification of cron jobs \"via crontab, /etc/cron.* directories, or systemd timer units with execution by unusual users or non-standard intervals,\" which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The reference's Linux point is covered in claim 0, which also matches the answer's Linux focus. The macOS and ESXi lines are omitted, but they are not relevant to a Linux question. The answer also adds the systemd/cron.* detail from another passage."
+    },
+    {
+      "id": "3-13",
+      "category": "cross_lingual",
+      "question": "把惡意程式的檔名改成和系統正常檔案一樣來偽裝，是什麼技巧？",
+      "gold": "T1036.005:overview",
+      "gold_retrieved": false,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "將惡意程式的檔案名稱或位置操縱或濫用，使其看起來合法或良性，以規避防禦和觀察，屬於偽裝（Masquerading）技巧。",
+          "passage_ids": [
+            "T1036:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Masquerading occurs when the name or location of an object, legitimate or malicious, is manipulated or abused for the sake of evading defenses and observation,\" which matches the claim; applying it to malware is a fair reading.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "偽裝（Masquerading）包含操縱檔案元數據、欺騙使用者誤認檔案類型，以及賦予合法任務或服務名稱等行為。",
+          "passage_ids": [
+            "T1036:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage lists \"manipulating file metadata, tricking users into misidentifying the file type, and giving legitimate task or service names,\" which is what the claim restates.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The answer names Masquerading (T1036) and the general idea of manipulating name or location. It never names the specific sub-technique T1036.005 Match Legitimate Resource Name or Location, and it omits the reference's examples (System32, svchost.exe, Registry keys, container namespaces)."
+    },
+    {
+      "id": "3-14",
+      "category": "cross_lingual",
+      "question": "怎麼防止攻擊者用 DNS 或其他非常規的協定把資料偷傳出去？",
+      "gold": "T1048:mitigation",
+      "gold_retrieved": false,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "可以透過資料外洩防護（Data Loss Prevention）來偵測並阻擋透過網頁瀏覽器上傳的敏感資料。",
+          "passage_ids": [
+            "T1048.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Data loss prevention can detect and block sensitive data being uploaded via web browsers,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "應強制使用代理伺服器，並為 DNS 等服務使用專用伺服器，僅允許這些系統透過各自的埠或協定進行通訊，而非讓網路內所有系統都能通訊。",
+          "passage_ids": [
+            "T1048.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Enforce proxies and use dedicated servers for services such as DNS and only allow those systems to communicate over respective ports/protocols, instead of all systems,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "可以使用網路入侵偵測與防禦系統，利用網路特徵碼來識別針對特定敵對命令與控制基礎設施及惡意軟體的流量，以在網路層級緩解活動。",
+          "passage_ids": [
+            "T1048.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says network intrusion detection and prevention systems using \"network signatures to identify traffic for specific adversary command and control infrastructure and malware\" can mitigate activity at the network level, which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "應遵循網路防火牆配置的最佳實務，僅允許必要的埠和流量進入及離開網路。",
+          "passage_ids": [
+            "T1048.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Follow best practices for network firewall configurations to allow only necessary ports and traffic to enter and exit the network,\" which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The answer covers the four mitigations DLP, filtering network traffic by proxy and dedicated DNS servers, network intrusion prevention, and network segmentation. It omits the reference's cloud-related points: IP allowlisting, ACLs on cloud storage, and IAM/user account management with temporary tokens."
+    },
+    {
+      "id": "3-15",
+      "category": "cross_lingual",
+      "question": "瀏覽器的登入狀態被攻擊者劫持，要怎麼偵測？",
+      "gold": "T1185:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "在 Windows 環境中，可偵測攻擊者取得高完整性或特殊權限（如 SeDebugPrivilege）、定位正在運行的瀏覽器程序、以寫入或注入權限開啟該程序並進行修改（例如 CreateRemoteThread 或 DLL 載入）以繼承 Cookie 或權杖，或建立瀏覽器樞紐的序列事件。",
+          "passage_ids": [
+            "T1185:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The cited T1185 passage lists exactly these Windows steps: \"high integrity or special privileges (e.g., SeDebugPrivilege)\", locating the browser process, opening it with write/inject rights, and modifying it via \"CreateRemoteThread / DLL load\" to inherit cookies/tokens or establish a pivot.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 Windows 環境中，可偵測對瀏覽器會話 Cookie 儲存（例如 Chrome 的 Cookies SQLite 資料庫）的可疑存取，或對瀏覽器程序（如 chrome.exe、firefox.exe、msedge.exe）的記憶體讀取，以及針對這些程序的可疑注入或記憶體傾轉工具使用。",
+          "passage_ids": [
+            "T1539:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1539 Windows entry covers suspicious access to Chrome's `Cookies` SQLite DB, memory reads of browser processes, and injection or memory dump utilities targeting chrome.exe, firefox.exe and msedge.exe.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 Linux 環境中，可偵測對已知瀏覽器 Cookie 檔案（例如 ~/.mozilla/firefox/*.default/cookies.sqlite 或 ~/.config/google-chrome/）的存取，以及透過 /proc/[pid]/mem 或 ptrace 對瀏覽器記憶體的可疑讀取。",
+          "passage_ids": [
+            "T1539:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1539 Linux entry names the same cookie files (cookies.sqlite, ~/.config/google-chrome/) and suspicious memory reads via /proc/[pid]/mem or ptrace.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 macOS 環境中，可偵測對瀏覽器 Cookie 路徑（例如 ~/Library/Application Support/Google/Chrome/Default/Cookies）的未授權存取，或對 Safari/Chrome 記憶體空間的 task_for_pid 或 vm_read 呼叫。",
+          "passage_ids": [
+            "T1539:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1539 macOS entry names the same cookie path and \"task_for_pid/vm_read\" calls to Safari/Chrome memory space.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 SaaS 環境中，可偵測來自異常使用者代理或位置的會話 Cookie 或驗證權杖使用，以及未重新驗證的權杖重用或嘗試使用先前竊取的 Cookie 繞過多因素驗證的行為。",
+          "passage_ids": [
+            "T1539:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The T1539 SaaS entry covers use of session cookies or tokens from unusual user agents or locations, token reuse without reauthentication, and MFA bypass attempts with stolen cookies.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The reference gives only the T1185 Windows sequence (privilege, process handle, remote thread/DLL load). Claim 0 covers it fully, but it omits the optional step of creating a new logon session or using explicit credentials, then driving the victim browser to intranet resources. The other claims add cookie-theft detections not in the reference."
+    },
+    {
+      "id": "4-01",
+      "category": "near_id",
+      "question": "How do I detect T1543.001?",
+      "gold": "T1543.001:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Detect the creation or modification of user-level Launch Agents in monitored directories by looking for .plist files with suspicious ProgramArguments or RunAtLoad keys.",
+          "passage_ids": [
+            "T1543.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says it \"Detects creation or modification of user-level Launch Agents in monitored directories using `.plist` files with suspicious `ProgramArguments` or `RunAtLoad` keys,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Correlate file write activity with the execution of launchctl or unsigned binaries invoked at login.",
+          "passage_ids": [
+            "T1543.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says it \"Correlates file write activity with execution of `launchctl` or unsigned binaries invoked at login,\" which the claim restates as advice.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers both points in the reference: monitoring .plist creation or modification with suspicious ProgramArguments or RunAtLoad keys, and correlating file writes with launchctl or unsigned binaries run at login. It omits only the macOS platform label."
+    },
+    {
+      "id": "4-02",
+      "category": "near_id",
+      "question": "Mitigations for T1543.002",
+      "gold": "T1543.002:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "限制软件安装：仅允许从受信任的软件仓库安装软件，并谨慎处理孤立的软件包。",
+          "passage_ids": [
+            "T1543.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Restrict software installation to trusted repositories only and be cautious of orphaned software packages,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "特权账户管理：创建和修改 systemd 服务单元文件通常仅限于管理员（如 Linux root 用户）和其他具有超级用户权限的用户。",
+          "passage_ids": [
+            "T1543.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says unit file creation and modification is \"generally reserved for administrators such as the Linux root user and other users with superuser privileges,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "限制文件和目录权限：将 systemd 单元文件的读写访问权限限制为仅授予有合法需求管理系统的特权用户。",
+          "passage_ids": [
+            "T1543.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to restrict read/write access to systemd unit files to select privileged users with a legitimate need to manage system services, which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "用户账户管理：将用户对 `systemctl` 等系统实用程序的访问权限限制为仅授予有合法需求的用户。",
+          "passage_ids": [
+            "T1543.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Limit user access to system utilities such as `systemctl` to only users who have a legitimate need,\" which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers all four mitigations in the reference (Limit Software Installation, Privileged Account Management, Restrict File and Directory Permissions, User Account Management) with the same details."
+    },
+    {
+      "id": "4-03",
+      "category": "near_id",
+      "question": "What is T1059.003?",
+      "gold": "T1059.003:overview",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "T1059.003 is the Windows Command Shell sub-technique of T1059 Command and Scripting Interpreter.",
+          "passage_ids": [
+            "T1059.003:overview",
+            "T1059:overview"
+          ],
+          "verdict": "supported",
+          "reason": "Both passages name T1059.003 as Windows Command Shell, and the heading says \"sub-technique of T1059 Command and Scripting Interpreter\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Adversaries may abuse the Windows command shell (cmd) for execution on Windows systems.",
+          "passage_ids": [
+            "T1059.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The overview says \"Adversaries may abuse the Windows command shell for execution\" and identifies it as cmd on Windows.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "The Windows command shell is the primary command prompt on Windows systems and can be used to control almost any aspect of a system with various permission levels.",
+          "passage_ids": [
+            "T1059.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage states it is \"the primary command prompt on Windows systems\" and can \"control almost any aspect of a system, with various permission levels required\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Batch files such as .bat or .cmd provide the shell with a list of sequential commands to run, including scripting operations like conditionals and loops.",
+          "passage_ids": [
+            "T1059.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says batch files (.bat or .cmd) give the shell \"a list of sequential commands to run\" along with \"conditionals and loops\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Adversaries may leverage cmd to execute various commands and payloads, including executing a single command or using it interactively with input and output forwarded over a command and control channel.",
+          "passage_ids": [
+            "T1059.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage describes executing \"a single command\" or interactive use \"with input and output forwarded over a command and control channel\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "The command prompt can be invoked remotely via Remote Services such as SSH.",
+          "passage_ids": [
+            "T1059.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"The command prompt can be invoked remotely via Remote Services (T1021) such as SSH (T1021.004)\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "T1059.003 is associated with the Execution tactic and the Windows platform.",
+          "passage_ids": [
+            "T1059.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage lists \"Tactics: Execution\" and \"Platforms: Windows\".",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers all the reference's main points: the Windows command shell and cmd, its control over the system, remote invocation, batch files, adversary uses, tactic and platform. It omits only the minor detail that batch files are commonly used for long or repetitive tasks and for running the same commands on multiple systems."
+    },
+    {
+      "id": "4-04",
+      "category": "near_id",
+      "question": "Detection for T1059.004",
+      "gold": "T1059.004:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "On Linux, detection focuses on chained behavior where bash, sh, zsh, or BusyBox shell execution initiated via remote sessions, unauthorized users, or embedded within secondary script interpreters is followed by suspicious commands and then network discovery or persistence indicators.",
+          "passage_ids": [
+            "T1059.004:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says Linux detection covers shell execution \"initiated via remote sessions, unauthorized users, or embedded within secondary script interpreters\" and focuses on \"chained behavior: shell > suspicious commands > network discovery or persistence indicators\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "On macOS, detection identifies the use of sh, bash, or zsh in suspicious contexts, such as user scripts launched from non-standard apps like Preview.app, embedded in LaunchDaemons, executed outside Terminal.app, or misused in Automator, LaunchAgents, or NSAppleScript-executed shell.",
+          "passage_ids": [
+            "T1059.004:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The macOS passage lists the same contexts: non-standard apps such as Preview.app, LaunchDaemons, outside Terminal.app, and misuse in Automator, LaunchAgents, or NSAppleScript-executed shell.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "On ESXi, detection focuses on rare shell invocations of BusyBox or Ash from unauthorized logins, remote connections, DCUI, SSH sessions, or remote management paths, and also watches for payload droppers or persistence artifacts using shell.",
+          "passage_ids": [
+            "T1059.004:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The ESXi passage covers BusyBox/Ash from unauthorized logins or remote connections, rare invocations from DCUI, SSH, or remote management paths, and payload droppers or persistence artifacts, so the claim restates it.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "On network devices, detection identifies Unix shell usage on appliances such as routers, firewalls, and embedded Linux systems through rare console commands, CLI interfaces, or script injection via exposed APIs or SSH.",
+          "passage_ids": [
+            "T1059.004:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The network devices passage describes Unix shell usage on appliances (routers, firewalls, embedded Linux) via rare console commands, CLI interfaces, or script injection via exposed APIs or SSH, which the claim restates.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers all four platform bullets (Linux, macOS, ESXi, Network Devices) with their key details from the reference passage."
+    },
+    {
+      "id": "4-05",
+      "category": "near_id",
+      "question": "T1055.001 mitigation",
+      "gold": "T1055.001:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Behavior Prevention on Endpoint: Some endpoint security solutions can be configured to block some types of process injection based on common sequences of behavior that occur during the injection process.",
+          "passage_ids": [
+            "T1055.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The claim repeats the cited passage nearly word for word: \"Some endpoint security solutions can be configured to block some types of process injection based on common sequences of behavior\".",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer restates the one mitigation in the reference, Behavior Prevention on Endpoint, with the same details, so it covers every main point."
+    },
+    {
+      "id": "4-06",
+      "category": "near_id",
+      "question": "What is T1055.003?",
+      "gold": "T1055.003:overview",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "T1055.003 是 T1055 程序注入（Process Injection）的子技術，名稱為執行緒執行劫持（Thread Execution Hijacking）。",
+          "passage_ids": [
+            "T1055.003:overview",
+            "T1055:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The overview heading reads \"Thread Execution Hijacking (sub-technique of T1055 Process Injection)\" and the T1055 passage lists T1055.003 as a sub-technique, so the claim is fully supported.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "T1055.003 是一種在另一個存活程序的位址空間中執行任意代碼的方法，通常透過暫停現有程序、解除映射或掏空其記憶體，然後用惡意代碼或 DLL 路徑替換來實現。",
+          "passage_ids": [
+            "T1055.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says it is \"a method of executing arbitrary code in the address space of a separate live process\" and is \"commonly performed by suspending an existing process then unmapping/hollowing its memory, which can then be replaced with malicious code or the path to a DLL\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "T1055.003 的常見實現步驟包括使用 OpenThread 創建句柄，接著依序使用 SuspendThread、VirtualAllocEx、WriteProcessMemory、SetThreadContext 和 ResumeThread 來暫停、寫入、對齊、修改上下文並恢復執行緒。",
+          "passage_ids": [
+            "T1055.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage describes a handle created with OpenThread, then SuspendThread, VirtualAllocEx, WriteProcessMemory, SetThreadContext and ResumeThread in that order, matching the claim's steps.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "T1055.003 的目標平台是 Windows，所屬戰術為隱蔽（Stealth）和特權提升（Privilege Escalation）。",
+          "passage_ids": [
+            "T1055.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage ends with \"Tactics: Stealth, Privilege Escalation\" and \"Platforms: Windows\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "T1055.003 與 T1055.012 程序掏空（Process Hollowing）非常相似，但 T1055.003 針對的是現有程序，而非創建處於暫停狀態的程序。",
+          "passage_ids": [
+            "T1055.003:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says it is \"very similar to Process Hollowing (T1055.012) but targets an existing process rather than creating a process in a suspended state\", which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The answer covers the sub-technique relationship, definition, API steps, tactics and platform, and the Process Hollowing comparison. It omits only the purpose of evading defenses and the benefits of running in another process's context (access to memory and resources, evading detection)."
+    },
+    {
+      "id": "4-07",
+      "category": "near_id",
+      "question": "How to detect T1218.010?",
+      "gold": "T1218.010:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Detection focuses on identifying anomalous regsvr32.exe executions that deviate from normal administrative or system use.",
+          "passage_ids": [
+            "T1218.010:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Detection focuses on identifying anomalous regsvr32.exe executions that deviate from normal administrative or system use,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Defenders may observe regsvr32.exe loading scriptlets or DLLs from unusual paths, such as temporary directories or remote URLs.",
+          "passage_ids": [
+            "T1218.010:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says defenders may observe regsvr32.exe \"loading scriptlets or DLLs from unusual paths (especially temporary directories or remote URLs).\" The claim restates this.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Detection includes observing command-line arguments invoking /i or /u with suspicious file references.",
+          "passage_ids": [
+            "T1218.010:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage lists \"command-line arguments invoking /i or /u with suspicious file references\" as something to observe.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Defenders may observe network connections initiated by regsvr32.exe.",
+          "passage_ids": [
+            "T1218.010:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage lists \"network connections initiated by regsvr32.exe\" as something defenders may observe.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Detection includes observing unsigned or untrusted DLLs being loaded shortly after regsvr32.exe invocation.",
+          "passage_ids": [
+            "T1218.010:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage lists \"unsigned or untrusted DLLs being loaded shortly after regsvr32.exe invocation\" as an observable.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Correlated sequences for detection include regsvr32.exe process creation, module load of a DLL or scriptlet, and optional outbound network traffic.",
+          "passage_ids": [
+            "T1218.010:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says correlated sequences include \"regsvr32.exe process creation, module load of DLL/scriptlet, and optional outbound network traffic.\" The claim matches.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers every point in the reference: the focus on anomalous executions, the four observables, and the correlated sequence."
+    },
+    {
+      "id": "4-08",
+      "category": "near_id",
+      "question": "T1218.005 mitigations",
+      "gold": "T1218.005:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Mshta.exe 可能不需要在特定環境中保留，因為其功能與已達到生命週期結束的舊版 Internet Explorer 相關，因此可以禁用或移除該功能或程式。",
+          "passage_ids": [
+            "T1218.005:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Mshta.exe may not be necessary within a given environment since its functionality is tied to older versions of Internet Explorer that have reached end of life,\" under the Disable or Remove Feature or Program mitigation, which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "若系統或網路不需要 mshta.exe，應使用應用程式控制來阻止其執行，以防止潛在的敵對濫用。",
+          "passage_ids": [
+            "T1218.005:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Use application control configured to block execution of mshta.exe if it is not required for a given system or network to prevent potential misuse by adversaries,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "在 Windows 10 和 Windows Server 2016 及以上版本中，可以應用 Windows Defender Application Control (WDAC) 策略規則來阻止 mshta.exe 應用程式並防止其被濫用。",
+          "passage_ids": [
+            "T1218.005:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"in Windows 10 and Windows Server 2016 and above, Windows Defender Application Control (WDAC) policy rules may be applied to block the mshta.exe application and to prevent abuse,\" which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers both mitigations in the reference, Disable or Remove Feature or Program and Execution Prevention, including the WDAC example and the Internet Explorer end-of-life rationale."
+    },
+    {
+      "id": "4-09",
+      "category": "near_id",
+      "question": "What is T1021.006?",
+      "gold": "T1021.006:overview",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "T1021.006 is the sub-technique Windows Remote Management under T1021 Remote Services.",
+          "passage_ids": [
+            "T1021.006:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage heading reads \"T1021.006 Windows Remote Management (sub-technique of T1021 Remote Services)\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Adversaries may use Valid Accounts to interact with remote systems using Windows Remote Management (WinRM) and perform actions as the logged-on user.",
+          "passage_ids": [
+            "T1021.006:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says adversaries \"may use Valid Accounts (T1078) to interact with remote systems using Windows Remote Management (WinRM)\" and \"perform actions as the logged-on user\", matching the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "WinRM is a Windows service and protocol that allows a user to interact with a remote system, such as running an executable, modifying the Registry, or modifying services.",
+          "passage_ids": [
+            "T1021.006:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage describes WinRM as \"the name of both a Windows service and a protocol\" for interacting with a remote system, with the same examples (run an executable, modify the Registry, modify services).",
+          "judged_by": "judge"
+        },
+        {
+          "text": "WinRM can be invoked via the winrm command or programs like PowerShell and can be used to remotely interact with Windows Management Instrumentation (T1047).",
+          "passage_ids": [
+            "T1021.006:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says it \"may be called with the `winrm` command or by any number of programs such as PowerShell\" and can be used to remotely interact with WMI (T1047), matching the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "T1021.006 is associated with the Lateral Movement tactic and the Windows platform.",
+          "passage_ids": [
+            "T1021.006:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage lists \"Tactics: Lateral Movement\" and \"Platforms: Windows\", matching the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers every main point of the reference: the name and parent technique, use of Valid Accounts, the WinRM description, invocation via the winrm command or PowerShell, the WMI link, and the tactic and platform."
+    },
+    {
+      "id": "4-10",
+      "category": "near_id",
+      "question": "Detection for T1021.002",
+      "gold": "T1021.002:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Detection for T1021.002 involves identifying a sequence of events where SMB-based remote file share access is followed by lateral movement actions such as remote service creation, task scheduling, or suspicious process execution on the target host using ADMIN$ or C$ shares.",
+          "passage_ids": [
+            "T1021.002:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The cited passage says \"An SMB-based remote file share access followed by lateral movement actions such as remote service creation, task scheduling, or suspicious process execution on the target host using ADMIN$ or C$ shares,\" which the claim restates with the same meaning.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer reproduces the single detection point in the reference: SMB remote share access followed by lateral movement actions via ADMIN$ or C$ shares."
+    },
+    {
+      "id": "4-11",
+      "category": "near_id",
+      "question": "How do I mitigate T1110.004?",
+      "gold": "T1110.004:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Set account lockout policies after a certain number of failed login attempts to prevent passwords from being guessed, while being aware that overly strict policies may cause denial of service by locking out all accounts.",
+          "passage_ids": [
+            "T1110.004:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Set account lockout policies after a certain number of failed login attempts\" and warns that a too-strict policy \"may create a denial of service condition\" with accounts locked out, which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Use conditional access policies to block logins from non-compliant devices or from outside defined organization IP ranges.",
+          "passage_ids": [
+            "T1110.004:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Use conditional access policies to block logins from non-compliant devices or from outside defined organization IP ranges,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Consider blocking risky authentication requests, such as those originating from anonymizing services or proxies.",
+          "passage_ids": [
+            "T1110.004:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Consider blocking risky authentication requests, such as those originating from anonymizing services/proxies,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Use multi-factor authentication, and where possible, enable it on externally facing services.",
+          "passage_ids": [
+            "T1110.004:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Use multi-factor authentication. Where possible, also enable multi-factor authentication on externally facing services,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Refer to NIST guidelines when creating password policies.",
+          "passage_ids": [
+            "T1110.004:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Refer to NIST guidelines when creating password policies,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Proactively reset accounts that are known to be part of breached credentials either immediately or after detecting brute force attempts.",
+          "passage_ids": [
+            "T1110.004:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Proactively reset accounts that are known to be part of breached credentials either immediately, or after detecting bruteforce attempts,\" which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers all four mitigation categories in the reference (account use policies, MFA, password policies, user account management) along with their details, including the lockout denial-of-service caveat."
+    },
+    {
+      "id": "4-12",
+      "category": "near_id",
+      "question": "What is T1110.001?",
+      "gold": "T1110.001:overview",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "T1110.001 是 T1110 暴力破解（Brute Force）的子技術，名稱為密碼猜測（Password Guessing）。",
+          "passage_ids": [
+            "T1110.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage heading reads \"T1110.001 Password Guessing (sub-technique of T1110 Brute Force)\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "該技術屬於憑證存取（Credential Access）戰術。",
+          "passage_ids": [
+            "T1110.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage states \"Tactics: Credential Access\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "攻擊者可能在沒有先前知識的情況下，使用常見密碼列表或重複/迭代機制來猜測帳戶密碼以嘗試存取。",
+          "passage_ids": [
+            "T1110.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage describes adversaries with no prior knowledge guessing passwords \"using a repetitive or iterative mechanism\" or \"a list of common passwords\".",
+          "judged_by": "judge"
+        },
+        {
+          "text": "此技術適用於容器、ESXi、IaaS、身份提供者、Linux、macOS、網路設備、辦公套件、SaaS 和 Windows 平台。",
+          "passage_ids": [
+            "T1110.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The platform list in the passage (Containers, ESXi, IaaS, Identity Provider, Linux, macOS, Network Devices, Office Suite, SaaS, Windows) matches the claim exactly.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The answer covers the definition, tactic, core guessing behavior and platforms. It omits the lockout risk, the commonly targeted services and ports, the SSO/cloud/email and wifi targets, and the detection note about LDAP/Kerberos versus SMB event 4625."
+    },
+    {
+      "id": "4-13",
+      "category": "near_id",
+      "question": "T1053.003 detection",
+      "gold": "T1053.003:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "On Linux, detection involves identifying the creation or modification of crontab entries by non-root users or from abnormal parent processes, followed by the execution of uncommon binaries at scheduled intervals.",
+          "passage_ids": [
+            "T1053.003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage's Linux entry says it \"Detects creation or modification of crontab entries by non-root users or from abnormal parent processes, followed by the execution of uncommon binaries at scheduled intervals,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "On macOS, detection focuses on crontab job additions or modifications via the `crontab` utility or direct edits, particularly those created by interactive users executing hidden or renamed scripts.",
+          "passage_ids": [
+            "T1053.003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The macOS entry names \"crontab job additions or modifications via `crontab` utility or direct edits, especially those created by interactive users executing hidden or renamed scripts,\" which the claim restates.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "On ESXi, detection involves identifying direct modification of crontab entries in /var/spool/cron/crontabs/root or /etc/rc.local.d/local.sh followed by the execution of scripts linked to lateral movement or malware persistence.",
+          "passage_ids": [
+            "T1053.003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The ESXi entry gives the same paths (/var/spool/cron/crontabs/root, /etc/rc.local.d/local.sh) and the same follow-on execution of \"scripts linked to lateral movement or malware persistence.\"",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers all three platform-specific detections (Linux, macOS, ESXi) in the reference. It leaves out only the heading \"Cross-Platform Detection of Cron Job Abuse for Persistence and Execution,\" which is not a main point."
+    },
+    {
+      "id": "4-14",
+      "category": "near_id",
+      "question": "Mitigation for T1003.006",
+      "gold": "T1003.006:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Manage the access control list for \"Replicating Directory Changes\" and other permissions associated with domain controller replication.",
+          "passage_ids": [
+            "T1003.006:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage's Active Directory Configuration item says \"Manage the access control list for \"Replicating Directory Changes\" and other permissions associated with domain controller replication.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Ensure that local administrator accounts have complex, unique passwords across all systems on the network.",
+          "passage_ids": [
+            "T1003.006:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The Password Policies item says \"Ensure that local administrator accounts have complex, unique passwords across all systems on the network.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Do not put user or admin domain accounts in the local administrator groups across systems unless they are tightly controlled, as this is often equivalent to having a local administrator account with the same password on all systems.",
+          "passage_ids": [
+            "T1003.006:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The Privileged Account Management item says \"Do not put user or admin domain accounts in the local administrator groups across systems unless they are tightly controlled, as this is often equivalent to...\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Follow best practices for design and administration of an enterprise network to limit privileged account use across administrative tiers.",
+          "passage_ids": [
+            "T1003.006:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage's Privileged Account Management item ends with \"Follow best practices for design and administration of an enterprise network to limit privileged account use across administrative tiers.\"",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer reproduces all three mitigation items in the reference (Active Directory Configuration, Password Policies, Privileged Account Management), including both Privileged Account Management sentences."
+    },
+    {
+      "id": "4-15",
+      "category": "near_id",
+      "question": "How to mitigate T1070.004?",
+      "gold": "T1070.004:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "ATT&CK v19.2 lists no preventive mitigations for T1070.004 File Deletion.",
+          "passage_ids": [
+            "T1070.004:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage states verbatim: \"ATT&CK v19.2 lists no preventive mitigations for T1070.004 File Deletion.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Because this technique cannot be easily prevented with preventive controls, you should rely on its Detection guidance instead.",
+          "passage_ids": [
+            "T1070.004:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"This technique cannot be easily prevented with preventive controls; rely on its Detection guidance instead,\" which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers both points in the reference: no preventive mitigations are listed, and the Detection guidance should be relied on instead."
+    },
+    {
+      "id": "6-07",
+      "category": "unsupported",
+      "question": "Which techniques does Mimikatz implement?",
+      "gold": null,
+      "gold_retrieved": false,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Mimikatz implements the T1003.001 LSASS Memory sub-technique.",
+          "passage_ids": [
+            "T1003.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The cited passage says \"Locally, mimikatz can be run using: sekurlsa::Minidump lsassdump.dmp\" and \"sekurlsa::logonPasswords\" in the LSASS Memory context, so Mimikatz is tied to this technique.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Mimikatz implements the T1003.004 LSA Secrets sub-technique.",
+          "passage_ids": [
+            "T1003.004:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage states \"Mimikatz (S0002) can be used to extract secrets from memory\" under LSA Secrets T1003.004.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Mimikatz implements the T1003.002 Security Account Manager sub-technique.",
+          "passage_ids": [
+            "T1003.002:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage lists \"Mimikatz (S0002)\" among tools that retrieve the SAM file through in-memory techniques under T1003.002.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Mimikatz implements the T1003.006 DCSync sub-technique.",
+          "passage_ids": [
+            "T1003.006:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"DCSync functionality has been included in the 'lsadump' module in Mimikatz (S0002)\" for T1003.006.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "No reference passage was provided, so completeness cannot be compared against a reference; the answer lists four techniques but there is no basis to judge coverage of main points."
+    },
+    {
+      "id": "6-13",
+      "category": "unsupported",
+      "question": "Which techniques have no mitigations?",
+      "gold": null,
+      "gold_retrieved": false,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "ATT&CK v19.2 lists no mitigations for T1020 Automated Exfiltration itself, with mitigations listed under its sub-techniques instead.",
+          "passage_ids": [
+            "T1020:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage states \"lists no mitigations for T1020 Automated Exfiltration itself; its mitigations are listed under these sub-techniques instead\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "ATT&CK v19.2 lists no preventive mitigations for T1587 Develop Capabilities.",
+          "passage_ids": [
+            "T1587:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The T1587 passage says \"lists no preventive mitigations for T1587 Develop Capabilities\", the same as the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "ATT&CK v19.2 lists no preventive mitigations for T1074 Data Staged.",
+          "passage_ids": [
+            "T1074:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The T1074 passage says \"lists no preventive mitigations for T1074 Data Staged\", the same as the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "ATT&CK v19.2 lists no mitigations for T1496 Resource Hijacking itself, with mitigations listed under its sub-techniques instead.",
+          "passage_ids": [
+            "T1496:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"lists no mitigations for T1496 Resource Hijacking itself; its mitigations are listed under these sub-techniques instead\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "ATT&CK v19.2 lists no preventive mitigations for T1608 Stage Capabilities.",
+          "passage_ids": [
+            "T1608:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The T1608 passage says \"lists no preventive mitigations for T1608 Stage Capabilities\", the same as the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "No reference passage was provided, so completeness cannot be compared against a reference. The answer lists five techniques, but it cannot be checked against what the reference would say."
+    },
+    {
+      "id": "8-01",
+      "category": "revoked_id",
+      "question": "How do I detect T1086?",
+      "gold": "T1059.001:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Detect behavioral chains where PowerShell is launched with encoded commands, unusual parent processes, or suspicious modules loaded, potentially followed by network connections or child process spawning.",
+          "passage_ids": [
+            "T1059.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says it \"Detects behavioral chains where PowerShell is launched with encoded commands, unusual parent processes, or suspicious modules loaded, potentially followed by network connections or child process spawning,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Detection supports both direct invocations of powershell.exe and indirect invocations through .NET automation.",
+          "passage_ids": [
+            "T1059.001:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says it \"Supports detection of both direct (powershell.exe) and indirect (.NET automation) invocations,\" which is what the claim states.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer reproduces both points in the reference: the behavioral chains and the direct and indirect invocation support. It never explains that T1086 is the older ID for PowerShell, now T1059.001, but the reference does not say this either."
+    },
+    {
+      "id": "8-02",
+      "category": "revoked_id",
+      "question": "What is T1093?",
+      "gold": "T1055.012:overview",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "T1055.012 是 T1055 程序注入的子技術，稱為程序掏空（Process Hollowing）。",
+          "passage_ids": [
+            "T1055.012:overview",
+            "T1055:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The T1055.012 passage says \"sub-technique of T1055 Process Injection\" and is titled Process Hollowing, so the claim matches both cited passages.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "攻擊者可能將惡意代碼注入到已掛起並被掏空的程序中，以規避基於程序的防禦。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Adversaries may inject malicious code into suspended and hollowed processes in order to evade process-based defenses.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "程序掏空是一種在另一個存活程序的地址空間中執行任意代碼的方法。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage states \"Process hollowing is a method of executing arbitrary code in the address space of a separate live process.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "此技術通常通過創建處於掛起狀態的程序，然後解除映射或掏空其內存，並用惡意代碼替換來實現。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says it is \"commonly performed by creating a process in a suspended state then unmapping/hollowing its memory, which can then be replaced with malicious code.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "T1055.012 的戰術包括隱蔽（Stealth）和特權提升（Privilege Escalation），平台為 Windows。",
+          "passage_ids": [
+            "T1055.012:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage ends with \"Tactics: Stealth, Privilege Escalation\" and \"Platforms: Windows\".",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The answer is faithful to the reference and covers the definition, the suspend-and-unmap mechanism, and the tactics and platform. It omits the specific APIs, the similarity to Thread Local Storage, the point that it likely does not elevate privileges, and the detection evasion. It also never notes that the question asks about T1093, which is not the technique it describes."
+    },
+    {
+      "id": "8-03",
+      "category": "revoked_id",
+      "question": "How to detect T1070.001?",
+      "gold": "T1685.005:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Detect the behavioral sequence where an adversary gains elevated privileges and clears event logs using native binaries such as wevtutil, PowerShell, or direct file deletion of .evtx files.",
+          "passage_ids": [
+            "T1685.005:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The cited passage says it \"Detects behavioral sequence where an adversary gains elevated privileges and clears event logs using native binaries (e.g., wevtutil), PowerShell, or direct file deletion of .evtx files\", which matches the claim's content, only reworded as an instruction.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer restates the single detection point in the reference (the behavioral chain of privilege elevation followed by log clearing via wevtutil, PowerShell, or .evtx deletion), so it covers all the main points."
+    },
+    {
+      "id": "8-04",
+      "category": "revoked_id",
+      "question": "Mitigations for T1562.001",
+      "gold": "T1685:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Defenders should periodically verify that security tools are functioning appropriately, such as ensuring expected hosts with EDRs or monitoring agents are checking in to the central console and reviewing EDRs for unexpected exclusion paths.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to \"Periodically verify that tools are functioning appropriately\", with EDRs or agents checking in to the central console, and to check EDRs for unexpected exclusion paths. The claim matches this.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "In Microsoft Defender for Endpoint, exclusions can be reviewed using the Get-MpPreference cmdlet.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage states \"In Microsoft Defender for Endpoint, exclusions can be reviewed with the `Get-MpPreference` cmdlet.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Organizations should consider removing previous versions of tools that are unnecessary to the environment when possible.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Consider removing previous versions of tools that are unnecessary to the environment when possible.\"",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Application control should be used to ensure that only approved security applications are used and running on enterprise systems, particularly to prevent the execution of tools outside of security policies that may be abused to impair defenses.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage covers application control for tools outside security policies that have been abused, and ensuring only approved security applications are used and running. The claim combines these accurately.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Proper process and file permissions should be in place to prevent adversaries from disabling or interfering with security services.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to ensure proper process and file permissions are in place to prevent adversaries from disabling or interfering with security services.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Proper Registry permissions should be in place to prevent adversaries from disabling or interfering with security services.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to ensure proper Registry permissions are in place to prevent adversaries from disabling or interfering with security services.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Forwarding mechanisms should be automatically relaunched at recurring intervals, and appropriate change management should be applied to firewall rules and other related system configurations.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ],
+          "verdict": "partial",
+          "reason": "The passage says to \"Consider\" automatically relaunching forwarding mechanisms at recurring intervals and applying change management to firewall rules. The claim states this as a firm requirement (\"should be\"), which is stronger than the passage's hedged wording.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Proper user permissions should be in place to prevent adversaries from disabling or interfering with security services.",
+          "passage_ids": [
+            "T1685:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says to ensure proper user permissions are in place to prevent adversaries from disabling or interfering with security services.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers all seven mitigation bullets in the reference: audit, removing old tools, execution prevention, file, registry and user permissions, and software configuration. It leaves out only minor details such as the rootkit removal tools example and the 'temporal, on-logon' examples."
+    },
+    {
+      "id": "8-05",
+      "category": "revoked_id",
+      "question": "What is T1574.002?",
+      "gold": "T1574.001:overview",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "T1574.001 is a sub-technique of T1574 Hijack Execution Flow that involves adversaries abusing dynamic-link library (DLL) files to achieve persistence, escalate privileges, and evade defenses.",
+          "passage_ids": [
+            "T1574.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage states T1574.001 DLL is a sub-technique of T1574 Hijack Execution Flow and that adversaries may abuse DLLs \"to achieve persistence, escalate privileges, and evade defenses\" — matches exactly.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "The technique is categorized under the Stealth and Execution tactics and applies to the Windows platform.",
+          "passage_ids": [
+            "T1574.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage ends with \"Tactics: Stealth, Execution\" and \"Platforms: Windows\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Specific methods of abuse include DLL sideloading, DLL search order hijacking, DLL redirection, phantom DLL hijacking, and DLL substitution.",
+          "passage_ids": [
+            "T1574.001:overview"
+          ],
+          "verdict": "supported",
+          "reason": "The passage lists DLL Sideloading, DLL Search Order Hijacking, DLL Redirection, Phantom DLL Hijacking, and DLL Substitution as specific ways DLLs are abused.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "partial",
+      "completeness_reason": "The answer covers the overview, tactics, platform, and the five abuse methods, but omits details such as BPL side-loading, chained sideloading, remote DLL hijacking, and the privilege escalation explanation. Also, the question asks about T1574.002 while the answer (and evidence) describe T1574.001, so it does not address the asked technique, though it matches the reference passage's main points."
+    },
+    {
+      "id": "8-06",
+      "category": "revoked_id",
+      "question": "How can we mitigate T1193?",
+      "gold": "T1566.001:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Anti-virus software can be used to automatically quarantine suspicious files.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Anti-virus can also automatically quarantine suspicious files,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Enable auditing and monitoring for email attachments and file transfers to detect and investigate suspicious activity.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The Audit bullet says \"Enable auditing and monitoring for email attachments and file transfers to detect and investigate suspicious activity,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Network intrusion prevention systems and systems designed to scan and remove malicious email attachments can be used to block activity.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The Network Intrusion Prevention bullet states this almost word for word.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Block unknown or unused attachments by default, such as .scr, .exe, .pif, and .cpl files, to prevent some vectors.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The Restrict Web-Based Content bullet says to block unknown or unused attachments by default, such as .scr, .exe, .pif and .cpl, to prevent some vectors.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Use anti-spoofing and email authentication mechanisms like SPF, DKIM, and DMARC to filter messages based on sender domain validity and message integrity.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The Software Configuration bullet covers anti-spoofing and email authentication using SPF, DKIM and DMARC to filter on sender domain validity and message integrity.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Apply user account management principles to limit permissions for accounts interacting with email attachments, ensuring only necessary accounts can open or execute files.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The User Account Management bullet says to limit permissions for accounts interacting with email attachments so only necessary accounts can open or execute files.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Train users to identify social engineering techniques and spearphishing emails.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The User Training bullet says users can be trained to identify social engineering techniques and spearphishing emails.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers all seven mitigation bullets in the reference. It leaves out only minor details, such as regular log review and scanning of compressed formats."
+    },
+    {
+      "id": "8-07",
+      "category": "revoked_id",
+      "question": "Detection for T1050",
+      "gold": "T1543.003:detection",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "Detection of Windows Service creation or modification involves monitoring command-line tools such as sc.exe and powershell.exe, as well as Registry key changes under HKLM\\System\\CurrentControlSet\\Services.",
+          "passage_ids": [
+            "T1543.003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says it detects service creation or modification \"through command-line tools (e.g., `sc.exe`, `powershell.exe`), Registry key changes under `HKLM\\System\\CurrentControlSet\\Services`\", which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Detection includes identifying service execution under SYSTEM privileges with unsigned or anomalous binary paths.",
+          "passage_ids": [
+            "T1543.003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage lists \"service execution under SYSTEM with unsigned or anomalous binary paths\" as something it detects.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Privilege escalation can be detected through driver installation or the usage of the CreateServiceW function.",
+          "passage_ids": [
+            "T1543.003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage states \"Detects privilege escalation via driver installation or `CreateServiceW` usage\", which the claim restates.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "Detection efforts correlate parent-child lineage, startup behavior, and rare service names.",
+          "passage_ids": [
+            "T1543.003:detection"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says it \"Correlates parent-child lineage, startup behavior, and rare service names\", which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers every point in the reference. However, the question asks about T1050, and both the answer and the reference describe T1543.003, so the answer tracks the reference fully."
+    },
+    {
+      "id": "8-08",
+      "category": "revoked_id",
+      "question": "T1077 要怎麼防？",
+      "gold": "T1021.002:mitigation",
+      "gold_retrieved": true,
+      "judge_model": "openrouter/anthropic/claude-sonnet-5.5",
+      "claims": [
+        {
+          "text": "建議使用主機防火牆來限制 SMB 等檔案共享通訊。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Consider using the host firewall to restrict file sharing communications such as SMB,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "建議停用 Windows 管理員共享以限制對網路資源的存取。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Consider disabling Windows administrative shares\" under Limit Access to Resource Over Network, which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "不應在不同系統之間重複使用本機管理員帳戶密碼，並確保密碼具有複雜性和獨特性以防止被破解或猜測。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Do not reuse local administrator account passwords across systems\" and to ensure \"complexity and uniqueness such that the passwords cannot be cracked or guessed,\" which matches the claim.",
+          "judged_by": "judge"
+        },
+        {
+          "text": "應拒絕使用本機管理員憑證進行遠端登入，並避免讓網域使用者帳戶在多個系統的本機管理員群組中。",
+          "passage_ids": [
+            "T1021.002:mitigation"
+          ],
+          "verdict": "supported",
+          "reason": "The passage says \"Deny remote use of local admin credentials\" and \"Do not allow domain user accounts to be in the local Administrators group multiple systems,\" which matches the claim.",
+          "judged_by": "judge"
+        }
+      ],
+      "completeness": "complete",
+      "completeness_reason": "The answer covers all four mitigations in the reference (host firewall, disabling admin shares, password policies, privileged account management)."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "n": 40,
+  "raw_agreement": 0.95,
+  "weighted_kappa": 0.873015873015873,
+  "disagreements": [
+    [
+      "C06",
+      "partial",
+      "supported"
+    ],
+    [
+      "C23",
+      "supported",
+      "partial"
+    ]
+  ]
+}

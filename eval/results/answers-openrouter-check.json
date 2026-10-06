@@ -1,0 +1,490 @@
+{
+  "label": "answers-openrouter-check",
+  "llm": "openrouter",
+  "summary": [
+    {
+      "category": "paraphrase",
+      "n": 10,
+      "answered": 7,
+      "refused": 3,
+      "errors": 0,
+      "cites_gold_passage": 7,
+      "cites_gold_technique": 7,
+      "gold_retrieved": 7,
+      "refused_by": {
+        "llm": 3
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": "2-01",
+      "category": "paraphrase",
+      "question": "How can I tell if someone is dumping credentials from the Windows process that keeps login secrets in memory?",
+      "expected": "answer",
+      "gold": "T1003.001:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "You can detect credential dumping from the Windows process that keeps login secrets in memory by identifying when a non-privileged or abnormal process attempts to open a handle with full access (0x1F0FFF) to lsass.exe.",
+          "passage_ids": [
+            "T1003.001:detection"
+          ]
+        },
+        {
+          "text": "This detection is further indicated by the subsequent invocation of memory dump, file creation, or registry modification activities following the access to lsass.exe.",
+          "passage_ids": [
+            "T1003.001:detection"
+          ]
+        },
+        {
+          "text": "General detection for OS Credential Dumping on Windows involves monitoring for processes accessing LSASS memory outside of trusted security tools, which is often followed by file creation or lateral movement.",
+          "passage_ids": [
+            "T1003:detection"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1003.004:detection",
+        "T1003:detection",
+        "T1003.001:detection",
+        "T1003.005:detection",
+        "T1552.001:detection"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-02",
+      "category": "paraphrase",
+      "question": "Attackers are trying one common password against many accounts to avoid lockouts — what is this?",
+      "expected": "answer",
+      "gold": "T1110.003:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "The technique of using a single or small list of commonly used passwords against many different accounts to avoid account lockouts is called Password Spraying.",
+          "passage_ids": [
+            "T1110.003:overview"
+          ]
+        },
+        {
+          "text": "Password Spraying is a sub-technique of Brute Force (T1110).",
+          "passage_ids": [
+            "T1110.003:overview",
+            "T1110:overview"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1110.003:overview",
+        "T1110.001:overview",
+        "T1201:overview",
+        "T1110.004:overview",
+        "T1110:overview"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-03",
+      "category": "paraphrase",
+      "question": "How do I stop users from getting compromised by malicious documents attached to emails?",
+      "expected": "answer",
+      "gold": "T1566.001:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Network intrusion prevention systems and systems designed to scan and remove malicious email attachments can be used to block activity.",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ]
+        },
+        {
+          "text": "Anti-virus software can automatically quarantine suspicious files.",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ]
+        },
+        {
+          "text": "Blocking unknown or unused attachments by default, such as .scr, .exe, .pif, and .cpl files, is a best practice to prevent certain vectors.",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ]
+        },
+        {
+          "text": "Some email scanning devices can open and analyze compressed and encrypted formats like zip and rar to detect concealed malicious attachments.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Enabling auditing and monitoring for email attachments and file transfers helps detect and investigate suspicious activity.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Using anti-spoofing and email authentication mechanisms like SPF, DKIM, and DMARC filters messages based on sender domain validity and message integrity.",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ]
+        },
+        {
+          "text": "Applying user account management principles to limit permissions for accounts interacting with email attachments reduces the potential impact of malicious files.",
+          "passage_ids": [
+            "T1566.001:mitigation"
+          ]
+        },
+        {
+          "text": "Users can be trained to identify social engineering techniques and spearphishing emails.",
+          "passage_ids": [
+            "T1566.001:mitigation",
+            "T1566:mitigation"
+          ]
+        },
+        {
+          "text": "Disabling Microsoft Office macros and active content can prevent the execution of malicious payloads in documents.",
+          "passage_ids": [
+            "T1221:mitigation"
+          ]
+        },
+        {
+          "text": "Network/host intrusion prevention systems, antivirus, and detonation chambers can prevent documents from fetching or executing malicious payloads.",
+          "passage_ids": [
+            "T1221:mitigation"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1221:mitigation",
+        "T1204.002:mitigation",
+        "T1566.002:mitigation",
+        "T1566.001:mitigation",
+        "T1566:mitigation"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-04",
+      "category": "paraphrase",
+      "question": "What can we do to limit the damage when malware scrambles our files and demands payment?",
+      "expected": "answer",
+      "gold": "T1486:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not contain mitigation information for file encryption or ransomware techniques.",
+      "claims": [],
+      "retrieved": [
+        "T1657:mitigation",
+        "T1564:mitigation",
+        "T1550.002:mitigation",
+        "T1080:mitigation",
+        "T1190:mitigation"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "2-05",
+      "category": "paraphrase",
+      "question": "How would I notice an attacker requesting service tickets so they can crack service account passwords offline?",
+      "expected": "answer",
+      "gold": "T1558.003:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "You can detect this activity by monitoring for anomalous Kerberos TGS requests (Event ID 4769) that use RC4 encryption (etype 0x17).",
+          "passage_ids": [
+            "T1558.003:detection"
+          ]
+        },
+        {
+          "text": "Look for accounts that request an unusual number of service tickets within a short period of time.",
+          "passage_ids": [
+            "T1558.003:detection"
+          ]
+        },
+        {
+          "text": "Identify service accounts that are targeted outside of their normal usage baselines.",
+          "passage_ids": [
+            "T1558.003:detection"
+          ]
+        },
+        {
+          "text": "Correlate suspicious process activity, such as Mimikatz invoking LSASS access, with the observed Kerberos ticket anomalies.",
+          "passage_ids": [
+            "T1558.003:detection"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1558.003:detection",
+        "T1558.002:detection",
+        "T1550.003:detection",
+        "T1558:detection",
+        "T1584.004:detection"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-06",
+      "category": "paraphrase",
+      "question": "What is it called when malware hides its command traffic inside normal web browsing?",
+      "expected": "answer",
+      "gold": "T1071.001:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "When malware hides its command traffic inside normal web browsing, it is called using Web Protocols.",
+          "passage_ids": [
+            "T1071.001:overview"
+          ]
+        },
+        {
+          "text": "Adversaries may communicate using application layer protocols associated with web traffic to avoid detection by blending in with existing traffic.",
+          "passage_ids": [
+            "T1071.001:overview"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1001.003:overview",
+        "T1071.001:overview",
+        "T1574.007:overview",
+        "T1071.004:overview",
+        "T1102.002:overview"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-07",
+      "category": "paraphrase",
+      "question": "How do I spot attackers deleting backup snapshots so we can't restore our systems?",
+      "expected": "answer",
+      "gold": "T1490:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "On Windows, look for process chains using native utilities like vssadmin, wbadmin, diskshadow, bcdedit, REAgentC, or wmic with arguments that delete shadow copies, disable recovery, or remove backup catalogs.",
+          "passage_ids": [
+            "T1490:detection"
+          ]
+        },
+        {
+          "text": "On Linux, monitor for shell utilities or scripts that delete /etc/systemd/system/rescue.target, /etc/fstab backups, or /boot/efi partitions, as well as the use of chattr to block snapshot auto-recovery.",
+          "passage_ids": [
+            "T1490:detection"
+          ]
+        },
+        {
+          "text": "On ESXi, detect ESXi shell or vim-cmd execution that deletes all VM snapshots using vmsvc/snapshot.removeall or rm on snapshot paths.",
+          "passage_ids": [
+            "T1490:detection"
+          ]
+        },
+        {
+          "text": "On network devices, identify the execution of erase, format, and reload commands in immediate sequence from a privileged AAA session.",
+          "passage_ids": [
+            "T1490:detection"
+          ]
+        },
+        {
+          "text": "In IaaS environments, look for cloud API calls that disable snapshot scheduling, backup policies, or versioning, followed by DeleteSnapshot or DeleteVolume operations.",
+          "passage_ids": [
+            "T1490:detection"
+          ]
+        },
+        {
+          "text": "In IaaS environments, detect adversaries deleting critical infrastructure such as snapshots or volumes using elevated IAM credentials, which frequently includes batch API calls with Delete* or TerminateInstances.",
+          "passage_ids": [
+            "T1485:detection"
+          ]
+        },
+        {
+          "text": "On ESXi, detect adversaries purging snapshots or destroying virtual disks and images by invoking vim-cmd or deleting datastore contents.",
+          "passage_ids": [
+            "T1485:detection"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1490:detection",
+        "T1578.001:detection",
+        "T1485:detection",
+        "T1578.004:detection",
+        "T1518.002:detection"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-08",
+      "category": "paraphrase",
+      "question": "What does it mean when an adversary logs in with a real employee's stolen username and password?",
+      "expected": "answer",
+      "gold": "T1078:overview",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not contain information regarding the specific implications or definitions of an adversary logging in with a real employee's stolen username and password.",
+      "claims": [],
+      "retrieved": [
+        "T1555.002:overview",
+        "T1078.001:overview",
+        "T1134.003:overview",
+        "T1550.001:overview",
+        "T1110.001:overview"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    },
+    {
+      "id": "2-09",
+      "category": "paraphrase",
+      "question": "How can we protect our internet-facing web servers from being hacked through software bugs?",
+      "expected": "answer",
+      "gold": "T1190:mitigation",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "answered",
+      "refused_by": null,
+      "refusal_reason": "",
+      "claims": [
+        {
+          "text": "Regularly update software by employing patch management for externally exposed applications to protect against exploitation.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Regularly scan externally facing systems for vulnerabilities and establish procedures to rapidly patch systems when critical vulnerabilities are discovered.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Use Web Application Firewalls to limit exposure of applications and prevent exploit traffic from reaching the application.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Implement application isolation and sandboxing to limit what other processes and system features the exploited target can access.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Use least privilege for service accounts to limit the permissions the exploited process gets on the rest of the system.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Segment externally facing servers and services from the rest of the network using a DMZ or separate hosting infrastructure.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Restrict outbound network traffic from public-facing servers to prevent unauthorized connections with attacker-controlled infrastructure.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        },
+        {
+          "text": "Ensure that all publicly exposed services are intended to be so and restrict access to any that should only be available internally.",
+          "passage_ids": [
+            "T1190:mitigation"
+          ]
+        }
+      ],
+      "retrieved": [
+        "T1071.001:mitigation",
+        "T1190:mitigation",
+        "T1689:mitigation",
+        "T1567.004:mitigation",
+        "T1567:mitigation"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": true,
+      "cites_gold_technique": true,
+      "gold_retrieved": true
+    },
+    {
+      "id": "2-10",
+      "category": "paraphrase",
+      "question": "How do I detect someone abusing the built-in Windows tool that loads DLLs to run malicious code?",
+      "expected": "answer",
+      "gold": "T1218.011:detection",
+      "model": "qwen/qwen3.8-27b",
+      "error": "",
+      "status": "refused",
+      "refused_by": "llm",
+      "refusal_reason": "The provided passages do not identify a specific built-in Windows tool that loads DLLs to run malicious code, nor do they provide detection guidance for that specific tool.",
+      "claims": [],
+      "retrieved": [
+        "T1574.001:detection",
+        "T1556.008:detection",
+        "T1556.002:detection",
+        "T1137.004:detection",
+        "T1547.004:detection"
+      ],
+      "dropped_claims": 0,
+      "cites_gold_passage": false,
+      "cites_gold_technique": false,
+      "gold_retrieved": false
+    }
+  ]
+}

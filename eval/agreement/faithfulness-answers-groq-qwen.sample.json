@@ -1,0 +1,202 @@
+[
+  {
+    "item_id": "C01",
+    "answer_id": "3-06",
+    "claim_index": 5
+  },
+  {
+    "item_id": "C02",
+    "answer_id": "8-04",
+    "claim_index": 3
+  },
+  {
+    "item_id": "C03",
+    "answer_id": "8-08",
+    "claim_index": 1
+  },
+  {
+    "item_id": "C04",
+    "answer_id": "3-07",
+    "claim_index": 1
+  },
+  {
+    "item_id": "C05",
+    "answer_id": "3-01",
+    "claim_index": 0
+  },
+  {
+    "item_id": "C06",
+    "answer_id": "3-01",
+    "claim_index": 2
+  },
+  {
+    "item_id": "C07",
+    "answer_id": "3-02",
+    "claim_index": 4
+  },
+  {
+    "item_id": "C08",
+    "answer_id": "4-06",
+    "claim_index": 1
+  },
+  {
+    "item_id": "C09",
+    "answer_id": "2-05",
+    "claim_index": 0
+  },
+  {
+    "item_id": "C10",
+    "answer_id": "2-06",
+    "claim_index": 2
+  },
+  {
+    "item_id": "C11",
+    "answer_id": "8-06",
+    "claim_index": 1
+  },
+  {
+    "item_id": "C12",
+    "answer_id": "3-03",
+    "claim_index": 3
+  },
+  {
+    "item_id": "C13",
+    "answer_id": "2-03",
+    "claim_index": 1
+  },
+  {
+    "item_id": "C14",
+    "answer_id": "3-06",
+    "claim_index": 2
+  },
+  {
+    "item_id": "C15",
+    "answer_id": "3-15",
+    "claim_index": 3
+  },
+  {
+    "item_id": "C16",
+    "answer_id": "4-03",
+    "claim_index": 3
+  },
+  {
+    "item_id": "C17",
+    "answer_id": "8-01",
+    "claim_index": 0
+  },
+  {
+    "item_id": "C18",
+    "answer_id": "8-01",
+    "claim_index": 2
+  },
+  {
+    "item_id": "C19",
+    "answer_id": "4-01",
+    "claim_index": 1
+  },
+  {
+    "item_id": "C20",
+    "answer_id": "3-15",
+    "claim_index": 2
+  },
+  {
+    "item_id": "C21",
+    "answer_id": "3-06",
+    "claim_index": 8
+  },
+  {
+    "item_id": "C22",
+    "answer_id": "8-07",
+    "claim_index": 4
+  },
+  {
+    "item_id": "C23",
+    "answer_id": "2-01",
+    "claim_index": 0
+  },
+  {
+    "item_id": "C24",
+    "answer_id": "8-08",
+    "claim_index": 0
+  },
+  {
+    "item_id": "C25",
+    "answer_id": "3-14",
+    "claim_index": 5
+  },
+  {
+    "item_id": "C26",
+    "answer_id": "2-03",
+    "claim_index": 9
+  },
+  {
+    "item_id": "C27",
+    "answer_id": "8-05",
+    "claim_index": 4
+  },
+  {
+    "item_id": "C28",
+    "answer_id": "3-07",
+    "claim_index": 2
+  },
+  {
+    "item_id": "C29",
+    "answer_id": "8-07",
+    "claim_index": 5
+  },
+  {
+    "item_id": "C30",
+    "answer_id": "3-09",
+    "claim_index": 2
+  },
+  {
+    "item_id": "C31",
+    "answer_id": "3-08",
+    "claim_index": 2
+  },
+  {
+    "item_id": "C32",
+    "answer_id": "4-15",
+    "claim_index": 2
+  },
+  {
+    "item_id": "C33",
+    "answer_id": "8-07",
+    "claim_index": 0
+  },
+  {
+    "item_id": "C34",
+    "answer_id": "2-07",
+    "claim_index": 1
+  },
+  {
+    "item_id": "C35",
+    "answer_id": "4-14",
+    "claim_index": 2
+  },
+  {
+    "item_id": "C36",
+    "answer_id": "3-04",
+    "claim_index": 4
+  },
+  {
+    "item_id": "C37",
+    "answer_id": "3-06",
+    "claim_index": 4
+  },
+  {
+    "item_id": "C38",
+    "answer_id": "8-05",
+    "claim_index": 1
+  },
+  {
+    "item_id": "C39",
+    "answer_id": "2-11",
+    "claim_index": 1
+  },
+  {
+    "item_id": "C40",
+    "answer_id": "8-02",
+    "claim_index": 2
+  }
+]
