@@ -5,12 +5,22 @@ the gold Passage (or at least the gold Technique)? Questions that should be refu
 was it refused, and by which gate?
 """
 
+import re
 from collections import Counter
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
+from typing import Any
 
 from attack_qa.answer import Answer
 from attack_qa.evaluate import ANSWER, EvalQuestion
+
+
+_ACCOUNT_ID = re.compile(r"org_[A-Za-z0-9]{10,}")
+
+
+def error_text(exc: Exception) -> str:
+    """An error for the results file: provider account IDs hidden, at most 300 characters."""
+    return _ACCOUNT_ID.sub("org_REDACTED", f"{type(exc).__name__}: {exc}")[:300]
 
 
 @dataclass(frozen=True)
@@ -44,6 +54,23 @@ class AnswerResult:
         return self.answer is not None and self.question.gold_passage_id in self.answer.retrieved
 
 
+def to_record(r: AnswerResult) -> dict[str, Any]:
+    """One evaluated question as plain JSON; the unit saved, resumed and summarized."""
+    a = r.answer
+    return {
+        "id": r.question.id, "category": r.question.category, "question": r.question.question,
+        "expected": r.question.expected, "gold": r.question.gold_passage_id,
+        "model": r.model_used, "error": r.error,
+        "status": a.status if a else "error", "refused_by": a.refused_by if a else None,
+        "refusal_reason": a.refusal_reason if a else "",
+        "claims": [{"text": c.text, "passage_ids": list(c.passage_ids)} for c in a.claims] if a else [],
+        "retrieved": list(a.retrieved) if a else [],
+        "dropped_claims": a.dropped_claims if a else 0,
+        "cites_gold_passage": r.cites_gold_passage, "cites_gold_technique": r.cites_gold_technique,
+        "gold_retrieved": r.gold_was_retrieved,
+    }
+
+
 @dataclass(frozen=True)
 class AnswerReport:
     category: str
@@ -57,21 +84,23 @@ class AnswerReport:
     refused_by: dict[str, int] = field(default_factory=dict)
 
 
-def summarize_answers(category: str, results: Sequence[AnswerResult]) -> AnswerReport:
-    if not results:
+def summarize_records(category: str, records: Sequence[Mapping[str, Any]]) -> AnswerReport:
+    if not records:
         raise ValueError(f"No results for category {category!r}")
-    refusals = Counter(r.answer.refused_by for r in results
-                       if r.answer is not None and r.answer.status == "refused")
-    errors = sum(r.answer is None for r in results)
-    expected_answer = results[0].question.expected == ANSWER
+    refusals = Counter(str(r["refused_by"]) for r in records if r["status"] == "refused")
+    expected_answer = records[0]["expected"] == ANSWER
+
+    def count(key: str) -> int:
+        return sum(bool(r[key]) for r in records) if expected_answer else 0
+
     return AnswerReport(
         category=category,
-        n=len(results),
-        answered=sum(r.answered for r in results),
+        n=len(records),
+        answered=sum(r["status"] == "answered" for r in records),
         refused=sum(refusals.values()),
-        errors=errors,
-        cites_gold_passage=sum(r.cites_gold_passage for r in results) if expected_answer else 0,
-        cites_gold_technique=sum(r.cites_gold_technique for r in results) if expected_answer else 0,
-        gold_retrieved=sum(r.gold_was_retrieved for r in results) if expected_answer else 0,
-        refused_by={str(k): v for k, v in sorted(refusals.items(), key=lambda kv: str(kv[0]))},
+        errors=sum(r["status"] == "error" for r in records),
+        cites_gold_passage=count("cites_gold_passage"),
+        cites_gold_technique=count("cites_gold_technique"),
+        gold_retrieved=count("gold_retrieved"),
+        refused_by=dict(sorted(refusals.items())),
     )

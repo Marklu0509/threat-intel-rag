@@ -8,8 +8,11 @@ from attack_qa.answer import (
     AnswerDraft,
     Claim,
     ModelRefusalError,
+    FREE_TEXT_NO_DEFENSES,
+    Defenses,
     answer_question,
     build_user_message,
+    system_prompt,
 )
 from attack_qa.bm25_index import Bm25Index
 from attack_qa.claude_model import ClaudeAnswerModel
@@ -115,6 +118,10 @@ def test_prompt_carries_passages_and_revoked_id_note(retriever: HybridRetriever)
     message = build_user_message("What is T1086?", result)
     assert '<passage id="T1059.001:detection">' in message
     assert "the user wrote T1086, which ATT&CK v19.2 revoked and replaced with T1059.001" in message
+    # The system shows the replacement itself; a claim restating it would cite a passage that
+    # doesn't say it (grill-decisions Q37)
+    assert "mention the replacement" not in message
+    assert "Do not state the replacement in a claim" in message
     # the question itself names the live ID, which the passages actually contain
     assert message.rstrip().endswith("Question: What is T1059.001?")
 
@@ -154,3 +161,15 @@ def test_claude_model_raises_on_refusal() -> None:
     client, _ = _stub_client(response)
     with pytest.raises(ModelRefusalError, match="cyber"):
         ClaudeAnswerModel(client=client).draft("system", "user")
+
+
+def test_structured_prompt_carries_the_faithfulness_rules() -> None:
+    """grill-decisions Q38: from the judge-vs-human review (C14 and C23)."""
+    prompt = system_prompt(Defenses())
+    assert "cite every passage it draws on" in prompt
+    assert "keep the whole sequence in one claim" in prompt
+
+
+def test_free_text_control_prompt_is_unchanged_by_the_faithfulness_rules() -> None:
+    # The attack control group must stay comparable with runs made before Q38
+    assert "keep the whole sequence" not in system_prompt(FREE_TEXT_NO_DEFENSES)

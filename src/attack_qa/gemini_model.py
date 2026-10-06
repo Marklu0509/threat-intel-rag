@@ -8,7 +8,7 @@ from typing import Any
 from google import genai
 from google.genai import errors, types
 
-from attack_qa.answer import AnswerDraft, ModelRefusalError
+from attack_qa.answer import AnswerDraft, DailyQuotaExceededError, ModelRefusalError
 
 logger = logging.getLogger(__name__)
 
@@ -22,10 +22,6 @@ _RATE_LIMIT_WAIT_S = 15.0  # free tier allows about 10 requests per minute
 
 class MissingApiKeyError(Exception):
     """GEMINI_API_KEY is not set in the environment."""
-
-
-class DailyQuotaExceededError(Exception):
-    """The model's per-day free-tier quota is used up; retrying within the day is pointless."""
 
 
 def _is_daily_quota(exc: errors.APIError) -> bool:

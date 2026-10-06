@@ -28,10 +28,12 @@ class Passage:
     url: str
     attack_version: str
     no_mitigation: bool = False
+    variant: str = ""  # non-empty only for Poisoned passages in attack tests, e.g. "poison-a"
 
     @property
     def passage_id(self) -> str:
-        return f"{self.technique_id}:{self.kind.value.lower()}"
+        base = f"{self.technique_id}:{self.kind.value.lower()}"
+        return f"{base}#{self.variant}" if self.variant else base
 
 
 def heading(tid: str, name: str, parent: tuple[str, str] | None, kind: PassageKind) -> str:

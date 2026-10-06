@@ -9,7 +9,6 @@ import json
 import logging
 from collections import defaultdict
 from dataclasses import asdict
-from pathlib import Path
 
 from attack_qa.bm25_index import Bm25Index
 from attack_qa.config import INDEX_DIR, PROCESSED_DIR, PROJECT_ROOT

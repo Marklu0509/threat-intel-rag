@@ -11,6 +11,7 @@ htmlcov/
 data/raw/
 data/processed/
 data/index/
+data/index-attack/
 
 # Learning material cloned from elsewhere, not part of this project
 RagFromZero/
