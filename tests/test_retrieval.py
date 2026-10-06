@@ -88,3 +88,20 @@ def test_keeps_dense_cosine_for_the_refusal_gate(retriever: HybridRetriever) -> 
 def test_empty_query_is_rejected(retriever: HybridRetriever) -> None:
     with pytest.raises(ValueError, match="empty"):
         retriever.retrieve("   ")
+
+
+def test_hits_record_each_retrievers_own_rank(retriever: HybridRetriever) -> None:
+    """For the demo's retrieval panel: where BM25 and dense each placed a hit (None = not found)."""
+    result = retriever.retrieve("keylogging keystrokes", top_k=3)
+    top = result.hits[0]
+    assert top.bm25_rank is not None and top.bm25_rank >= 1
+    assert top.dense_rank is not None and top.dense_rank >= 1
+
+
+def test_named_technique_added_by_routing_has_no_retriever_rank(tmp_path: Path) -> None:
+    dense = DenseIndex.build(tmp_path, PASSAGES, FakeEmbedder())
+    retriever = HybridRetriever(PASSAGES, dense, Bm25Index(PASSAGES))
+    hits = retriever.retrieve("T1059.001", top_k=6, candidates=1).hits
+    routed = [h for h in hits if h.passage.passage_id == "T1059.001:overview"][0]
+    assert routed.rank == 1
+    assert routed.dense_rank in (None, 1) and routed.bm25_rank in (None, 1)

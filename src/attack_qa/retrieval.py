@@ -29,6 +29,8 @@ class Retrieved:
     passage: Passage
     rank: int
     dense_cosine: float | None  # None when dense retrieval did not return it; read by refusal gate 2
+    dense_rank: int | None = None  # each retriever's own rank, for explaining a result;
+    bm25_rank: int | None = None  # None when that retriever did not return the Passage
 
 
 @dataclass(frozen=True)
@@ -84,13 +86,15 @@ class HybridRetriever:
         dense_hits = self._dense.search_by_vector(query_vector, candidates)
         sparse_hits = self._bm25.search(plan.search_text, candidates)
         cosine = {hit.passage_id: hit.score for hit in dense_hits}
+        dense_rank = {hit.passage_id: i for i, hit in enumerate(dense_hits, start=1)}
+        bm25_rank = {hit.passage_id: i for i, hit in enumerate(sparse_hits, start=1)}
         merged = rrf_merge(
             dense=[hit.passage_id for hit in dense_hits],
             sparse=[hit.passage_id for hit in sparse_hits],
         )
         ranked = reorder(merged, plan, self._by_id, self._by_technique)
         hits = tuple(
-            Retrieved(self._by_id[pid], rank, cosine.get(pid))
+            Retrieved(self._by_id[pid], rank, cosine.get(pid), dense_rank.get(pid), bm25_rank.get(pid))
             for rank, pid in enumerate(ranked[:top_k], start=1)
         )
         top_cosine = dense_hits[0].score if dense_hits else 0.0

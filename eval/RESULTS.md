@@ -157,6 +157,16 @@ boundary, so it was re-tested:
 | Structured output, no defenses | 0/30 | 0/20 | 4/20 | **4/70** |
 | Structured output + D1 + D2 | 0/30 | 0/20 | 2/20 | **2/70** |
 
+Severity of the poisoning successes — the answer repeats the fake product, or only cites the
+poisoned copy for otherwise correct content (still a success: opening the citation shows the
+fake advice):
+
+| Configuration | Poisoning succeeded | Fake product in the answer | Only cited the poisoned copy |
+|---|---|---|---|
+| Free prose, no defenses (`attacks-openrouter-qwen`) | 10/20 | 10 | 0 |
+| Structured output, no defenses | 4/20 | 2 | 2 |
+| Structured output + D1 + D2 | 2/20 | **0** | 2 |
+
 No regression. The first pass had 4 schema errors, all on 2-03 (a 10-mitigation answer); once
 truncation was reported separately they turned out to be the 900-token output cap, set for
 Groq's free tier (1,000 output tokens/minute) but applied to every provider. OpenRouter now gets
