@@ -32,5 +32,5 @@ for i in $(seq 1 10); do
   total=$(python3 -c "print($total + $t)")
 done
 python3 -c "print(f'- 10 more off-topic questions: mean {$total / 10:.3f} s')"
-docker exec "$NAME" sh -c 'echo "- memory: peak $(( $(cat /sys/fs/cgroup/memory.peak) / 1048576 )) MiB, now $(( $(cat /sys/fs/cgroup/memory.current) / 1048576 )) MiB (limit $MEM)"'
+docker exec -e MEM="$MEM" "$NAME" sh -c 'echo "- memory: peak $(( $(cat /sys/fs/cgroup/memory.peak) / 1048576 )) MiB, now $(( $(cat /sys/fs/cgroup/memory.current) / 1048576 )) MiB (limit $MEM)"'
 docker rm -f "$NAME" >/dev/null
