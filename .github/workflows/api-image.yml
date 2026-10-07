@@ -28,5 +28,18 @@ jobs:
       - name: Build
         run: docker build -t threat-intel-api:ci .
 
-      - name: Measure cold start and memory
-        run: bash deploy/measure.sh threat-intel-api:ci | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Where the image size goes
+        run: |
+          {
+            echo "## Image layers (largest first)"
+            docker history --no-trunc --format '{{.Size}}\t{{.CreatedBy}}' threat-intel-api:ci \
+              | sort -h -r | head -6 | cut -c1-140 | sed 's/^/    /'
+            echo "## Inside the model cache"
+            docker run --rm --entrypoint sh threat-intel-api:ci -c 'du -sh /opt/hf; find /opt/hf -type f -size +100M -exec du -h {} +' | sed 's/^/    /'
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Measure at 2 vCPU / 4 GiB
+        run: bash deploy/measure.sh threat-intel-api:ci 4g 2 | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Measure at 1 vCPU / 2 GiB
+        run: bash deploy/measure.sh threat-intel-api:ci 2g 1 | tee -a "$GITHUB_STEP_SUMMARY"
