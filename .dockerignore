@@ -1,0 +1,7 @@
+# Only pyproject.toml, src/ and the evaluated passages + index go into the image
+*
+!pyproject.toml
+!src/
+!data/processed/
+!data/index/
+**/__pycache__
