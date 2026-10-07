@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  packages: write  # push the image to GitHub Container Registry
 
 jobs:
   build-and-measure:
@@ -38,8 +39,16 @@ jobs:
             docker run --rm --entrypoint sh threat-intel-api:ci -c 'du -sh /opt/hf; find /opt/hf -type f -size +100M -exec du -h {} +' | sed 's/^/    /'
           } | tee -a "$GITHUB_STEP_SUMMARY"
 
-      - name: Measure at 2 vCPU / 4 GiB
-        run: bash deploy/measure.sh threat-intel-api:ci 4g 2 | tee -a "$GITHUB_STEP_SUMMARY"
-
-      - name: Measure at 1 vCPU / 2 GiB
+      - name: Measure at 1 vCPU / 2 GiB (the deployed size, Q52)
         run: bash deploy/measure.sh threat-intel-api:ci 2g 1 | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Push to GitHub Container Registry
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          IMAGE=ghcr.io/marklu0509/threat-intel-api
+          echo "$GH_TOKEN" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          docker tag threat-intel-api:ci "$IMAGE:${GITHUB_SHA::12}"
+          docker push "$IMAGE:${GITHUB_SHA::12}"
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then docker tag threat-intel-api:ci "$IMAGE:latest" && docker push "$IMAGE:latest"; fi
+          echo "- pushed \`$IMAGE:${GITHUB_SHA::12}\`" | tee -a "$GITHUB_STEP_SUMMARY"
