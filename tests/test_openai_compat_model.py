@@ -132,3 +132,16 @@ def test_output_cap_is_per_provider() -> None:
                                         client=SimpleNamespace(chat=SimpleNamespace(completions=completions)))
     model.draft("s", "u")
     assert completions.calls[0]["max_tokens"] == OPENROUTER.max_output_tokens > GROQ.max_output_tokens == 900
+
+
+def test_api_key_whitespace_is_stripped(monkeypatch: pytest.MonkeyPatch) -> None:
+    """A key copied from a terminal often ends in a newline; as a header value that fails every call."""
+    from attack_qa.openai_compat_model import _client_for
+    monkeypatch.setenv("GROQ_API_KEY", "gsk_test_value\n")
+    assert _client_for(GROQ).api_key == "gsk_test_value"
+
+
+def test_whitespace_only_key_counts_as_missing(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("GROQ_API_KEY", " \n")
+    with pytest.raises(MissingApiKeyError):
+        OpenAICompatibleAnswerModel()

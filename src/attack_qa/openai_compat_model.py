@@ -71,7 +71,7 @@ class MissingApiKeyError(Exception):
 
 
 def _client_for(provider: Provider) -> openai.OpenAI:
-    key = os.environ.get(provider.key_env, "")
+    key = os.environ.get(provider.key_env, "").strip()  # a pasted key often ends in a newline
     if not key:
         raise MissingApiKeyError(
             f"{provider.key_env} is not set. Store the key in the macOS keychain and export it "
