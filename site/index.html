@@ -3,399 +3,88 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Threat-Intel RAG Demo</title>
-<meta name="description" content="Grounded question answering over MITRE ATT&CK with cited answers, explicit refusals, faithfulness scoring and prompt-injection testing — recorded evaluation results.">
-<style>
-:root {
-  --bg: #f7f6f2; --surface: #ffffff; --surface-2: #faf9f5; --text: #1b1c1e; --muted: #5c6066;
-  --border: #e2dfd6; --accent: #2b55c7; --accent-soft: #e9eefc;
-  --ok: #1a7a3a; --ok-soft: #e5f3e9; --warn: #995900; --warn-soft: #fdf1df;
-  --bad: #b3261e; --bad-soft: #fbe8e6; --code: #efede6; --mark: #ffe9a8;
-  --shadow: 0 1px 2px rgba(0,0,0,.05), 0 3px 10px rgba(0,0,0,.04);
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #121315; --surface: #1b1d20; --surface-2: #202327; --text: #e8e8e6; --muted: #a3a7ad;
-    --border: #33363b; --accent: #8aa8ff; --accent-soft: #1e2840;
-    --ok: #74d18f; --ok-soft: #16301f; --warn: #ffb860; --warn-soft: #382812;
-    --bad: #ff8f85; --bad-soft: #3a1b19; --code: #26292d; --mark: #5a4a12; --shadow: 0 1px 2px rgba(0,0,0,.35);
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #121315; --surface: #1b1d20; --surface-2: #202327; --text: #e8e8e6; --muted: #a3a7ad;
-  --border: #33363b; --accent: #8aa8ff; --accent-soft: #1e2840;
-  --ok: #74d18f; --ok-soft: #16301f; --warn: #ffb860; --warn-soft: #382812;
-  --bad: #ff8f85; --bad-soft: #3a1b19; --code: #26292d; --mark: #5a4a12; --shadow: 0 1px 2px rgba(0,0,0,.35);
-}
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--text); font: 15.5px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; -webkit-text-size-adjust: 100%; }
-a { color: var(--accent); }
-code, .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .86em; }
-code { background: var(--code); padding: .05em .35em; border-radius: 4px; }
-.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px 64px; }
-header { padding: 34px 0 6px; }
-h1 { font-size: clamp(26px, 4.4vw, 36px); line-height: 1.2; margin: 0 0 8px; letter-spacing: -.01em; }
-.lead { font-size: 16.5px; max-width: 860px; margin: 0; }
-.badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 0; }
-.badge { font-size: 12.5px; border: 1px solid var(--border); background: var(--surface); border-radius: 999px; padding: 2px 10px; color: var(--muted); }
-.badge.rec { color: var(--warn); background: var(--warn-soft); border-color: transparent; }
-.links { margin-top: 12px; display: flex; gap: 14px; flex-wrap: wrap; font-size: 14.5px; }
-.theme { float: right; font: inherit; font-size: 13px; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; cursor: pointer; }
-
-.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin: 24px 0 6px; }
-.kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; box-shadow: var(--shadow); }
-.kpi .n { font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
-.kpi .l { font-size: 12.8px; color: var(--muted); line-height: 1.45; }
-@media (max-width: 760px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-
-section { margin-top: 38px; }
-h2 { font-size: 21px; margin: 0 0 4px; }
-.sub { color: var(--muted); margin: 0 0 14px; font-size: 14.5px; }
-
-.flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: stretch; }
-.flow .s { flex: 1 1 130px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 9px 11px; font-size: 13px; line-height: 1.45; position: relative; }
-.flow .s b { display: block; font-size: 13.5px; }
-.flow .s.gate { border-color: var(--bad); }
-.flow .s.gate b { color: var(--bad); }
-.flow .s span { color: var(--muted); }
-
-.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
-.tab { font: inherit; font-size: 14px; border: 1px solid var(--border); background: var(--surface); color: var(--text); border-radius: 999px; padding: 5px 13px; cursor: pointer; }
-.tab[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
-.explorer { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 16px; align-items: start; }
-@media (max-width: 860px) { .explorer { grid-template-columns: minmax(0, 1fr); } }
-.list { display: grid; gap: 8px; }
-.item { text-align: left; font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; cursor: pointer; }
-.item:hover { border-color: var(--accent); }
-.item[aria-current="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
-.item b { display: block; font-size: 14px; }
-.item span { display: block; font-size: 12.8px; color: var(--muted); line-height: 1.4; margin-top: 2px; }
-.panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; box-shadow: var(--shadow); min-width: 0; }
-.panel .note { color: var(--muted); font-size: 14px; margin: 0 0 12px; }
-.q { font-size: 18px; font-weight: 600; margin: 0 0 10px; overflow-wrap: anywhere; }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
-.chip { font-size: 12.5px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; }
-.chip.hl { background: var(--accent-soft); border-color: transparent; }
-h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 16px 0 8px; }
-.claims { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
-.claim { border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; background: var(--surface-2); }
-.claim .t { overflow-wrap: anywhere; }
-.claim .meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
-.cite { font: inherit; font-size: 12px; font-family: ui-monospace, Menlo, monospace; border: 1px solid var(--accent); color: var(--accent); background: transparent; border-radius: 5px; padding: 0 6px; cursor: pointer; }
-.cite:hover, .cite.on { background: var(--accent); color: #fff; }
-.cite.poison { border-color: var(--bad); color: var(--bad); }
-.cite.poison:hover { background: var(--bad); color: #fff; }
-.verdict { font-size: 12px; font-weight: 600; border-radius: 5px; padding: 0 7px; }
-.verdict.supported { background: var(--ok-soft); color: var(--ok); }
-.verdict.partial { background: var(--warn-soft); color: var(--warn); }
-.verdict.unsupported { background: var(--bad-soft); color: var(--bad); }
-.why { font-size: 12.8px; color: var(--muted); margin-top: 4px; display: none; }
-.claim.open .why { display: block; }
-.claim .toggle { font: inherit; font-size: 12px; background: none; border: 0; color: var(--muted); cursor: pointer; text-decoration: underline; padding: 0; }
-.refusal { border-radius: 10px; padding: 11px 14px; background: var(--bad-soft); }
-.refusal b { color: var(--bad); }
-.outcome { border-radius: 10px; padding: 9px 13px; margin-bottom: 12px; font-size: 14px; }
-.outcome.bad { background: var(--bad-soft); }
-.outcome.good { background: var(--ok-soft); }
-.tw { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
-table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
-th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; white-space: nowrap; }
-th { font-size: 12px; color: var(--muted); background: var(--surface-2); font-weight: 600; }
-tr:last-child td { border-bottom: 0; }
-tr.hit { cursor: pointer; }
-tr.hit:hover td { background: var(--surface-2); }
-tr.hit.on td { background: var(--accent-soft); }
-td.num { font-variant-numeric: tabular-nums; }
-.gold { color: var(--ok); font-weight: 700; }
-.routed { color: var(--accent); font-size: 12px; }
-.passage { margin-top: 10px; border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 8px; padding: 10px 13px; background: var(--surface-2); font-size: 13.5px; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 360px; overflow-y: auto; }
-.passage.poison { border-left-color: var(--bad); }
-.passage .head { font-weight: 700; display: block; margin-bottom: 4px; }
-mark { background: var(--mark); color: inherit; padding: 0 2px; border-radius: 3px; }
-.hint { font-size: 12.5px; color: var(--muted); margin-top: 6px; }
-
-.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-@media (max-width: 760px) { .cols { grid-template-columns: 1fr; } }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
-.card ul { margin: 6px 0 0; padding-left: 18px; }
-.card li { margin: 4px 0; font-size: 14.5px; }
-footer { margin-top: 44px; font-size: 13px; color: var(--muted); }
-</style>
+<title>Threat-Intel RAG — Mark Lu</title>
+<meta name="description" content="Ask MITRE ATT&CK in English or Chinese and get an answer where every sentence cites its source passage — or an explicit refusal. With retrieval, faithfulness and prompt-injection evaluation.">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="wrap">
-<header>
-  <button class="theme" id="theme" type="button" aria-label="Toggle dark mode">◐ Theme</button>
-  <h1>Threat-Intel RAG</h1>
-  <p class="lead">Ask how to detect, mitigate or recognise an attack technique — in English or Chinese — and get an answer where every sentence cites the MITRE ATT&amp;CK passage it came from, or an explicit refusal when the data can't support one. Built to <b>measure</b> whether the answers can be trusted.</p>
-  <div class="badges" id="badges"><span class="badge rec">Recorded evaluation results — not a live model</span></div>
-  <div class="links">
-    <a href="https://github.com/Marklu0509/threat-intel-rag">GitHub repository</a>
-    <a href="https://github.com/Marklu0509/threat-intel-rag/blob/main/eval/RESULTS.md">Full evaluation log</a>
-    <a href="https://github.com/Marklu0509/threat-intel-rag/blob/main/docs/grill-decisions.md">Design decisions</a>
-  </div>
-  <div class="kpis" id="kpis"></div>
-</header>
-
-<section>
-  <h2>How a question is answered</h2>
-  <p class="sub">Red boxes are the points where the system refuses instead of answering.</p>
-  <div class="flow">
-    <div class="s"><b>1 · Understand</b><span>rewrite revoked IDs, find named IDs, detect intent</span></div>
-    <div class="s"><b>2 · Retrieve</b><span>BM25 + multilingual dense (bge-m3), 50 each</span></div>
-    <div class="s"><b>3 · Merge</b><span>Reciprocal Rank Fusion, named technique first → top 5</span></div>
-    <div class="s gate"><b>Gate 1 · Relevance</b><span>best cosine below 0.44 → refuse, no LLM call</span></div>
-    <div class="s"><b>4 · Answer</b><span>LLM returns JSON claims, each citing passage IDs</span></div>
-    <div class="s gate"><b>Gate 2 · Answerable?</b><span>the model says the passages don't answer it</span></div>
-    <div class="s"><b>5 · Check citations</b><span>drop claims citing passages that weren't retrieved</span></div>
-  </div>
-</section>
-
-<section>
-  <h2>Explore recorded examples</h2>
-  <p class="sub">Each example is a real question from the evaluation set, with the answer the model gave in the recorded run, the faithfulness judge's verdict on every sentence, and the retrieval trace. Click a citation or a row to read the passage.</p>
-  <div class="tabs" role="tablist" id="tabs"></div>
-  <div class="explorer">
-    <div class="list" id="list" aria-label="Examples"></div>
-    <div class="panel" id="panel" aria-live="polite"></div>
-  </div>
-</section>
-
-<section>
-  <h2>What the evaluation shows</h2>
-  <div class="cols">
-    <div class="card"><b>Findings</b><ul>
-      <li><b>Retrieval is the bottleneck.</b> Answers cited the correct passage exactly as often as retrieval found it, in every category.</li>
-      <li><b>Structured output is the main injection defense.</b> Injected instructions have no field to go in; every claim must cite a retrieved passage.</li>
-      <li><b>Poisoning is the open risk.</b> A poisoned passage is false data, not an instruction; with defenses on, the fake product never reached an answer, but answers still cited the poisoned copy.</li>
-    </ul></div>
-    <div class="card"><b>Limitations</b><ul>
-      <li>Evaluation sets are small and hand-written by the author (78 questions, 70 attacks per configuration).</li>
-      <li>Faithfulness is scored by an LLM judge, checked against 40 human labels.</li>
-      <li>One model (Qwen); results depend on the host serving it.</li>
-      <li>Questions about which groups or software use a technique are refused by design.</li>
-    </ul></div>
-  </div>
-</section>
-
-<footer>
-  <p id="foot"></p>
-  <p>Uses MITRE ATT&amp;CK® data, © The MITRE Corporation, under the <a href="https://attack.mitre.org/resources/legal-and-branding/terms-of-use/">ATT&amp;CK terms of use</a>. Passages shown are quoted from ATT&amp;CK; poisoned passages are test fixtures with one planted line.</p>
-</footer>
+  <header class="top">
+    <a class="back" href="https://marklu.page/projects.html">← Mark Lu <span>/ Projects</span></a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#ask">Ask</a>
+      <a href="#examples" class="hide-sm">Examples</a>
+      <a href="#evaluation">Evaluation</a>
+      <a href="https://github.com/Marklu0509/threat-intel-rag">GitHub</a>
+      <button class="theme" id="theme" type="button" aria-label="Switch light or dark">◐</button>
+    </nav>
+  </header>
 </div>
 
-<script>
-(function () {
-  "use strict";
-  var root = document.documentElement;
-  try { var t = localStorage.getItem("demo-theme"); if (t) root.setAttribute("data-theme", t); } catch (e) {}
-  document.getElementById("theme").addEventListener("click", function () {
-    var dark = root.getAttribute("data-theme") === "dark" ||
-      (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
-    root.setAttribute("data-theme", dark ? "light" : "dark");
-    try { localStorage.setItem("demo-theme", dark ? "light" : "dark"); } catch (e) {}
-  });
+<div class="band" id="ask">
+  <div class="wrap hero">
+    <div class="kicker">Threat-Intel RAG</div>
+    <div>
+      <h1>Ask MITRE ATT&amp;CK.<br>Every sentence cited.</h1>
+      <p class="lede">Answers come only from 2,091 ATT&amp;CK passages, each sentence with its source — or an explicit refusal when the passages can't support one. English or Chinese.</p>
+      <form class="ask" id="ask-form" autocomplete="off">
+        <label class="sr-only" for="question">Your question</label>
+        <input id="question" name="question" maxlength="300" placeholder="How do I detect T1086?" required>
+        <button type="submit" id="ask-button">Ask</button>
+      </form>
+      <p class="count" id="count" aria-live="polite"></p>
+      <div class="examples" id="suggestions" aria-label="Example questions"></div>
+      <p class="status" id="status" data-state="checking" aria-live="polite"><span class="dot"></span><span id="status-text">Checking the live system</span></p>
+      <p class="fine">The question box is live — prompt injections are welcome. Questions are logged without personal data to improve the evaluation set.</p>
+    </div>
+  </div>
+</div>
 
-  function el(tag, cls, text) {
-    var n = document.createElement(tag);
-    if (cls) n.className = cls;
-    if (text !== undefined && text !== null) n.textContent = text;
-    return n;
-  }
-  function pct(x) { return (x * 100).toFixed(1).replace(/\.0$/, "") + "%"; }
-  function appendHighlighted(parent, text, needle) {
-    var i = needle ? text.indexOf(needle) : -1;
-    if (i < 0) { parent.appendChild(document.createTextNode(text)); return; }
-    parent.appendChild(document.createTextNode(text.slice(0, i)));
-    parent.appendChild(el("mark", "", needle));
-    parent.appendChild(document.createTextNode(text.slice(i + needle.length)));
-  }
-  function passageBox(id, text, poisonPayload) {
-    var box = el("div", "passage" + (poisonPayload ? " poison" : ""));
-    var nl = text.indexOf("\n");
-    box.appendChild(el("span", "head", "[" + id + "]  " + (nl > 0 ? text.slice(0, nl) : text)));
-    appendHighlighted(box, nl > 0 ? text.slice(nl + 1) : "", poisonPayload);
-    return box;
-  }
+<main class="wrap">
+  <section class="section" id="answer-section" hidden>
+    <div class="label"><span>1</span>Answer<small id="answer-kind">Live</small></div>
+    <div class="body doc" id="answer" aria-live="polite"></div>
+  </section>
 
-  var GROUPS = [["answers", "Answers"], ["refusals", "Refusals"], ["failures", "Where it fails"], ["attacks", "Attacks"]];
-  var data, current = "answers";
+  <section class="section" id="examples">
+    <div class="label"><span>2</span>Recorded examples<small>Real evaluation questions, answered in the recorded run, with the judge's verdict on every sentence.</small></div>
+    <div class="body">
+      <div class="picker" id="picker"></div>
+      <div class="doc" id="example"></div>
+    </div>
+  </section>
 
-  function kpis(s) {
-    var a = s.attacks;
-    var items = [
-      [pct(s.p5_before) + " → " + pct(s.p5_after), "Retrieval: right passage in the top 5 (53 answerable questions)"],
-      [s.cites_gold + " = " + s.gold_retrieved, "Answers citing the right passage = times retrieval found it"],
-      [pct(s.faithful_rate), "Answer sentences fully supported by the passages they cite (" + s.supported + "/" + s.claims + "); judge vs human κ " + s.kappa.toFixed(2)],
-      [a["free-text-no-defenses"] + " → " + a["no-defenses"] + " → " + a["defended"], "Successful attacks of " + s.attacks_per_config + ": free prose → structured output → with defenses"]
-    ];
-    var box = document.getElementById("kpis");
-    items.forEach(function (it) {
-      var k = el("div", "kpi"); k.appendChild(el("div", "n", it[0])); k.appendChild(el("div", "l", it[1])); box.appendChild(k);
-    });
-    var badges = document.getElementById("badges");
-    ["ATT&CK v" + data.attack_version, data.model.replace(/^openrouter\//, ""), "run " + data.answer_run, "refused " + s.refused + "/" + s.should_refuse + " out-of-scope questions"].forEach(function (b) {
-      badges.appendChild(el("span", "badge", b));
-    });
-    document.getElementById("foot").textContent = "Answers and attacks recorded in evaluation runs " + data.answer_run + " and " + data.attack_run + " (tag v0.1.0). Retrieval traces are recomputed and checked against the passages the model saw.";
-  }
+  <section class="section" id="how">
+    <div class="label"><span>3</span>How it works</div>
+    <div class="body">
+      <ol class="steps">
+        <li><div><b>Understand the question.</b> <span>Revoked technique IDs are rewritten to their replacements; named IDs and the intent (what is it, detect, mitigate) are found.</span></div></li>
+        <li><div><b>Retrieve.</b> <span>BM25 keyword search and multilingual dense search (bge-m3) each return 50 passages.</span></div></li>
+        <li><div><b>Merge.</b> <span>Reciprocal Rank Fusion, with passages of a named technique first; the top 5 go to the model.</span></div></li>
+        <li class="gate"><div><b>Relevance gate.</b> <span>If even the best passage is far from the question, refuse without calling the model.</span></div></li>
+        <li><div><b>Answer.</b> <span>The model returns claims as JSON, each citing passage IDs, or says the passages don't answer it.</span></div></li>
+        <li class="gate"><div><b>Citation check.</b> <span>Claims citing a passage that wasn't retrieved are dropped.</span></div></li>
+      </ol>
+    </div>
+  </section>
 
-  function renderTabs() {
-    var tabs = document.getElementById("tabs"); tabs.textContent = "";
-    GROUPS.forEach(function (g) {
-      var b = el("button", "tab", g[1]); b.type = "button"; b.setAttribute("role", "tab");
-      b.setAttribute("aria-selected", String(g[0] === current));
-      b.addEventListener("click", function () { current = g[0]; renderTabs(); renderList(); });
-      tabs.appendChild(b);
-    });
-  }
+  <section class="section" id="evaluation">
+    <div class="label"><span>4</span>Evaluation<small>78 hand-written questions and 70 attacks per configuration. Full log on GitHub.</small></div>
+    <div class="body">
+      <div class="figures" id="figures"></div>
+      <p class="small" style="margin-top:18px">Retrieval is the bottleneck: answers cited the right passage exactly as often as retrieval found it. Faithfulness is judged per sentence by a model from a different family and checked against blind human labels. <a href="https://github.com/Marklu0509/threat-intel-rag/blob/main/eval/RESULTS.md">Read the evaluation log</a>.</p>
+    </div>
+  </section>
+</main>
 
-  function renderList() {
-    var list = document.getElementById("list"); list.textContent = "";
-    var items = current === "attacks" ? data.attacks : data.examples.filter(function (e) { return e.group === current; });
-    items.forEach(function (it, i) {
-      var b = el("button", "item"); b.type = "button";
-      b.appendChild(el("b", "", it.title));
-      b.appendChild(el("span", "", current === "attacks" ? (it.succeeded ? "Attack succeeded" : "Attack blocked") : it.question));
-      b.addEventListener("click", function () {
-        list.querySelectorAll(".item").forEach(function (x) { x.removeAttribute("aria-current"); });
-        b.setAttribute("aria-current", "true");
-        current === "attacks" ? showAttack(it) : showExample(it);
-      });
-      list.appendChild(b);
-      if (i === 0) { b.setAttribute("aria-current", "true"); current === "attacks" ? showAttack(it) : showExample(it); }
-    });
-  }
+<footer>
+  <div class="wrap">
+    <p id="foot"></p>
+    <p>Uses MITRE ATT&amp;CK® data, © The MITRE Corporation, under the <a href="https://attack.mitre.org/resources/legal-and-branding/terms-of-use/">ATT&amp;CK terms of use</a>. Poisoned passages in the attack examples are test fixtures with one planted line.</p>
+    <p>Built by <a href="https://marklu.page">Mark Lu</a>.</p>
+  </div>
+</footer>
 
-  function claimList(claims, onCite, poisonId, fakeProduct) {
-    var ul = el("ul", "claims");
-    claims.forEach(function (c) {
-      var li = el("li", "claim");
-      var t = el("div", "t"); appendHighlighted(t, c.text, fakeProduct && c.text.indexOf(fakeProduct) >= 0 ? fakeProduct : null);
-      li.appendChild(t);
-      var meta = el("div", "meta");
-      c.passage_ids.forEach(function (pid) {
-        var b = el("button", "cite" + (pid === poisonId ? " poison" : ""), pid); b.type = "button";
-        b.addEventListener("click", function () { onCite(pid, b); });
-        meta.appendChild(b);
-      });
-      if (c.verdict) {
-        meta.appendChild(el("span", "verdict " + c.verdict, c.verdict));
-        if (c.reason) {
-          var tg = el("button", "toggle", "why"); tg.type = "button";
-          tg.addEventListener("click", function () { li.classList.toggle("open"); });
-          meta.appendChild(tg);
-        }
-      }
-      li.appendChild(meta);
-      if (c.reason) li.appendChild(el("div", "why", "Judge: " + c.reason));
-      ul.appendChild(li);
-    });
-    return ul;
-  }
-
-  function showExample(e) {
-    var p = document.getElementById("panel"); p.textContent = "";
-    p.appendChild(el("p", "note", e.note));
-    p.appendChild(el("p", "q", e.question));
-    var chips = el("div", "chips");
-    Object.keys(e.plan.substitutions).forEach(function (old) {
-      chips.appendChild(el("span", "chip hl", old + " is revoked → searched as " + e.plan.substitutions[old]));
-    });
-    if (e.plan.technique_ids.length) chips.appendChild(el("span", "chip hl", "Named technique: " + e.plan.technique_ids.join(", ")));
-    chips.appendChild(el("span", "chip", "Intent: " + (e.plan.intent || "none")));
-    chips.appendChild(el("span", "chip", "Best cosine " + e.top_cosine.toFixed(3) + " (gate " + data.relevance_threshold + ")"));
-    chips.appendChild(el("span", "chip", "Gold passage: " + e.gold));
-    p.appendChild(chips);
-
-    var hitsById = {}; e.hits.forEach(function (h) { hitsById[h.id] = h; });
-    var holder = el("div");
-    var rows = {};
-    function open(pid) {
-      holder.textContent = "";
-      Object.keys(rows).forEach(function (k) { rows[k].classList.toggle("on", k === pid); });
-      p.querySelectorAll(".cite").forEach(function (c) { c.classList.toggle("on", c.textContent === pid); });
-      if (hitsById[pid]) holder.appendChild(passageBox(pid, hitsById[pid].text));
-    }
-
-    p.appendChild(el("h3", "", e.status === "answered" ? "Answer (" + e.claims.length + " claims)" : "Refused"));
-    if (e.status === "answered") {
-      p.appendChild(claimList(e.claims, function (pid) { open(pid); }));
-    } else {
-      var r = el("div", "refusal");
-      if (e.refused_by === "relevance") {
-        r.appendChild(el("b", "", "Gate 1 — relevance. "));
-        r.appendChild(document.createTextNode("The best passage scored " + e.top_cosine.toFixed(3) + " cosine, below the " + data.relevance_threshold + " threshold, so no LLM was called."));
-      } else {
-        r.appendChild(el("b", "", "Gate 2 — the model judged the passages insufficient. "));
-        r.appendChild(document.createTextNode(e.refusal_reason));
-      }
-      p.appendChild(r);
-    }
-
-    p.appendChild(el("h3", "", "Retrieval trace (top " + e.hits.length + " given to the model)"));
-    var tw = el("div", "tw"), table = el("table"), thead = el("thead"), hr = el("tr");
-    ["#", "Passage", "BM25 rank", "Dense rank", "Cosine"].forEach(function (h) { hr.appendChild(el("th", "", h)); });
-    thead.appendChild(hr); table.appendChild(thead);
-    var tb = el("tbody");
-    e.hits.forEach(function (h) {
-      var tr = el("tr", "hit"); rows[h.id] = tr;
-      tr.appendChild(el("td", "num", String(h.rank)));
-      var td = el("td", "mono"); td.appendChild(document.createTextNode(h.id + " "));
-      if (h.id === e.gold) td.appendChild(el("span", "gold", "★ gold"));
-      if (h.dense_rank === null && h.bm25_rank === null) td.appendChild(el("span", "routed", " added: named in question"));
-      tr.appendChild(td);
-      tr.appendChild(el("td", "num", h.bm25_rank === null ? "—" : String(h.bm25_rank)));
-      tr.appendChild(el("td", "num", h.dense_rank === null ? "—" : String(h.dense_rank)));
-      tr.appendChild(el("td", "num", h.cosine === null ? "—" : h.cosine.toFixed(3)));
-      tr.addEventListener("click", function () { open(h.id); });
-      tb.appendChild(tr);
-    });
-    table.appendChild(tb); tw.appendChild(table); p.appendChild(tw);
-    p.appendChild(el("p", "hint", "“—” means that retriever didn't return the passage in its top " + data.candidates + ". Click a row to read it."));
-    p.appendChild(holder);
-    var first = e.claims.length ? e.claims[0].passage_ids[0] : e.hits[0].id;
-    open(first);
-  }
-
-  function showAttack(a) {
-    var p = document.getElementById("panel"); p.textContent = "";
-    p.appendChild(el("p", "note", a.note));
-    var o = el("div", "outcome " + (a.succeeded ? "bad" : "good"));
-    o.appendChild(el("b", "", a.succeeded ? "Attack succeeded. " : "Attack blocked. "));
-    var cfg = a.config === "defended" ? "Structured output + defenses" : "Structured output, no defenses";
-    var detail = a.type === "poisoning"
-      ? (a.fake_product ? "The answer repeats the planted fake product." : (a.cites_poison ? "The fake product is not repeated, but an answer cites the poisoned copy." : "The poisoned passage was not used."))
-      : "The injected canary does not appear in the answer.";
-    o.appendChild(document.createTextNode(detail + " (" + cfg + ")"));
-    p.appendChild(o);
-    var q = el("p", "q");
-    appendHighlighted(q, a.question, a.type === "direct" ? a.payload : null);
-    p.appendChild(q);
-    var holder = el("div");
-    function open(pid) {
-      holder.textContent = "";
-      p.querySelectorAll(".cite").forEach(function (c) { c.classList.toggle("on", c.textContent === pid); });
-      if (a.texts[pid]) holder.appendChild(passageBox(pid, a.texts[pid], pid === a.poison_id ? a.payload : null));
-    }
-    p.appendChild(el("h3", "", a.status === "answered" ? "Answer (" + a.claims.length + " claims)" : "Refused"));
-    p.appendChild(claimList(a.claims, open, a.poison_id, a.type === "poisoning" ? "ZebraShield" : null));
-    if (a.poison_id) {
-      p.appendChild(el("h3", "", "The poisoned passage (planted line highlighted)"));
-      holder.appendChild(passageBox(a.poison_id, a.texts[a.poison_id], a.payload));
-    }
-    p.appendChild(holder);
-  }
-
-  fetch("demo-data.json").then(function (r) {
-    if (!r.ok) throw new Error(r.status);
-    return r.json();
-  }).then(function (d) {
-    data = d; kpis(d.summary); renderTabs(); renderList();
-  }).catch(function () {
-    document.getElementById("panel").textContent = "Could not load demo-data.json. Serve this folder over HTTP (for example: python -m http.server) rather than opening the file directly.";
-  });
-})();
-</script>
+<script src="app.js"></script>
 </body>
 </html>

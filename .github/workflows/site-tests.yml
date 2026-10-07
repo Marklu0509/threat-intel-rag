@@ -1,0 +1,26 @@
+# Browser tests for the demo page (grill-decisions Q51). The API is faked, so no quota is used.
+name: Site tests
+
+on:
+  push:
+    paths: ["site/**", "e2e/**", ".github/workflows/site-tests.yml"]
+  pull_request:
+    paths: ["site/**", "e2e/**"]
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Playwright
+        run: |
+          pip install "pytest>=8" "pytest-playwright==0.9.0" "playwright==1.63.0"
+          python -m playwright install --with-deps chromium
+      - name: Run browser tests
+        run: python -m pytest -o addopts="" e2e -v
