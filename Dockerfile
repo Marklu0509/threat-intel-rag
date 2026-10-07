@@ -14,10 +14,11 @@ COPY pyproject.toml ./
 RUN python -c "import tomllib; print('\n'.join(tomllib.load(open('pyproject.toml','rb'))['project']['dependencies']))" \
       > /tmp/requirements.txt && pip install -r /tmp/requirements.txt
 
-# 3. bge-m3 baked into the image, so a cold start never downloads it (Q44). The repo also ships
-#    the same weights as pytorch_model.bin and as ONNX; only the safetensors copy is loaded, so
-#    fetching the others would add 2.2 GB each. The load check runs offline to prove nothing is missing.
-RUN python -c "from huggingface_hub import snapshot_download; snapshot_download('BAAI/bge-m3', ignore_patterns=['pytorch_model.bin', 'onnx/*', '*.onnx', '*.onnx_data'])" \
+# 3. bge-m3 baked into the image, so a cold start never downloads it (Q44). The repo ships its
+#    weights twice: pytorch_model.bin (what sentence-transformers loads) and an ONNX export
+#    (onnx/, another 2.27 GB). Skip the ONNX copy; the load check runs offline to prove nothing
+#    needed is missing.
+RUN python -c "from huggingface_hub import snapshot_download; snapshot_download('BAAI/bge-m3', ignore_patterns=['onnx/*'])" \
  && HF_HUB_OFFLINE=1 python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('BAAI/bge-m3')"
 ENV HF_HUB_OFFLINE=1
 
