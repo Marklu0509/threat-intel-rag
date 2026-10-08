@@ -4,9 +4,9 @@ Grounded question answering over **MITRE ATT&CK**: ask how to detect, mitigate o
 attack technique — in English or Chinese — and get an answer where every sentence cites the ATT&CK
 passage it came from, or an explicit refusal when the data doesn't support an answer.
 
-**Demo (recorded results, no setup):** https://rag.marklu.page/ — real
-evaluation questions with each answer's citations, the judge's verdict on every sentence, and the
-retrieval trace.
+**Live demo:** https://rag.marklu.page/ — ask your own question (English or Chinese), or browse
+recorded evaluation runs with each answer's citations, the judge's verdict on every sentence, and
+the retrieval trace. The question box is live; prompt injections are welcome.
 
 Most RAG demos stop at "it answers". This one is built to **measure** whether its answers can be
 trusted: a 78-question evaluation set, separate scores for retrieval and generation, and a
@@ -141,6 +141,31 @@ Results (Qwen `qwen3.8-27b` via OpenRouter, pinned to one host; `eval/results/at
 - **Re-tested after every prompt change**: the prompt rules added from the faithfulness review did
   not raise attack success (5 → 4 and 2 → 2).
 
+## Live demo and deployment
+
+```mermaid
+flowchart LR
+    V[Visitor] --> P["rag.marklu.page<br/>static page, GitHub Pages"]
+    P -- "/ask, /health" --> A["FastAPI on Azure Container Apps<br/>Japan West, 1 vCPU / 2 GiB, always on"]
+    A --> G[Groq: Qwen3.8-27B]
+    GH[git push to main] --> T[Tests] --> B["Build image<br/>v0.1.0 index, SHA-256 checked"] --> D["Deploy via OIDC"] --> S{"Smoke test"}
+    S -- fail --> R[Roll back to previous image]
+```
+
+- **Same pipeline as the evaluation**: the image is built from the release asset of the evaluated
+  passages and index (SHA-256 checked) and bge-m3 in full precision; a half-precision model
+  changed the top 5 for 4 of 78 questions, so it was rejected.
+- **Public endpoint, bounded cost**: 10 questions per IP per hour, 50 per day site-wide, 300
+  characters; the only key it holds is Groq's free tier. Questions are logged without IPs.
+- **CI/CD** (`.github/workflows/deploy.yml`): tests, image build and measurement, then sign-in to
+  Azure with OIDC — a managed identity that trusts only this repo's `production` environment and
+  can change one resource group, with no stored password. The smoke test waits until `/health`
+  reports the new commit, checks the LLM link and one cited answer, and rolls back on failure.
+- **What deployment taught** (`docs/grill-decisions.md` Q54–Q56): Groq refuses requests from Hong
+  Kong (Azure "East Asia"); a container kept crash-looping on settings saved before a fix, because
+  updating settings does not replace a running container. `/health?check=llm` now reports whether
+  the server can reach the LLM, without exposing any key.
+
 ## Design decisions
 
 - [`CONTEXT.md`](CONTEXT.md) — glossary (Passage, Passage kind, Revoked ID, Refusal, ...)
@@ -158,7 +183,8 @@ python scripts/build_index.py        # embed 2,091 passages with bge-m3 (~2 min 
 python scripts/ask.py "How do I detect T1543.001?"            # retrieval only
 export GROQ_API_KEY=...                                       # free tier: console.groq.com
 python scripts/ask.py --answer "How do I detect T1543.001?"   # cited answer
-pytest                                                         # 156 tests
+pytest                                                         # 188 tests
+ATTACK_QA_SERVE=1 ALLOWED_ORIGINS=http://127.0.0.1:8766 uvicorn attack_qa.web.main:app  # demo API
 ```
 
 Evaluation: `scripts/evaluate.py` (retrieval), `scripts/evaluate_answers.py` (answers),
