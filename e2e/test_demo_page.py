@@ -74,7 +74,10 @@ def test_live_answer_shows_citations_sources_and_the_revoked_id_note(page: Page,
     expect(answer.locator(".sources li").first.locator(".passage")).to_be_visible()
     expect(answer.locator(".meta")).to_contain_text("49 live questions left today")
     expect(answer.locator(".part-label .name")).to_have_text(["Question", "Answer", "Sources"])
-    expect(answer.locator(".why")).to_have_count(0)  # live answers have no recorded rationale
+    expect(answer.locator(".why")).to_have_count(0)  # a typed question has no rationale to show
+    expect(answer.locator(".part-label .result")).to_have_text("Answered · 1 source")
+    expect(answer.locator(".sources li").first.locator(".ext a")).to_have_attribute(
+        "href", "https://attack.mitre.org/versions/v19/techniques/T1059/001/#detection")
 
 
 def test_refusal_names_the_gate(page: Page, site_url: str) -> None:
@@ -88,6 +91,7 @@ def test_refusal_names_the_gate(page: Page, site_url: str) -> None:
     # the gate refused without a model call, so the footer must not credit the model
     expect(page.locator("#answer .meta")).to_contain_text("without calling the model")
     expect(page.locator("#answer .meta")).not_to_contain_text("qwen")
+    expect(page.locator("#answer .part-label .result")).to_have_text("Refused before the model")
 
 
 def test_daily_limit_pauses_live_questions_but_keeps_examples(page: Page, site_url: str) -> None:
@@ -156,3 +160,22 @@ def test_a_slow_answer_explains_the_wait(page: Page, site_url: str) -> None:
     expect(page.locator("#answer .waiting")).to_contain_text("writing a cited answer")
     page.clock.fast_forward(9000)
     expect(page.locator("#answer .waiting")).to_contain_text("waiting its turn")
+
+
+def test_a_suggestion_says_what_it_shows(page: Page, site_url: str) -> None:
+    # Q60: fewer suggestions, and each says what it tests once asked
+    fake_api(page, ask_body={**ANSWER, "status": "refused", "refused_by": "relevance",
+                             "refusal_reason": "", "claims": [], "top_cosine": 0.34})
+    page.goto(site_url)
+    chips = page.locator("#suggestions button")
+    expect(chips).to_have_count(6)
+    expect(chips.first).to_contain_text("margherita pizza")
+    chips.first.click()
+    expect(page.locator("#answer .why")).to_contain_text("similarity gate")
+
+
+def test_question_box_invites_a_question_and_links_the_source_data(page: Page, site_url: str) -> None:
+    fake_api(page)
+    page.goto(site_url)
+    expect(page.locator("#question")).to_have_attribute("placeholder", "Type a question about an ATT&CK technique")
+    expect(page.locator(".hero a.attack-site")).to_have_attribute("href", "https://attack.mitre.org/versions/v19/")

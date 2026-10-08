@@ -29,10 +29,11 @@
       <p class="lede">Every answer comes from 2,091 ATT&amp;CK passages, and every sentence shows where it came from. When the passages can't back an answer, it tells you instead of guessing. Ask in English or Chinese.</p>
       <form class="ask" id="ask-form" autocomplete="off">
         <label class="sr-only" for="question">Your question</label>
-        <input id="question" name="question" maxlength="300" placeholder="How do I detect T1086?" required>
+        <input id="question" name="question" maxlength="300" placeholder="Type a question about an ATT&amp;CK technique" required>
         <button type="submit" id="ask-button">Ask</button>
       </form>
       <p class="count" id="count" aria-live="polite"></p>
+      <p class="source-note">Answers come from MITRE ATT&amp;CK Enterprise v19.2. <a class="attack-site" href="https://attack.mitre.org/versions/v19/" target="_blank" rel="noopener">Check them on attack.mitre.org ↗</a> Every source under an answer links to its own page there.</p>
       <div class="examples" id="suggestions" aria-label="Example questions"></div>
       <p class="status" id="status" data-state="checking" aria-live="polite"><span class="dot"></span><span id="status-text">Checking the live system</span></p>
       <p class="fine">The question box is live, and you're welcome to try a prompt injection. Questions are saved without any personal data and help improve the evaluation set.</p>
