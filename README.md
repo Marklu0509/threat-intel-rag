@@ -183,7 +183,7 @@ python scripts/build_index.py        # embed 2,091 passages with bge-m3 (~2 min 
 python scripts/ask.py "How do I detect T1543.001?"            # retrieval only
 export GROQ_API_KEY=...                                       # free tier: console.groq.com
 python scripts/ask.py --answer "How do I detect T1543.001?"   # cited answer
-pytest                                                         # 188 tests
+pytest                                                         # 195 tests
 ATTACK_QA_SERVE=1 ALLOWED_ORIGINS=http://127.0.0.1:8766 uvicorn attack_qa.web.main:app  # demo API
 ```
 

@@ -19,6 +19,12 @@ concurrency:
   group: deploy-api
   cancel-in-progress: false  # never interrupt a deploy halfway
 
+# The default shell is `bash -e` without pipefail, so `smoke.sh | tee` passed a failed smoke test
+# and skipped the rollback. `bash` adds -o pipefail.
+defaults:
+  run:
+    shell: bash
+
 jobs:
   test:
     runs-on: ubuntu-latest

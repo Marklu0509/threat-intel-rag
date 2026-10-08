@@ -902,3 +902,15 @@
 - **結果**：`/health?check=llm` 回報 `ok: true`；真實提問 1.08 秒回答，舊 ID 自動改寫、兩句都附出處；CORS 只允許 `rag.marklu.page`
 - **工具**：Express 的入口網站部分視窗沒有作用（Restart 失敗）、CLI 的 `logs show` 不支援 Express；改用 Log Analytics 查詢、`replica list`（看容器建立時間與重啟次數）與 `az rest` 呼叫管理 API
 - **教訓**：「設定已更新」不等於「正在跑的容器已更新」；重啟次數只增不減、容器建立時間早於修正，就是容器沒被替換的證據
+
+### Q57. 第一次自動部署：登入失敗、冒煙測試失敗卻顯示成功
+
+- **登入失敗（`AADSTS700213`）**：這個 repo 的 OIDC 使用 GitHub 的「不可變主體」格式（`use_immutable_subject: true`），GitHub 送出的身分是 `repo:Marklu0509@<帳號 ID>/threat-intel-rag@<repo ID>:environment:production`，Azure 登記的是只有名稱的舊格式，逐字比對不符
+  - **決定**：把 Azure 的 federated credential 改成新格式，而不是把 GitHub 改回舊格式。舊格式只認名稱，repo 刪除或改名後，別人建立同名 repo 就能拿到部署權限；ID 不會重複
+  - 修改後立即重跑仍失敗：設定約需一分鐘生效，再重跑即通過
+- **冒煙測試失敗，步驟卻顯示成功**：
+  1. 第三項檢查的 Python 在 f-string 的大括號裡用了反斜線，Python 3.12 之前是語法錯誤；本機是 3.12 所以沒發現，GitHub 機器上的 `python3` 是舊版
+  2. GitHub Actions 預設的 shell 是 `bash -e`，**沒有 `pipefail`**：`smoke.sh | tee` 只看 `tee` 的結果，失敗被吞掉，自動退版也沒有觸發
+  - **修正**：workflow 設 `defaults.run.shell: bash`（`-eo pipefail`）；f-string 改成先算好變數；新增 `tests/test_deploy_scripts.py`：用假 API 跑真的 `smoke.sh`（健康要通過、沒有引用或沒有舊 ID 改寫要失敗），並檢查所有含管線的步驟都會傳遞失敗
+  - 線上服務本身正常（手動確認：843 ms、2 句附出處、T1086 改寫正確）
+- **教訓**：安全網本身也要測試，故意讓它失敗一次，確認它真的會擋；「步驟綠燈」只代表最後一個指令成功

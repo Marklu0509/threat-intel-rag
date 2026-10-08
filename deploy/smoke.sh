@@ -24,4 +24,5 @@ import json, sys
 b = json.load(sys.stdin)
 assert b.get("status") == "answered" and b.get("claims"), f"no cited answer: {b}"
 assert b.get("substitutions") == {"T1086": "T1059.001"}, f"revoked-ID rewrite missing: {b}"
-print(f"- real question answered with {len(b[\"claims\"])} cited claims in {b[\"elapsed_ms\"]} ms")'
+claims, ms = len(b["claims"]), b["elapsed_ms"]  # no backslashes inside f-strings before Python 3.12
+print(f"- real question answered with {claims} cited claims in {ms} ms")'
