@@ -13,7 +13,7 @@
   var WAKE_LIMIT_S = 120;
   // Each one shows a different behaviour (checked against the pipeline before listing, Q58)
   var SUGGESTIONS = [
-    "台北哪家瑪格麗特披薩最好吃？",                                         // absurd: similarity gate, no model call
+    "Where can I get the best margherita pizza in Taipei?",              // absurd: similarity gate, no model call
     "How do I detect T1086?",                                            // retired ID, rewritten
     "怎麼偵測有人從 LSASS 記憶體偷密碼？",                                 // Chinese, no technique named
     "What's the difference between Kerberoasting and AS-REP Roasting?",  // one claim citing two passages
