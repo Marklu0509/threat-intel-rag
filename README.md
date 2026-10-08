@@ -153,8 +153,8 @@ flowchart LR
 ```
 
 - **Same pipeline as the evaluation**: the image is built from the release asset of the evaluated
-  passages and index (SHA-256 checked) and bge-m3 in full precision; a half-precision model
-  changed the top 5 for 4 of 78 questions, so it was rejected.
+  passages and index (SHA-256 checked) with the same bge-m3 weights, so the live demo answers from
+  exactly what was measured.
 - **Public endpoint, bounded cost**: 10 questions per IP per hour, 50 per day site-wide, 300
   characters; the only key it holds is Groq's free tier. Questions are logged without IPs.
 - **CI/CD** (`.github/workflows/deploy.yml`): tests, image build and measurement, then sign-in to
