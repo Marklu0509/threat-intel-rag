@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Threat-Intel RAG — Mark Lu</title>
-<meta name="description" content="Ask MITRE ATT&CK in English or Chinese and get an answer where every sentence cites its source passage — or an explicit refusal. With retrieval, faithfulness and prompt-injection evaluation.">
+<title>Threat-Intel RAG by Mark Lu</title>
+<meta name="description" content="Ask MITRE ATT&CK in English or Chinese. Every sentence in the answer shows its source, and when the sources can't back an answer, it says so. Includes retrieval, faithfulness and prompt-injection evaluation.">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -26,7 +26,7 @@
     <div class="kicker">Threat-Intel RAG</div>
     <div>
       <h1>Ask MITRE ATT&amp;CK.<br>Every sentence cited.</h1>
-      <p class="lede">Answers come only from 2,091 ATT&amp;CK passages, each sentence with its source — or an explicit refusal when the passages can't support one. English or Chinese.</p>
+      <p class="lede">Every answer comes from 2,091 ATT&amp;CK passages, and every sentence shows where it came from. When the passages can't back an answer, it tells you instead of guessing. Ask in English or Chinese.</p>
       <form class="ask" id="ask-form" autocomplete="off">
         <label class="sr-only" for="question">Your question</label>
         <input id="question" name="question" maxlength="300" placeholder="How do I detect T1086?" required>
@@ -35,7 +35,7 @@
       <p class="count" id="count" aria-live="polite"></p>
       <div class="examples" id="suggestions" aria-label="Example questions"></div>
       <p class="status" id="status" data-state="checking" aria-live="polite"><span class="dot"></span><span id="status-text">Checking the live system</span></p>
-      <p class="fine">The question box is live — prompt injections are welcome. Questions are logged without personal data to improve the evaluation set.</p>
+      <p class="fine">The question box is live, and you're welcome to try a prompt injection. Questions are saved without any personal data and help improve the evaluation set.</p>
     </div>
   </div>
 </div>

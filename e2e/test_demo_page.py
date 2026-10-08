@@ -126,3 +126,13 @@ def test_question_area_keeps_the_side_gutter_at_phone_width(page: Page, site_url
     for selector in ("h1", "#question", "#ask-button"):
         box = page.locator(selector).bounding_box()
         assert box["x"] >= 16 and box["x"] + box["width"] <= 360 - 16, selector
+
+
+def test_question_area_lines_up_with_the_sections_below_on_desktop(page: Page, site_url: str) -> None:
+    # Without .wrap's side padding the hero's right column started 40px left of every section's
+    fake_api(page)
+    page.set_viewport_size({"width": 1100, "height": 800})
+    page.goto(site_url)
+    expect(page.locator("#example .q")).not_to_be_empty()
+    left = {s: page.locator(s).bounding_box()["x"] for s in (".hero h1", "#question", "#picker", "#example")}
+    assert len(set(left.values())) == 1, left

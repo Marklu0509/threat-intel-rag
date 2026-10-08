@@ -36,11 +36,12 @@ Answers, faithfulness and attacks: Qwen `qwen3.8-27b` via OpenRouter, pinned to 
 | — questions naming a near-duplicate technique ID | 46.7% → **100%** |
 | — questions using a revoked ATT&CK ID | 0% → **100%** |
 | Answers citing the correct passage, when retrieval found it | **44 of 44** |
-| Out-of-scope questions refused | **23 of 25** |
-| Answer sentences fully supported by the passages they cite (LLM judge) | **99.1%** (225 of 227) |
+| Out-of-scope questions refused | **24 of 25** |
+| Answers written in the language of the question (78 questions) | 68 → **78 of 78** once the code, not the model, picks it |
+| Answer sentences fully supported by the passages they cite (LLM judge) | **99.2%** (244 of 246) |
 | — judge agreement with blind human labels (40 sentences) | Cohen's κ **0.87**, 95% agreement |
 | Intent detection on phrasings never seen during tuning | 4/20 (keyword rules) → **16/20** |
-| Successful prompt-injection / poisoning attacks (70 per configuration) | free-prose control **40** → structured output **4** → plus defenses **2** |
+| Successful prompt-injection / poisoning attacks (70 per configuration) | free-prose control **39** → structured output **7** → plus defenses **0** (previous run: 40 → 4 → 2) |
 
 The most useful finding: in every category, "answer cites the correct passage" exactly equals
 "retrieval found the correct passage". The LLM is faithful to its evidence; **retrieval is the
@@ -183,7 +184,7 @@ python scripts/build_index.py        # embed 2,091 passages with bge-m3 (~2 min 
 python scripts/ask.py "How do I detect T1543.001?"            # retrieval only
 export GROQ_API_KEY=...                                       # free tier: console.groq.com
 python scripts/ask.py --answer "How do I detect T1543.001?"   # cited answer
-pytest                                                         # 195 tests
+pytest                                                         # 209 tests
 ATTACK_QA_SERVE=1 ALLOWED_ORIGINS=http://127.0.0.1:8766 uvicorn attack_qa.web.main:app  # demo API
 ```
 
