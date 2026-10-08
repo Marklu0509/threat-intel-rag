@@ -48,6 +48,18 @@ def test_recorded_examples_and_figures_render(page: Page, site_url: str) -> None
     expect(page.locator("#figures .figure")).to_have_count(4)
 
 
+def test_each_example_says_why_it_is_there_and_labels_its_parts(page: Page, site_url: str) -> None:
+    # Visitors couldn't tell what an example proved, or where the question ended and the
+    # sources began (Q59)
+    fake_api(page)
+    page.goto(site_url)
+    expect(page.locator(".picker .group").first).to_contain_text("Should answer")
+    example = page.locator("#example")
+    expect(example.locator(".why")).to_contain_text("Risk")
+    expect(example.locator(".why")).to_contain_text("Shows")
+    expect(example.locator(".part-label")).to_have_text(["Question", "Answer", "Sources"])
+
+
 def test_live_answer_shows_citations_sources_and_the_revoked_id_note(page: Page, site_url: str) -> None:
     fake_api(page)
     page.goto(site_url)
@@ -61,6 +73,8 @@ def test_live_answer_shows_citations_sources_and_the_revoked_id_note(page: Page,
     answer.locator(".prose sup button").click()
     expect(answer.locator(".sources li").first.locator(".passage")).to_be_visible()
     expect(answer.locator(".meta")).to_contain_text("49 live questions left today")
+    expect(answer.locator(".part-label")).to_have_text(["Question", "Answer", "Sources"])
+    expect(answer.locator(".why")).to_have_count(0)  # live answers have no recorded rationale
 
 
 def test_refusal_names_the_gate(page: Page, site_url: str) -> None:
@@ -101,3 +115,14 @@ def test_no_horizontal_scroll_at_phone_width(page: Page, site_url: str) -> None:
     page.locator("#example .sources .src").first.click()
     overflow = page.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
     assert overflow <= 0
+
+
+def test_question_area_keeps_the_side_gutter_at_phone_width(page: Page, site_url: str) -> None:
+    # `.hero` padding once overrode `.wrap`'s side padding: the heading and the question box
+    # touched the screen edges while every other section kept its gutter
+    fake_api(page)
+    page.set_viewport_size({"width": 360, "height": 780})
+    page.goto(site_url)
+    for selector in ("h1", "#question", "#ask-button"):
+        box = page.locator(selector).bounding_box()
+        assert box["x"] >= 16 and box["x"] + box["width"] <= 360 - 16, selector
