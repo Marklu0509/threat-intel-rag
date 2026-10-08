@@ -145,3 +145,16 @@ def test_whitespace_only_key_counts_as_missing(monkeypatch: pytest.MonkeyPatch) 
     monkeypatch.setenv("GROQ_API_KEY", " \n")
     with pytest.raises(MissingApiKeyError):
         OpenAICompatibleAnswerModel()
+
+
+def test_ping_lists_models_without_spending_tokens() -> None:
+    models = SimpleNamespace(calls=0)
+
+    def list_models() -> Any:
+        models.calls += 1
+        return SimpleNamespace(data=[])
+
+    client = SimpleNamespace(chat=SimpleNamespace(completions=_StubCompletions()),
+                             models=SimpleNamespace(list=list_models))
+    OpenAICompatibleAnswerModel(client=client, wait_s=0).ping()
+    assert models.calls == 1

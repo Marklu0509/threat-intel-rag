@@ -95,6 +95,10 @@ class OpenAICompatibleAnswerModel:
     def name(self) -> str:
         return f"{self._provider.name}/{self._model}"
 
+    def ping(self) -> None:
+        """Reach the provider without spending tokens (lists models); raises if that fails."""
+        self._client.models.list()
+
     def draft(self, system: str, user: str) -> AnswerDraft:
         response = self._create(system, user)
         choice = response.choices[0]

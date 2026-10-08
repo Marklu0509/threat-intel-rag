@@ -146,3 +146,41 @@ def test_client_ip_uses_the_address_appended_by_the_trusted_proxy():
     # Azure's ingress appends the real client address; anything to its left came from the client
     assert client_ip("198.51.100.7, 203.0.113.9", "10.0.0.5") == "203.0.113.9"
     assert client_ip(None, "10.0.0.5") == "10.0.0.5"
+
+
+class PingingModel(FakeModel):
+    def __init__(self, ping_error: Exception | None = None) -> None:
+        super().__init__()
+        self.ping_error = ping_error
+        self.pings = 0
+
+    def ping(self) -> None:
+        self.pings += 1
+        if self.ping_error:
+            raise self.ping_error
+
+
+def test_health_llm_check_reports_ok(retriever):
+    model = PingingModel()
+    body = _client(retriever, model).get("/health?check=llm").json()
+    assert body["llm"] == {"ok": True}
+    assert model.pings == 1
+
+
+def test_health_llm_check_reports_the_error_type_and_cause_but_no_secrets(retriever):
+    cause = ValueError("Illegal header value b'Bearer gsk_secret\\n'")
+    error = RuntimeError("Connection error. org_0000fakeorgid0000test")
+    error.__cause__ = cause
+    r = _client(retriever, PingingModel(error)).get("/health?check=llm")
+    assert r.status_code == 200
+    llm = r.json()["llm"]
+    assert llm["ok"] is False and llm["error_type"] == "RuntimeError" and llm["cause_type"] == "ValueError"
+    assert "gsk_secret" not in r.text and "org_0000fake" not in r.text
+
+
+def test_health_llm_check_is_cached_so_it_cannot_be_used_to_hammer_the_provider(retriever):
+    model = PingingModel()
+    client = _client(retriever, model)
+    for _ in range(5):
+        client.get("/health?check=llm")
+    assert model.pings == 1
