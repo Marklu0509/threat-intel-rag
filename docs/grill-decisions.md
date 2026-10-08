@@ -813,3 +813,92 @@
   - ❌ **只做單元測試**：沒有人檢查部署後真的能用
   - ❌ **分流發布（新版先接 0% 流量）**：單一容器、低流量，複雜度不划算
 - **代價**：每次部署用掉 1 題額度；Playwright 測試要在 CI 裡安裝瀏覽器，建置時間變長
+
+### Q52. 容器規格（依實測修正 Q44）
+
+- **決定**：**1 vCPU／2 GiB**（原本規劃 2 vCPU／4 GiB）
+- **原因**（GitHub Actions、amd64、`deploy/measure.sh` 實測）：
+  - 記憶體峰值約 830 MiB，在 2 GiB 與 4 GiB 限制下相同，沒有變慢或被系統終止
+  - 一次檢索 0.19 s（1 vCPU）vs 0.11 s（2 vCPU），差 0.08 s；相較 Groq 的 2 到 4 秒可以忽略
+  - 冷啟動 10.0 s vs 9.6 s（原本估計約 1 分鐘）
+  - Taiwan North 平日上班時間待命：約 **US$8.29**／月（原本約 US$18.75）；24 小時全開約 US$28.94；只縮到 0 約 US$0（免費額度內）。注意免費額度是固定扣除額，不能把 2 vCPU 的費用直接除以 2（一開始誤算成 US$9.40）
+- **放棄的選項**：
+  - ❌ **2 vCPU／4 GiB**：多付一倍，訪客感覺不到差別
+- **代價**：如果之後流量變大或 CPU 不夠，要在 Azure 調高規格（一個設定）
+- **同時修正**：image 從 6.41 GB 降到 4.14 GB（bge-m3 的權重原本下載了兩份：`pytorch_model.bin` 與 ONNX；只保留實際載入的 `.bin`）
+
+### Q53. 待命時段改成涵蓋雪梨上班時間
+
+- **決定**：cron 待命時段從台灣時間 08:00–19:00 改成 **05:00–19:00**（平日，`timezone: Asia/Taipei`，`start: 0 5 * * 1-5`，`end: 0 19 * * 1-5`）
+- **原因**：
+  - 作者人在雪梨、也在投澳洲職缺；雪梨夏令時間比台灣快 3 小時（非夏令時間快 2 小時），原本的時段在雪梨是 11:00–22:00，雪梨早上看履歷的面試官會碰到冷啟動
+  - 05:00–19:00 台灣時間＝雪梨 08:00–22:00（夏令）／07:00–21:00（非夏令），兩種季節都涵蓋雪梨上班時間，也涵蓋台灣上班時間
+  - 排程要跟使用者的時區走，不是伺服器的時區
+- **費用**：平日 14 小時 × 22 天，扣掉免費額度後約 **US$11.15／月**（原本約 US$8.29）
+- **放棄的選項**：
+  - ❌ **維持 08:00–19:00**：省約 US$2.9／月，但雪梨早上會冷啟動
+  - ❌ **24 小時全開**：約 US$28.94／月；冷啟動實測只有 10 到 15 秒，不值得
+- **代價**：每月多約 US$2.9；週末仍有冷啟動（部署後實測 Azure 的實際冷啟動時間再檢討）
+
+### Q48 補充：實際部署區域是 East Asia
+
+- 建立 Container App 時，作者訂閱的區域清單裡**沒有 Taiwan North**（價目表有、但這個訂閱類型不開放），依 Q48 的備案改用 **East Asia（香港）**
+- 費用（East Asia 閒置費率 vCPU、記憶體皆 US$0.000003/s，1 vCPU／2 GiB，Q53 的 05:00–19:00 平日待命）：約 **US$8.36／月**
+- 新版 Azure 入口網站建立環境時已沒有「Consumption only」選項；預設的 workload profiles 環境內建 Consumption profile，計費方式相同（不加 Dedicated profile 就沒有管理費）。Zone redundancy、自建虛擬網路、Private endpoints 都不啟用
+
+### Q53 補充：待命延長到台灣時間 21:00
+
+- **決定**：`end` 改成 `0 21 * * 1-5`，待命時段變成平日台灣時間 **05:00–21:00**（雪梨夏令時間 08:00–24:00）
+- **原因**：涵蓋台灣晚上與雪梨整個晚上，每月只多約 US$1.4
+- **費用**：East Asia，1 vCPU／2 GiB，平日 16 小時 × 22 天，扣掉免費額度後約 **US$9.78／月**（05:00–19:00 為 US$8.36）
+
+### Q54. 環境實際是 Express：沒有 cron、沒有自訂網域之後怎麼辦？
+
+- **發現**：Azure 新版入口網站在 East Asia 這類支援的區域，**預設建立 Azure Container Apps Express 環境**（公開預覽）。依官方 FAQ：計費與一般 Consumption 相同（按秒計費、縮到 0 不收費、同樣的免費額度）；但**不支援自訂擴縮規則**（新增 cron 規則時被拒絕）與**自訂網域**。Express 的「低於一秒冷啟動」指的是容器本身；本專案的冷啟動主要是載入 bge-m3，Azure 上實測約 31 秒
+- **決定**：
+  - **Min replicas 1、Max replicas 1，永遠保留一個容器**（取代 Q44／Q53 的上班時間待命）：任何時間點開都不冷啟動
+  - **API 直接使用 Azure 的預設網址**（取代 Q41 的 `api.marklu.page`）：API 網址訪客看不到，頁面是在背景呼叫；`rag.marklu.page` 不受影響
+  - 預算警示調高到 US$30
+- **費用**：East Asia，1 vCPU／2 GiB，24 小時以閒置費率計算，扣掉免費額度後約 **US$21.71／月**
+- **放棄的選項**：
+  - ❌ **只縮到 0（約 US$0）**：冷啟動約 31 秒；作者認為多付的錢值得換「任何時間都秒回」
+  - ❌ **用 CLI 重建成標準環境（約 US$10，上班時間待命）**：要重建並重新部署，而且 Express 才有快速的容器啟動
+  - ❌ **GitHub Actions 定時喚醒**：GitHub 排程常常延遲，不保證
+- **代價**：每月約 US$22；預覽中的服務功能與限制可能變動
+- **教訓**：平台的預設值會悄悄決定架構，要確認「系統實際建立了什麼」，不只是「我選了什麼」
+
+### Q55. Groq 在香港被擋，搬到哪個區域？
+
+- **發現**：`/health?check=llm` 回報 `PermissionDeniedError`、HTTP **403**。Groq 的說明列出大中華地區（含香港）為限制地區，並依請求來源 IP 判斷；Azure 的 East Asia 就是香港機房。同一把金鑰從雪梨的電腦呼叫正常。（在這之前，金鑰尾端多了換行，請求根本送不出去，錯誤是 `APIConnectionError`；自動去除空白的修正部署後，才看到這第二層問題）
+- **決定**：搬到 **Southeast Asia（新加坡）**，維持 1 vCPU／2 GiB、Min／Max replicas 1；預算警示調到 US$40
+- **原因**：新加坡不在 Groq 的限制地區；是 Express 支援的區域；離台灣與雪梨距離適中
+- **費用**：Southeast Asia 閒置費率 vCPU、記憶體皆 US$0.000004/s，24 小時扣掉免費額度後約 **US$28.94／月**
+- **放棄的選項**：
+  - ⏸ **Japan East（約 US$21.71）**：較便宜、離台灣較近；作者選擇新加坡
+  - ❌ **Australia East（約 US$28.94）**：與新加坡同價
+  - ❌ **留在 East Asia**：Groq 拒絕服務
+- **教訓**：選雲端區域時，除了價格與延遲，還要確認**依賴的外部 API 是否服務那個地區**；這只有在正式環境實際呼叫一次才測得到（`/health?check=llm`）
+
+### Q55 補充：實際部署在 West US 3
+
+- 建立 Southeast Asia 的資源時被拒絕：`RequestDisallowedByAzure`（"disallowed by Azure"：Azure 對這類訂閱直接限制可部署的區域，不在一般的 Policy 頁面中）。Taiwan North 不在建立清單裡，原因相同
+- **決定**：改用 **West US 3（美國亞利桑那）**：美國區域幾乎所有訂閱都開放；Groq 不限制美國，且 Groq 伺服器在美國，伺服器到 Groq 的往返更短；訪客到伺服器多約 0.15 秒，相較 2 到 4 秒的回答時間可以忽略
+- **費用**：West US 3 閒置費率 US$0.000003/s，24 小時開 1 個約 **US$21.71／月**（和東京、首爾同價）
+- 資源命名加上區域後綴 `-usw3`，和香港的舊資源區分
+
+### Q55 定案：Japan West（大阪）
+
+- West US 3 也被拒絕。作者的 Azure for Students 訂閱在 Policy → Assignments → "Allowed resource deployment regions" 只允許 5 個區域：`eastasia`、`japanwest`、`australiaeast`、`newzealandnorth`、`malaysiawest`（清單依訂閱而不同，無法自行新增）
+- 依「訂閱允許 × Groq 不擋 × 價格 × 距離」篩選：East Asia 被 Groq 擋；24 小時開 1 個的費用 Japan West 約 US$21.71、Australia East 與 Malaysia West 約 US$28.94、New Zealand North 約 US$36.18
+- **決定**：**Japan West**，資源命名後綴 `-jpw`
+- **教訓**：先找出所有限制的來源（這次是訂閱的區域清單）再選，比一個一個試快；前三次失敗都是因為少了「訂閱允許」這個條件
+
+### Q56. Japan West 部署：容器一直起不來的真正原因
+
+- **症狀**：設定都正確（`az containerapp show` 顯示 `GROQ_API_KEY` 引用 secret、secret 值 56 字元），容器卻一直 `MissingApiKeyError`，重啟 28 次
+- **兩層原因**：
+  1. 入口網站把環境變數存成 `{"secretRef": "groq-api-key", "value": ""}`，**同時帶著空字串**；Express 用了空字串 → 用 `az containerapp update --replace-env-vars ... GROQ_API_KEY=secretref:groq-api-key` 換成乾淨的寫法
+  2. 修好後仍失敗：**那個容器建立於 02:16，早於所有修正**，之後的每次更新都只改了設定與版本資訊，Express 沒有替換這個不斷重啟的容器（重啟次數一路累加，不是從 0 開始），容器的環境變數在建立時就固定了 → 用管理 API 停止再啟動 app（`az rest ... /stop`、`/start`），產生全新的容器，立即正常
+- **結果**：`/health?check=llm` 回報 `ok: true`；真實提問 1.08 秒回答，舊 ID 自動改寫、兩句都附出處；CORS 只允許 `rag.marklu.page`
+- **工具**：Express 的入口網站部分視窗沒有作用（Restart 失敗）、CLI 的 `logs show` 不支援 Express；改用 Log Analytics 查詢、`replica list`（看容器建立時間與重啟次數）與 `az rest` 呼叫管理 API
+- **教訓**：「設定已更新」不等於「正在跑的容器已更新」；重啟次數只增不減、容器建立時間早於修正，就是容器沒被替換的證據

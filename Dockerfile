@@ -32,6 +32,8 @@ RUN pip install --no-deps -e . \
  && useradd --create-home --uid 10001 app && chown -R app /app/data/index
 USER app
 
-ENV ATTACK_QA_SERVE=1
+# The commit this image was built from; /health reports it so a deploy can confirm it's live
+ARG GIT_SHA=dev
+ENV ATTACK_QA_SERVE=1 APP_VERSION=$GIT_SHA
 EXPOSE 8000
 CMD ["uvicorn", "attack_qa.web.main:app", "--host", "0.0.0.0", "--port", "8000"]

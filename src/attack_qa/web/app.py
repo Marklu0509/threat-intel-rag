@@ -60,16 +60,48 @@ def _trace(result: RetrievalResult) -> list[dict[str, Any]]:
              "text": h.passage.text} for h in result.hits]
 
 
+LLM_CHECK_CACHE_S = 60.0
+
+
+def _llm_status(model: AnswerModel, cache: dict[str, Any]) -> dict[str, Any]:
+    """Can the server reach the LLM provider? Error types and status only, never messages:
+    a malformed key, for one, appears verbatim in the underlying error. Cached so the public
+    endpoint can't be used to hammer the provider."""
+    if cache and time.monotonic() - cache["at"] < LLM_CHECK_CACHE_S:
+        return cache["result"]
+    ping = getattr(model, "ping", None)
+    if ping is None:
+        result: dict[str, Any] = {"ok": None, "detail": "model has no ping"}
+    else:
+        try:
+            ping()
+            result = {"ok": True}
+        except Exception as exc:  # report the kind of failure, not its text
+            cause = exc.__cause__ or exc.__context__
+            result = {"ok": False, "error_type": type(exc).__name__,
+                      "cause_type": type(cause).__name__ if cause else None,
+                      "status": getattr(exc, "status_code", None)}
+            logger.warning(json.dumps({"event": "llm_check", **result}))
+    cache.update(at=time.monotonic(), result=result)
+    return result
+
+
 def create_app(retriever: HybridRetriever, model: AnswerModel, limiter: RateLimiter, *,
                allowed_origins: Sequence[str],
-               relevance_threshold: float = RELEVANCE_THRESHOLD) -> FastAPI:
+               relevance_threshold: float = RELEVANCE_THRESHOLD, version: str = "dev") -> FastAPI:
     app = FastAPI(title="threat-intel-rag demo API", docs_url=None, redoc_url=None)
     app.add_middleware(CORSMiddleware, allow_origins=list(allowed_origins),
                        allow_methods=["GET", "POST"], allow_headers=["Content-Type"])
 
+    llm_check: dict[str, Any] = {}  # last result and when it was taken
+
     @app.get("/health")
-    def health() -> dict[str, Any]:
-        return {"status": "ok", "model": model.name, "attack_version": ATTACK_VERSION}
+    def health(check: str = "") -> dict[str, Any]:
+        body: dict[str, Any] = {"status": "ok", "model": model.name, "attack_version": ATTACK_VERSION,
+                                "version": version}
+        if check == "llm":
+            body["llm"] = _llm_status(model, llm_check)
+        return body
 
     @app.post("/ask")
     def ask(body: AskRequest, request: Request) -> JSONResponse:

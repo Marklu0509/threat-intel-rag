@@ -71,11 +71,11 @@ class MissingApiKeyError(Exception):
 
 
 def _client_for(provider: Provider) -> openai.OpenAI:
-    key = os.environ.get(provider.key_env, "")
+    key = os.environ.get(provider.key_env, "").strip()  # a pasted key often ends in a newline
     if not key:
         raise MissingApiKeyError(
-            f"{provider.key_env} is not set. Store the key in the macOS keychain and export it "
-            "from ~/.zshrc, then open a new terminal."
+            f"{provider.key_env} is not set (or is blank). Set it as an environment variable; in "
+            "Azure, as a secret referenced by the container's environment variable."
         )
     return openai.OpenAI(base_url=provider.base_url, api_key=key, max_retries=0)
 
@@ -94,6 +94,10 @@ class OpenAICompatibleAnswerModel:
     @property
     def name(self) -> str:
         return f"{self._provider.name}/{self._model}"
+
+    def ping(self) -> None:
+        """Reach the provider without spending tokens (lists models); raises if that fails."""
+        self._client.models.list()
 
     def draft(self, system: str, user: str) -> AnswerDraft:
         response = self._create(system, user)
