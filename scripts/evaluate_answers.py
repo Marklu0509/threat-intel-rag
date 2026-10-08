@@ -26,6 +26,7 @@ from attack_qa.dense_index import DenseIndex
 from attack_qa.embedding import SentenceTransformerEmbedder
 from attack_qa.evaluate import load_questions
 from attack_qa.intent import IntentClassifier
+from attack_qa.language import language_report
 from attack_qa.llms import CHOICES, PACING_S, make_answer_model
 from attack_qa.lookups import load_revoked_ids
 from attack_qa.passage_io import load_passages
@@ -115,10 +116,14 @@ def main() -> None:
         by_category[record["category"]].append(record)
     reports = [summarize_records(c, rs) for c, rs in by_category.items()]
     print_table(reports)
+    language = language_report(ordered)
+    print(f"\nAnswer language as asked: {language.matched}/{language.checked}"
+          f" (wrong: {', '.join(language.mismatched) or 'none'})")
     out = RESULTS_DIR / f"{args.label}.json"
     out.write_text(json.dumps({
         "label": args.label, "llm": args.llm,
         "summary": [asdict(r) for r in reports],
+        "language": asdict(language),
         "questions": ordered,
     }, indent=2, ensure_ascii=False), encoding="utf-8")
     progress.unlink()

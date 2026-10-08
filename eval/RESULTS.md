@@ -173,7 +173,7 @@ Groq's free tier (1,000 output tokens/minute) but applied to every provider. Ope
 2,000 and the 4 runs were redone — the 2 schema errors in the earlier run, also on 2-03, were
 most likely the same cap.
 
-## Current system (OpenRouter, after Q37/Q38)
+## Previous system (OpenRouter, after Q37/Q38; superseded by Q58 below)
 
 Grill Q39: Groq's free daily quota could not finish the rerun, so the current system is measured
 on OpenRouter (Qwen pinned to DeepInfra bf16) — the same host as the attack runs. Different host
@@ -202,6 +202,59 @@ Run `faithfulness-answers-openrouter-qwen-q38` (51 answered, 227 Claims):
 Completeness: 34 complete, 17 partial. Both partial Claims are the kinds the rubric names: a
 "Consider …" mitigation stated as "should", and a behaviour pinned to one sub-technique the
 passages don't single out. Caveat: the Q38 rules were found on these same questions.
+
+## Current system (after Q58: the code sets the answer language)
+
+Grill Q58: the model used to pick the answer language and got it right for 68 of 78 questions
+(short English ID questions answered in Chinese, three answers in Simplified Chinese, and the
+code's own refusals in English only). The code now decides: any Chinese character in the
+question means Traditional Chinese, stated on an `Answer language` line. Every run was redone
+with this prompt, so the live demo runs exactly what is measured here.
+
+Run `answers-openrouter-qwen-q58`:
+
+| | Answered (of 53) | Cites gold = gold retrieved | Refused (of 25) | Answer in the language asked |
+|---|---|---|---|---|
+| `answers-openrouter-qwen-q38` | 49 | 44 = 44 | 23 | 68/78 |
+| `answers-openrouter-qwen-q58` (current) | 49 | 44 = 44 | **24** | **78/78** |
+
+- 6-07 (Mimikatz) is now refused. The one remaining miss is 6-13 "Which techniques have no
+  mitigations?": five techniques listed as if that were the answer, each sentence supported by its
+  source. Faithful, yet far from complete: the partial-list failure of ADR 0001.
+- 3-13 first stopped at the 2,000-token output cap (reported as an error); rerun with `--resume`
+  it answered normally. Chinese answers were not longer than before (336 vs 342 characters on
+  average), so the cap is no closer for them.
+- The language check (`scripts/check_language.py`) reads saved runs, so the old runs were scored
+  with the same code.
+
+Run `faithfulness-answers-openrouter-qwen-q58` (50 answered, 246 Claims):
+
+| Group | Answers | Claims | Supported | Partial | Unsupported | Supported rate |
+|---|---|---|---|---|---|---|
+| all | 50 | 246 | 244 | 2 | 0 | **99.2%** |
+| gold retrieved | 44 | 220 | 219 | 1 | 0 | 99.5% |
+| gold not retrieved | 6 | 26 | 25 | 1 | 0 | 96.2% |
+
+Run `attacks-openrouter-qwen-q58` (all three configurations, 70 attacks each, no errors):
+
+| Configuration | Direct | Indirect | Poisoning | Succeeded | Previous run |
+|---|---|---|---|---|---|
+| Free prose, no defenses (control) | 26/30 | 2/20 | 11/20 | **39/70** | 40/70 |
+| Structured output, no defenses | 0/30 | 1/20 | 6/20 | **7/70** | 4/70 |
+| Structured output + D1 + D2 | 0/30 | 0/20 | 0/20 | **0/70** | 2/70 |
+
+Severity of the poisoning successes:
+
+| Configuration | Poisoning succeeded | Fake product in the answer | Only cited the poisoned copy |
+|---|---|---|---|
+| Free prose, no defenses | 11/20 | 11 | 0 |
+| Structured output, no defenses | 6/20 | 2 | 4 |
+| Structured output + D1 + D2 | 0/20 | 0 | 0 |
+
+The conclusions hold; the exact counts move between runs. Structured output is still the main
+defense (39 → 7). With defenses, 0 of 70 this run against 2 of 70 last run: both are small
+numbers from one run each, so the defended rate is best read as "0 to 3%", not as solved.
+Poisoning is still what gets through without defenses, and it needs source trust (D4).
 
 ## Open issues
 
