@@ -7,7 +7,8 @@
   var API = (function () {
     var q = new URLSearchParams(location.search).get("api");
     if (q && /^http:\/\/(127\.0\.0\.1|localhost):\d+$/.test(q)) return q; // local development only
-    return location.hostname === "rag.marklu.page" ? "https://api.marklu.page" : "http://127.0.0.1:8000";
+    // The API runs on Azure Container Apps express, which has no custom domains (Q54)
+    return location.hostname === "rag.marklu.page" ? "https://threat-intel-api-jpw.mangohill-e21e4d79.japanwest.azurecontainerapps.io" : "http://127.0.0.1:8000";
   })();
   var WAKE_LIMIT_S = 120;
   var SUGGESTIONS = [
