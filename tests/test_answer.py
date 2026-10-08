@@ -79,6 +79,15 @@ def test_relevance_gate_refuses_without_calling_the_model(retriever: HybridRetri
     assert model.calls == []
 
 
+def test_refusals_written_by_the_code_follow_the_answer_language(retriever: HybridRetriever) -> None:
+    english = answer_question("bake sourdough bread", retriever, FakeModel(), relevance_threshold=0.5)
+    chinese = answer_question("怎麼烤酸種麵包？", retriever, FakeModel(), relevance_threshold=0.5)
+    assert english.refusal_reason == "The question does not match any ATT&CK technique."
+    assert chinese.refusal_reason == "這個問題和任何 ATT&CK 技巧都對不上。"
+    declined = answer_question("鍵盤側錄", retriever, FakeModel(refuse=True), relevance_threshold=NO_GATE)
+    assert declined.refusal_reason == "模型拒絕回答這個問題。"
+
+
 def test_named_technique_skips_the_relevance_gate(retriever: HybridRetriever) -> None:
     model = FakeModel(_answer(ids=("T1059.001:detection",)))
     answer = answer_question("T1059.001", retriever, model, relevance_threshold=0.99)
@@ -123,7 +132,20 @@ def test_prompt_carries_passages_and_revoked_id_note(retriever: HybridRetriever)
     assert "mention the replacement" not in message
     assert "Do not state the replacement in a claim" in message
     # the question itself names the live ID, which the passages actually contain
-    assert message.rstrip().endswith("Question: What is T1059.001?")
+    assert "Question: What is T1059.001?\n" in message
+
+
+def test_prompt_names_the_answer_language(retriever: HybridRetriever) -> None:
+    # The model used to pick the language itself: 6 of 56 English questions came back in
+    # Chinese, one in Simplified. The code decides; the prompt only states the decision.
+    english = build_user_message("What is T1056.001?", retriever.retrieve("What is T1056.001?", top_k=2))
+    chinese = build_user_message("T1056.001 是什麼？", retriever.retrieve("T1056.001 是什麼？", top_k=2))
+    assert english.endswith("\nAnswer language: English")
+    assert chinese.endswith("\nAnswer language: Traditional Chinese (Taiwan)")
+    for defenses in (Defenses(), FREE_TEXT_NO_DEFENSES):
+        prompt = system_prompt(defenses)
+        assert "Answer language" in prompt
+        assert "language of the question" not in prompt  # the old rule would compete with it
 
 
 # --- ClaudeAnswerModel with a stub client (no network) ---
