@@ -2,7 +2,7 @@
 
 Run: uvicorn attack_qa.web.main:app --host 0.0.0.0 --port 8000
 Environment: GROQ_API_KEY (secret), ALLOWED_ORIGINS (comma-separated, default the demo site),
-DEMO_LLM (default groq). Everything is loaded before the server accepts requests, so /health
+DEMO_LLM (default groq), APP_VERSION (set by the image build). Everything is loaded before the server accepts requests, so /health
 answering means the API is ready.
 """
 
@@ -18,13 +18,15 @@ DEFAULT_ORIGIN = "https://rag.marklu.page"
 class Settings:
     allowed_origins: tuple[str, ...]
     llm: str
+    version: str  # the git commit the image was built from (Dockerfile ARG GIT_SHA)
 
 
 def settings_from_env(env: Mapping[str, str]) -> Settings:
     origins = tuple(o.strip() for o in env.get("ALLOWED_ORIGINS", DEFAULT_ORIGIN).split(",") if o.strip())
     if "*" in origins:  # any site could then spend the demo's Groq quota (Q41)
         raise ValueError("ALLOWED_ORIGINS must list sites explicitly; a wildcard is not allowed")
-    return Settings(allowed_origins=origins, llm=env.get("DEMO_LLM", "groq"))
+    return Settings(allowed_origins=origins, llm=env.get("DEMO_LLM", "groq"),
+                    version=env.get("APP_VERSION", "dev"))
 
 
 def _build_app():  # type: ignore[no-untyped-def]
@@ -49,7 +51,7 @@ def _build_app():  # type: ignore[no-untyped-def]
                                 intent_classifier=IntentClassifier(embedder))
     retriever.retrieve("warm up")  # first query pays one-off costs; do it before /health says ready
     return create_app(retriever, make_answer_model(settings.llm), RateLimiter(),
-                      allowed_origins=settings.allowed_origins)
+                      allowed_origins=settings.allowed_origins, version=settings.version)
 
 
 app = _build_app() if os.environ.get("ATTACK_QA_SERVE") == "1" else None

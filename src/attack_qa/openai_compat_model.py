@@ -74,8 +74,8 @@ def _client_for(provider: Provider) -> openai.OpenAI:
     key = os.environ.get(provider.key_env, "").strip()  # a pasted key often ends in a newline
     if not key:
         raise MissingApiKeyError(
-            f"{provider.key_env} is not set. Store the key in the macOS keychain and export it "
-            "from ~/.zshrc, then open a new terminal."
+            f"{provider.key_env} is not set (or is blank). Set it as an environment variable; in "
+            "Azure, as a secret referenced by the container's environment variable."
         )
     return openai.OpenAI(base_url=provider.base_url, api_key=key, max_retries=0)
 

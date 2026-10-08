@@ -184,3 +184,10 @@ def test_health_llm_check_is_cached_so_it_cannot_be_used_to_hammer_the_provider(
     for _ in range(5):
         client.get("/health?check=llm")
     assert model.pings == 1
+
+
+def test_health_reports_the_deployed_version(retriever):
+    """The deploy pipeline waits until /health shows the new commit before smoke-testing it."""
+    app = create_app(retriever, FakeModel(), RateLimiter(Limits()), allowed_origins=[ORIGIN],
+                     relevance_threshold=0.0, version="9423a6a")
+    assert TestClient(app).get("/health").json()["version"] == "9423a6a"

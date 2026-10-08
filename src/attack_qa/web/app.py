@@ -88,7 +88,7 @@ def _llm_status(model: AnswerModel, cache: dict[str, Any]) -> dict[str, Any]:
 
 def create_app(retriever: HybridRetriever, model: AnswerModel, limiter: RateLimiter, *,
                allowed_origins: Sequence[str],
-               relevance_threshold: float = RELEVANCE_THRESHOLD) -> FastAPI:
+               relevance_threshold: float = RELEVANCE_THRESHOLD, version: str = "dev") -> FastAPI:
     app = FastAPI(title="threat-intel-rag demo API", docs_url=None, redoc_url=None)
     app.add_middleware(CORSMiddleware, allow_origins=list(allowed_origins),
                        allow_methods=["GET", "POST"], allow_headers=["Content-Type"])
@@ -97,7 +97,8 @@ def create_app(retriever: HybridRetriever, model: AnswerModel, limiter: RateLimi
 
     @app.get("/health")
     def health(check: str = "") -> dict[str, Any]:
-        body: dict[str, Any] = {"status": "ok", "model": model.name, "attack_version": ATTACK_VERSION}
+        body: dict[str, Any] = {"status": "ok", "model": model.name, "attack_version": ATTACK_VERSION,
+                                "version": version}
         if check == "llm":
             body["llm"] = _llm_status(model, llm_check)
         return body

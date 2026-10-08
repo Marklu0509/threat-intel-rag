@@ -18,3 +18,8 @@ def test_a_wildcard_origin_is_refused():
     import pytest
     with pytest.raises(ValueError, match="wildcard"):
         settings_from_env({"ALLOWED_ORIGINS": "*"})
+
+
+def test_version_comes_from_the_image_build():
+    assert settings_from_env({"APP_VERSION": "9423a6a"}).version == "9423a6a"
+    assert settings_from_env({}).version == "dev"
