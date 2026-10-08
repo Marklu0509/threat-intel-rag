@@ -57,7 +57,7 @@ def test_each_example_says_why_it_is_there_and_labels_its_parts(page: Page, site
     example = page.locator("#example")
     expect(example.locator(".why")).to_contain_text("Risk")
     expect(example.locator(".why")).to_contain_text("Shows")
-    expect(example.locator(".part-label")).to_have_text(["Question", "Answer", "Sources"])
+    expect(example.locator(".part-label .name")).to_have_text(["Question", "Answer", "Sources"])
 
 
 def test_live_answer_shows_citations_sources_and_the_revoked_id_note(page: Page, site_url: str) -> None:
@@ -73,7 +73,7 @@ def test_live_answer_shows_citations_sources_and_the_revoked_id_note(page: Page,
     answer.locator(".prose sup button").click()
     expect(answer.locator(".sources li").first.locator(".passage")).to_be_visible()
     expect(answer.locator(".meta")).to_contain_text("49 live questions left today")
-    expect(answer.locator(".part-label")).to_have_text(["Question", "Answer", "Sources"])
+    expect(answer.locator(".part-label .name")).to_have_text(["Question", "Answer", "Sources"])
     expect(answer.locator(".why")).to_have_count(0)  # live answers have no recorded rationale
 
 

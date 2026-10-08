@@ -59,7 +59,7 @@
   //        topCosine, threshold, gold?, highlight?, meta?}
   function partLabel(text, aside) {
     var d = el("div", "part-label");
-    d.appendChild(document.createTextNode(text));
+    d.appendChild(el("span", "name", text));
     if (aside) d.appendChild(el("span", "aside", aside));
     return d;
   }
