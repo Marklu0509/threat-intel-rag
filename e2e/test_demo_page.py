@@ -85,6 +85,9 @@ def test_refusal_names_the_gate(page: Page, site_url: str) -> None:
     page.click("#ask-button")
     expect(page.locator("#answer .refusal")).to_contain_text("Not answered")
     expect(page.locator("#answer .gate")).to_contain_text("Stopped before the model")
+    # the gate refused without a model call, so the footer must not credit the model
+    expect(page.locator("#answer .meta")).to_contain_text("without calling the model")
+    expect(page.locator("#answer .meta")).not_to_contain_text("qwen")
 
 
 def test_daily_limit_pauses_live_questions_but_keeps_examples(page: Page, site_url: str) -> None:

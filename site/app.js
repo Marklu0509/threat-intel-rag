@@ -263,7 +263,9 @@
         renderDoc(a, { question: question, status: b.status, refusedBy: b.refused_by, refusalReason: b.refusal_reason,
           claims: b.claims, substitutions: b.substitutions, hits: b.hits, topCosine: b.top_cosine,
           threshold: b.relevance_threshold,
-          meta: "Answered live in " + (b.elapsed_ms / 1000).toFixed(1) + " s by " + modelLabel(b.model) +
+          meta: (b.refused_by === "relevance"
+                  ? "Checked live in " + (b.elapsed_ms / 1000).toFixed(1) + " s, without calling the model"
+                  : "Answered live in " + (b.elapsed_ms / 1000).toFixed(1) + " s by " + modelLabel(b.model)) +
                 " · " + b.remaining_today + " live questions left today" });
         return;
       }
