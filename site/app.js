@@ -11,6 +11,7 @@
     return location.hostname === "rag.marklu.page" ? "https://threat-intel-api-jpw.mangohill-e21e4d79.japanwest.azurecontainerapps.io" : "http://127.0.0.1:8000";
   })();
   var WAKE_LIMIT_S = 120;
+  var SLOW_ANSWER_S = 8;  // beyond this the free tier's per-minute limit is the likely cause
   // Each one shows a different behaviour (checked against the pipeline before listing, Q58)
   var SUGGESTIONS = [
     "Where can I get the best margherita pizza in Taipei?",              // absurd: similarity gate, no model call
@@ -247,8 +248,11 @@
     var wait = a.appendChild(el("p", "waiting", "Searching ATT&CK…"));
     var tick = setInterval(function () {
       var s = Math.round((Date.now() - started) / 1000);
-      wait.textContent = state === "ready" ? "Searching ATT&CK and writing a cited answer · " + s + " s"
-        : "Waking up the live system first. It usually takes about ten seconds (" + s + " s so far).";
+      wait.textContent = state !== "ready"
+        ? "Waking up the live system first. It usually takes about ten seconds (" + s + " s so far)."
+        : s < SLOW_ANSWER_S ? "Searching ATT&CK and writing a cited answer · " + s + " s"
+        : "Taking longer than usual. The free model tier allows only a few questions a minute, " +
+          "so yours may be waiting its turn (" + s + " s so far).";
     }, 500);
     $("answer-section").scrollIntoView({ behavior: "smooth", block: "start" });
     wake().then(function (ready) {

@@ -139,3 +139,20 @@ def test_question_area_lines_up_with_the_sections_below_on_desktop(page: Page, s
     expect(page.locator("#example .q")).not_to_be_empty()
     left = {s: page.locator(s).bounding_box()["x"] for s in (".hero h1", "#question", "#picker", "#example")}
     assert len(set(left.values())) == 1, left
+
+
+def test_a_slow_answer_explains_the_wait(page: Page, site_url: str) -> None:
+    # Groq's free tier limits tokens per minute: a second question within the minute waits for
+    # the quota (one took 21 s), so after a few seconds the page says why
+    page.clock.install()
+    fake_api(page)
+    held = []  # the answer never arrives in this test
+    page.route(f"{API}/ask", lambda route: route.fulfill(status=204, headers=CORS)
+               if route.request.method == "OPTIONS" else held.append(route))
+    page.goto(site_url)
+    expect(page.locator("#status")).to_have_attribute("data-state", "ready")
+    page.fill("#question", "What is T1059?")
+    page.click("#ask-button")
+    expect(page.locator("#answer .waiting")).to_contain_text("writing a cited answer")
+    page.clock.fast_forward(9000)
+    expect(page.locator("#answer .waiting")).to_contain_text("waiting its turn")
