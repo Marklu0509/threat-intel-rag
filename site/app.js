@@ -20,7 +20,7 @@
       shows: "T1086 is a retired ID. It's rewritten to its replacement, T1059.001, before searching." },
     { q: "怎麼偵測有人從 LSASS 記憶體偷密碼？",
       shows: "A Chinese question over English sources: search matches the meaning across languages, and the answer comes back in Traditional Chinese." },
-    { q: "What's the difference between Kerberoasting and AS-REP Roasting?",
+    { q: "Compare Kerberoasting and AS-REP Roasting.",  // shorter so the six fit in three rows (Q61)
       shows: "One answer drawing on two techniques. Sentences that compare them cite both passages." },
     { q: "What is the CVSS score of T1486?",
       shows: "It sounds in scope, but ATT&CK has no CVSS scores, so the model refuses instead of quoting one from memory." },
@@ -317,11 +317,11 @@
   }
 
   // ---------- recorded examples ----------
-  var GROUPS = [
-    ["answers", "Should answer, even when asked the hard way"],
-    ["refusals", "Should refuse instead of guessing"],
-    ["failures", "Known failures, shown on purpose"],
-    ["attacks", "Attacks: prompt injection and poisoned data"]
+  var GROUPS = [  // [key, heading, what the group shows]
+    ["answers", "Should answer", "even when asked the hard way"],
+    ["refusals", "Should refuse", "instead of guessing"],
+    ["failures", "Known failures", "shown on purpose"],
+    ["attacks", "Attacks", "prompt injection and poisoned data"]
   ];
   function exampleView(e, data) {
     return { question: e.question, status: e.status, refusedBy: e.refused_by, refusalReason: e.refusal_reason,
@@ -344,7 +344,9 @@
     var picker = $("picker"), target = $("example");
     var items = [];
     GROUPS.forEach(function (g) {
-      picker.appendChild(el("div", "group", g[1]));
+      var head = picker.appendChild(el("div", "group"));  // heading on the left, options on the right
+      head.appendChild(el("b", "", g[1])); head.appendChild(el("span", "", g[2]));
+      var opts = picker.appendChild(el("div", "opts"));
       var list = g[0] === "attacks" ? data.attacks : data.examples.filter(function (e) { return e.group === g[0]; });
       list.forEach(function (it) {
         var b = el("button", "", it.title); b.type = "button"; b.setAttribute("aria-pressed", "false");
@@ -360,7 +362,7 @@
             renderDoc(target, exampleView(it, data));
           }
         });
-        picker.appendChild(b); items.push(b);
+        opts.appendChild(b); items.push(b);
       });
     });
     if (items.length) items[0].click();

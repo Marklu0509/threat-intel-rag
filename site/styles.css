@@ -178,11 +178,15 @@ td.num { font-variant-numeric: tabular-nums; }
 .message.bad { background: var(--bad-bg); }
 
 /* recorded examples */
-.picker { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 26px; font-size: 14.5px; }
-.picker button { background: none; border: 0; padding: 2px 0; cursor: pointer; color: var(--ink-soft); border-bottom: 1px solid transparent; }
-.picker button[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
-.picker .group { width: 100%; font-size: 13px; font-weight: 500; color: var(--ink); margin-top: 16px; }
-.picker .group:first-child { margin-top: 0; }
+/* Each group: heading on the left, its options on the right, boxed like the suggestions (Q61) */
+.picker { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px 20px; margin: 0 0 30px; align-items: start; }
+.picker .group { font-size: 13px; line-height: 1.4; padding-top: 5px; }
+.picker .group b { display: block; font-weight: 500; color: var(--ink); }
+.picker .group span { color: var(--ink-dim); }
+.picker .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.picker button { background: transparent; border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 5px 11px; font-size: 14px; cursor: pointer; color: var(--ink-soft); text-align: left; }
+.picker button:hover { border-color: var(--ink); color: var(--ink); }
+.picker button[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); background: var(--band); }
 .outcome { display: inline-block; font-size: 13px; padding: 2px 8px; border-radius: 3px; margin: 0 0 14px; }
 .outcome.bad { background: var(--bad-bg); color: var(--bad); }
 .outcome.good { background: var(--ok-bg); color: var(--ok); }
@@ -204,6 +208,8 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 48px; font-size: 13p
 footer p { margin: 4px 0; max-width: 820px; }
 
 @media (max-width: 860px) {
+  .picker { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .picker .group { padding-top: 10px; }
   :root { --pad-x: 20px; }
   .hero, .section { grid-template-columns: minmax(0, 1fr); }
   .hero { padding-top: 36px; padding-bottom: 32px; }
