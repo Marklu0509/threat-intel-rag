@@ -50,6 +50,14 @@
     parent.appendChild(document.createTextNode(text.slice(i + needle.length)));
     return parent;
   }
+  // `backticked` spans in answers and ATT&CK text become <code>; text nodes only, never HTML
+  function withCode(parent, text, needle) {
+    text.split(/`([^`\n]+)`/).forEach(function (part, i) {
+      if (i % 2) parent.appendChild(el("code", "", part));
+      else withMark(parent, part, needle && part.indexOf(needle) >= 0 ? needle : null);
+    });
+    return parent;
+  }
 
   // ---------- theme ----------
   var root = document.documentElement;
@@ -123,7 +131,7 @@
       var prose = el("p", "prose");
       view.claims.forEach(function (c, i) {
         if (i) prose.appendChild(document.createTextNode(" "));
-        withMark(prose, c.text, view.highlight && c.text.indexOf(view.highlight) >= 0 ? view.highlight : null);
+        withCode(prose, c.text, view.highlight);
         c.passage_ids.forEach(function (id) {
           var sup = el("sup"), b = el("button", "", String(order.indexOf(id) + 1));
           b.type = "button"; b.setAttribute("aria-label", "Source " + (order.indexOf(id) + 1) + ": " + id);
@@ -163,7 +171,7 @@
         var open = li.classList.toggle("open"); b.setAttribute("aria-expanded", String(open));
       });
       li.appendChild(b);
-      li.appendChild(withMark(el("div", "passage"), text.split("\n").slice(1).join("\n"), id === poisonId ? poisonPayload : null));
+      li.appendChild(withCode(el("div", "passage"), text.split("\n").slice(1).join("\n"), id === poisonId ? poisonPayload : null));
       var ext = el("p", "ext"), link = el("a", "", id === poisonId
         ? "Compare with the real passage on attack.mitre.org ↗" : "Read it on attack.mitre.org ↗");
       link.href = attackUrl(id); link.target = "_blank"; link.rel = "noopener";

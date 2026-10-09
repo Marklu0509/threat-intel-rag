@@ -179,3 +179,15 @@ def test_question_box_invites_a_question_and_links_the_source_data(page: Page, s
     page.goto(site_url)
     expect(page.locator("#question")).to_have_attribute("placeholder", "Type a question about an ATT&CK technique")
     expect(page.locator(".hero a.attack-site")).to_have_attribute("href", "https://attack.mitre.org/versions/v19/")
+
+
+def test_inline_code_in_an_answer_is_shown_as_code(page: Page, site_url: str) -> None:
+    # Answers quote registry paths and commands in backticks, which showed up as raw backticks
+    claim = "Monitor changes to `HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa` and `lsass.exe` loads."
+    fake_api(page, ask_body={**ANSWER, "claims": [{"text": claim, "passage_ids": ["T1059.001:detection"]}]})
+    page.goto(site_url)
+    page.fill("#question", "How do I detect T1547.005?")
+    page.click("#ask-button")
+    prose = page.locator("#answer .prose")
+    expect(prose.locator("code")).to_have_text(["HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa", "lsass.exe"])
+    expect(prose).not_to_contain_text("`")
