@@ -1,0 +1,1 @@
+Automation in .github/workflows/, Dockerfile and deploy/: deploy.yml tests, builds the API image from the verified v0.1.0 data, measures it at the deployed size, pushes to GHCR, deploys to Azure with OIDC and smoke-tests, rolling back on failure; pages.yml publishes site/ to GitHub Pages; site-tests.yml runs Playwright tests of the page against a faked API.

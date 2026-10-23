@@ -1,0 +1,1 @@
+The API base URL is hard-coded to the Azure default host (threat-intel-api-jpw...japanwest.azurecontainerapps.io); moving the app or region means editing site/app.js. Local development uses ?api=http://127.0.0.1:<port>, accepted only for localhost.

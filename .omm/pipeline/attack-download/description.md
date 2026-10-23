@@ -1,0 +1,1 @@
+download.py fetches enterprise-attack-19.2.json from MITRE's attack-stix-data repository to data/raw/ and checks it against ATTACK_SHA256 in config.py (which also pins ATTACK_VERSION, paths and the index directory). A mismatch stops the build.

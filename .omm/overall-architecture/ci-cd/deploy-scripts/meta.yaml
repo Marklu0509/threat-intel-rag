@@ -1,0 +1,9 @@
+created: 2026-10-23T06:23:09.313Z
+updated: 2026-10-23T06:23:09.314Z
+update_count: 1
+last_field: description
+kind: nested-class
+title: deploy-scripts
+children: []
+parentPath:
+  - ci-cd

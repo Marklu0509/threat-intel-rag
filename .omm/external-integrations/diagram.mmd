@@ -1,0 +1,22 @@
+graph LR
+    threat-intel-rag["threat-intel-rag\nsrc/attack_qa/"]
+    mitre-attack["MITRE ATT&CK STIX\ngithub.com/mitre-attack"]
+    hugging-face["Hugging Face Hub\nBAAI/bge-m3"]
+    groq-api["Groq API\nqwen3.8-27b"]
+    openrouter-api["OpenRouter API\nQwen, Claude Sonnet"]
+    other-llms["Gemini and Claude APIs\ngemini_model.py, claude_model.py"]
+    github-platform["GitHub\nActions, GHCR, Pages, Releases"]
+    azure-platform["Azure\nContainer Apps, Log Analytics"]
+    cloudflare-dns["Cloudflare DNS\nrag.marklu.page"]
+
+    threat-intel-rag -->|"download v19.2 bundle at build time"| mitre-attack
+    threat-intel-rag -->|"embedding weights, baked into image"| hugging-face
+    threat-intel-rag -->|"live demo answers (free tier)"| groq-api
+    threat-intel-rag -->|"evaluation runs and faithfulness judge (paid)"| openrouter-api
+    threat-intel-rag -->|"alternative answer models"| other-llms
+    github-platform -->|"CI, image registry, release data, static site"| threat-intel-rag
+    github-platform -->|"OIDC deploy of the API image"| azure-platform
+    cloudflare-dns -->|"CNAME to GitHub Pages"| github-platform
+
+    classDef external fill:#585b70,stroke:#585b70,color:#cdd6f4
+    class mitre-attack,hugging-face,groq-api,openrouter-api,other-llms,github-platform,azure-platform,cloudflare-dns external

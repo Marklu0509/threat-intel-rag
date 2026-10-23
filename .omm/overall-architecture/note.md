@@ -1,0 +1,1 @@
+Glossary lives in CONTEXT.md (Passage, Passage kind, Revoked ID, Claim, Faithful claim, Refusal, ...). Use those terms when changing code or docs. 158+ pytest tests (90% coverage) plus Playwright e2e tests for the page.

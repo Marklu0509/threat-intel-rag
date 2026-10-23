@@ -1,0 +1,1 @@
+site/app.js posts {"question": ...} to /ask with a JSON content type and a timeout; suggestion buttons each demonstrate one behaviour (Q58, Q60). The browser's CORS check passes only for https://rag.marklu.page, the single allowed origin.

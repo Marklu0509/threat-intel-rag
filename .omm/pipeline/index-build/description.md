@@ -1,0 +1,1 @@
+scripts/build_index.py embeds all passages with BAAI/bge-m3 (sentence-transformers, normalized, max sequence 2048) and stores them in a Chroma collection named after the model, with the model name and ATT&CK version in its metadata. About 2 minutes on a laptop; the index is about 15 MB.

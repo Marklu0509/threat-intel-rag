@@ -1,0 +1,15 @@
+created: 2026-10-23T06:21:36.103Z
+updated: 2026-10-23T06:21:51.780Z
+update_count: 7
+last_field: note
+git_commit: 51bd290
+git_branch: main
+children:
+  - azure-container-apps
+  - ci-cd
+  - data-build
+  - demo-api
+  - demo-site
+  - evaluation-harness
+  - groq
+  - rag-core

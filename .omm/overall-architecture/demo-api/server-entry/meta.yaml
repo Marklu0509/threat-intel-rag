@@ -1,0 +1,9 @@
+created: 2026-10-23T06:23:05.288Z
+updated: 2026-10-23T06:23:05.289Z
+update_count: 1
+last_field: description
+kind: nested-class
+title: server-entry
+children: []
+parentPath:
+  - demo-api

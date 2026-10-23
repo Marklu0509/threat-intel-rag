@@ -1,0 +1,1 @@
+deploy/measure.sh runs the image under a memory and CPU cap and reports image size, cold start and peak memory (basis for 1 vCPU / 2 GiB, Q52). deploy/smoke.sh waits until /health reports the new version (a settings update is not a new container, Q56), then checks the LLM link and one real cited answer. deploy/demo-data.sha256 pins the release tarball.

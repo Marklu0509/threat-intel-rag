@@ -1,0 +1,1 @@
+Dockerfile on python:3.12-slim: CPU-only torch, pinned dependencies read from pyproject.toml, bge-m3 baked in (ONNX copy skipped, load verified offline), the evaluated data/processed and data/index copied in, non-root user that owns only the index (Chroma writes bookkeeping on open). GIT_SHA build arg becomes APP_VERSION, reported by /health. About 4.1 GB.

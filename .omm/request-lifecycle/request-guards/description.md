@@ -1,0 +1,1 @@
+web/app.py ask(): rejects empty or over-300-character questions (400); takes the visitor IP from the last X-Forwarded-For entry; RateLimiter.check() returns 429 with Retry-After for more than 10 per IP per hour, or 503 "daily_limit" after 50 per day. A Groq per-day quota error later in the request also maps to 503 daily_limit, so the page switches to recorded examples.

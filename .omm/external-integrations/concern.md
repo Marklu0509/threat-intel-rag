@@ -1,0 +1,1 @@
+Results depend on the host, not just the model name: the same Qwen model let poisoning through on OpenRouter but not on Groq. Free tiers change without notice (Gemini's real quota was 20/day; GitHub Models shut down), so key numbers must be checked against API responses, not articles.

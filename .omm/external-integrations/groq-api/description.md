@@ -1,0 +1,1 @@
+OpenAI-compatible endpoint (api.groq.com) serving qwen/qwen3.8-27b; default provider for development and the live demo. Free tier: 1,000 requests and 200,000 tokens per day per model, 8,000 input and 1,000 output tokens per minute, so max_tokens is 900. Per-day quota errors fail fast (DailyQuotaExceededError). Blocks requests from Greater China including Hong Kong.

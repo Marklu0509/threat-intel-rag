@@ -1,0 +1,1 @@
+External LLM provider used by the live demo: qwen/qwen3.8-27b via Groq's OpenAI-compatible API, free tier (about 200,000 tokens per day per model, ~70 questions). Called with a strict JSON schema and temperature 0. Groq blocks requests from Greater China including Hong Kong, which is why the API moved out of East Asia (Q55).

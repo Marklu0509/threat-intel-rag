@@ -1,0 +1,9 @@
+created: 2026-10-23T06:23:07.930Z
+updated: 2026-10-23T06:23:07.930Z
+update_count: 1
+last_field: description
+kind: nested-class
+title: faithfulness-judge
+children: []
+parentPath:
+  - evaluation-harness

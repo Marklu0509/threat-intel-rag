@@ -1,0 +1,1 @@
+Paid, pay-as-you-go. Serves the same Qwen model for final evaluation and attack runs, pinned to DeepInfra bf16 with thinking off, require_parameters and data_collection deny; and anthropic/claude-sonnet-5.5 as the faithfulness judge (pinned to Anthropic, no temperature parameter). Never used by the public API.

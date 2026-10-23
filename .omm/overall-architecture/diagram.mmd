@@ -1,0 +1,23 @@
+graph LR
+    demo-site["Demo Site\nsite/"]
+    demo-api["Demo API\nsrc/attack_qa/web/"]
+    rag-core["RAG Core\nsrc/attack_qa/"]
+    data-build["Data Build\nscripts/build_*.py"]
+    evaluation-harness["Evaluation Harness\nscripts/evaluate*.py, eval/"]
+    ci-cd["CI/CD\n.github/workflows/, Dockerfile, deploy/"]
+    groq["Groq API\nexternal"]
+    azure-container-apps["Azure Container Apps\nexternal"]
+
+    demo-site -->|"fetch /health on load, POST /ask"| demo-api
+    demo-api -->|"answer_question() with a recording retriever"| rag-core
+    rag-core -->|"structured JSON claims"| groq
+    data-build -->|"passages.jsonl + Chroma index"| rag-core
+    evaluation-harness -->|"runs the same pipeline on 78 questions + 70 attacks"| rag-core
+    evaluation-harness -->|"recorded runs → demo-data.json"| demo-site
+    ci-cd -->|"test, build image, OIDC deploy, smoke test"| azure-container-apps
+    azure-container-apps -->|"hosts 1 replica"| demo-api
+
+    classDef external fill:#585b70,stroke:#585b70,color:#cdd6f4
+    classDef entry fill:#89b4fa,stroke:#89b4fa,color:#1e1e2e
+    class groq,azure-container-apps external
+    class demo-site entry

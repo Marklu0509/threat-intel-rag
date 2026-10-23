@@ -1,0 +1,3 @@
+- No paid service on this path (Q42); faithfulness is not judged live.
+- Visitor IPs are used only in memory for rate limiting and never logged (Q50).
+- Error responses carry fixed user-facing messages; provider error text never reaches the client.

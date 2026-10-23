@@ -1,0 +1,9 @@
+graph LR
+    query-understanding["Query Understanding\nquery.py, intent.py, lookups.py"]
+    hybrid-retrieval["Hybrid Retrieval\nretrieval.py, bm25_index.py, dense_index.py, fusion.py"]
+    answering["Answering\nanswer.py, language.py"]
+    llm-providers["LLM Providers\nllms.py, *_model.py"]
+
+    query-understanding -->|"QueryPlan: rewritten text, named IDs, intent"| hybrid-retrieval
+    hybrid-retrieval -->|"top 5 passages + best cosine"| answering
+    answering -->|"system prompt + passages, JSON schema"| llm-providers

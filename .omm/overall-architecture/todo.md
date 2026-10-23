@@ -1,0 +1,4 @@
+- Source-trust levels (D4) and Prompt Guard (D3) against poisoning.
+- Cross-encoder reranker (bge-reranker-v2-m3) and a gentler intent boost to fix related-but-wrong answers.
+- Build a second evaluation set from logged visitor questions (Q50) to reduce author-written bias.
+- v2: actor questions via structured queries + tool use; CVE data; attack playground (Q45).

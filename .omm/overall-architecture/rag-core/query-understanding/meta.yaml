@@ -1,0 +1,9 @@
+created: 2026-10-23T06:23:06.247Z
+updated: 2026-10-23T06:23:06.247Z
+update_count: 1
+last_field: description
+kind: nested-class
+title: query-understanding
+children: []
+parentPath:
+  - rag-core

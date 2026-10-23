@@ -1,0 +1,4 @@
+- Retrieval is the bottleneck: answers cite the right passage exactly as often as retrieval finds it (44 = 44); 5 of 53 answerable questions get related-but-wrong answers.
+- Poisoned passages (false data, not instructions) still get cited 2 of 70 times with all defenses on.
+- Groq's free daily quota (~70 questions/day per model) is shared between the demo and development.
+- Azure Container Apps Express is a preview service: no cron scaling, no custom domains; features may change.

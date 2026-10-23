@@ -1,0 +1,1 @@
+Gate 1 in answer.py: if the best dense cosine is below 0.44 and the question names no technique ID, refuse with refused_by="relevance" without calling the LLM. 0.44 sits below the lowest score of any answerable evaluation question (0.447), so it refused none of them while stopping clearly off-topic questions for free.

@@ -1,0 +1,3 @@
+- The dataset is pinned to v19.2 and SHA-256 (Q8): data is a dependency, so evaluation numbers stay comparable.
+- data/raw, data/processed and data/index are git-ignored; the repo never stores the full ATT&CK dataset.
+- One index per embedding model (ADR 0003): opening an index with a different model raises IndexModelMismatchError.

@@ -1,0 +1,3 @@
+- Secrets: API keys live in the macOS Keychain locally and as Container Apps secrets / GitHub secrets remotely; keys go in headers, never URLs; saved error text has provider account IDs redacted.
+- Azure is reached only through OIDC short-lived tokens from the "production" environment; no long-lived Azure credential is stored.
+- The Azure for Students subscription allows only eastasia, japanwest, australiaeast, newzealandnorth and malaysiawest; Groq refuses Hong Kong, so the API runs in japanwest (Q55).

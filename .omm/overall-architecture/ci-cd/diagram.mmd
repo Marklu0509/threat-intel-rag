@@ -1,0 +1,10 @@
+graph LR
+    deploy-api-workflow["Deploy API\n.github/workflows/deploy.yml"]
+    container-image["Container Image\nDockerfile"]
+    deploy-scripts["Deploy Scripts\ndeploy/measure.sh, smoke.sh"]
+    pages-workflow["Pages\n.github/workflows/pages.yml"]
+    site-tests["Site Tests\n.github/workflows/site-tests.yml, e2e/"]
+
+    deploy-api-workflow -->|"docker build with GIT_SHA"| container-image
+    deploy-api-workflow -->|"measure before push, smoke after deploy"| deploy-scripts
+    site-tests -->|"guards the page that"| pages-workflow

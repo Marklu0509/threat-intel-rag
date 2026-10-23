@@ -1,0 +1,9 @@
+created: 2026-10-23T06:23:09.033Z
+updated: 2026-10-23T06:23:09.034Z
+update_count: 1
+last_field: description
+kind: nested-class
+title: container-image
+children: []
+parentPath:
+  - ci-cd

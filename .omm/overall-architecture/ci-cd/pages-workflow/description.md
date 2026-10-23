@@ -1,0 +1,1 @@
+.github/workflows/pages.yml publishes the site/ folder to GitHub Pages on pushes that touch it; the custom domain rag.marklu.page (Cloudflare CNAME to marklu0509.github.io, DNS only) has HTTPS enforced.

@@ -1,0 +1,13 @@
+created: 2026-10-23T06:22:13.430Z
+updated: 2026-10-23T06:22:27.883Z
+update_count: 2
+last_field: diagram
+kind: nested-class
+title: ci-cd
+children:
+  - container-image
+  - deploy-api-workflow
+  - deploy-scripts
+  - pages-workflow
+  - site-tests
+parentPath: []

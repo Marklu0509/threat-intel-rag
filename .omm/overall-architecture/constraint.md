@@ -1,0 +1,5 @@
+- The demo must answer from the exact v0.1.0 evaluated data: the image is built from a GitHub Release tarball verified by SHA-256.
+- bge-m3 must run in full precision: bf16 changed the top 5 for 4 of 78 evaluation questions.
+- The public API holds only a free LLM key (Groq); paid keys (OpenRouter judge) never reach the server (Q42).
+- CORS allows only https://rag.marklu.page; a wildcard origin is rejected at startup.
+- Single-turn only (Q16): no conversation memory.

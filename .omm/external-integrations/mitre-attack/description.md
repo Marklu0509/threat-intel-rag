@@ -1,0 +1,1 @@
+MITRE ATT&CK Enterprise v19.2 in STIX 2.1 (mitre-attack/attack-stix-data), downloaded once at build time and verified by SHA-256. Used under the ATT&CK terms of use with attribution; the repo stores only quoted passages in evaluation files, not the dataset.

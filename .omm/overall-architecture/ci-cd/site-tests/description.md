@@ -1,0 +1,1 @@
+.github/workflows/site-tests.yml runs Playwright tests in e2e/test_demo_page.py against the page with the API faked by route interception, so no LLM quota is used: recorded examples render, a live answer shows citations and the revoked-ID note, refusals name the gate, daily and hourly limits show the right message, and there is no horizontal scroll at phone width.

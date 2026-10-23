@@ -1,0 +1,1 @@
+site/app.js wake(): on page load, polls GET /health (8 s timeout per try, up to 120 s) so the API is awake by the time the visitor has read the page and typed. Shows the real elapsed seconds while waiting, never a fake progress bar (Q44). Recorded examples work regardless.

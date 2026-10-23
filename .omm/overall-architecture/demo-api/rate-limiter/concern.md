@@ -1,0 +1,1 @@
+Counters are per-process memory: they reset on restart, and visitors behind one NAT (an office) share the per-IP budget. Acceptable because the hard ceilings are platform-enforced (Groq daily quota, one replica).

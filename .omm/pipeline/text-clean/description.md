@@ -1,0 +1,1 @@
+clean.py (Q7): removes 3,487 "(Citation: ...)" markers, rewrites 1,617 markdown links to the form "Visual Basic (T1059.005)" so IDs match how users type them, and strips only code/b/br tags while keeping their text (command names such as Start-Process matter for search).

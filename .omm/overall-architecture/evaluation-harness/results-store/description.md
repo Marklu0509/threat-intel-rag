@@ -1,0 +1,1 @@
+eval/results/*.json hold every recorded run (in-flight runs are *.progress.jsonl, git-ignored); eval/RESULTS.md is the narrative log with tables and caveats; eval/agreement/ keeps the blind labelling sheet, its sample and the kappa report. The v0.1.0 tag marks the code that produced the reported numbers.

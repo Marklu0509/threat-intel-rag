@@ -1,0 +1,1 @@
+The intent boost raises kind precision but can push a matching kind from the wrong technique above the right technique (technique hit@5 dropped for paraphrase and cross-lingual). 9 answerable questions still miss, mostly semantic misses; a cross-encoder reranker is the planned fix.

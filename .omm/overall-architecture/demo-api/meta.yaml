@@ -1,0 +1,11 @@
+created: 2026-10-23T06:22:12.285Z
+updated: 2026-10-23T06:22:27.047Z
+update_count: 2
+last_field: diagram
+kind: nested-class
+title: demo-api
+children:
+  - api-routes
+  - rate-limiter
+  - server-entry
+parentPath: []

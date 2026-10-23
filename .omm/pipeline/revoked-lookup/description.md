@@ -1,0 +1,1 @@
+lookups.py builds the revoked-ID table from revoked-by relationships (149 IDs in v19.2), following chains to the final live technique and raising an error on cycles or dangling ends rather than producing a wrong mapping. Written to data/processed/revoked_ids.json and used by query understanding (ADR 0005).

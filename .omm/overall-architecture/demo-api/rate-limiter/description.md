@@ -1,0 +1,1 @@
+src/attack_qa/web/limits.py. In-memory, thread-safe limiter: 10 questions per IP per sliding hour, 50 per day across all visitors (resets 00:00 UTC), 300 characters per question (Q43). Forgets quiet IPs so memory doesn't grow. Counters reset when the container restarts; Groq's own quota and the one-replica cap are the hard limits.

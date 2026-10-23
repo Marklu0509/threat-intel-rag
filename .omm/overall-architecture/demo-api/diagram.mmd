@@ -1,0 +1,10 @@
+graph LR
+    server-entry["Server Entry\nsrc/attack_qa/web/main.py"]
+    api-routes["API Routes\nsrc/attack_qa/web/app.py"]
+    rate-limiter["Rate Limiter\nsrc/attack_qa/web/limits.py"]
+
+    server-entry -->|"loads index, bge-m3, LLM; create_app()"| api-routes
+    api-routes -->|"check(ip) before each /ask"| rate-limiter
+
+    classDef entry fill:#89b4fa,stroke:#89b4fa,color:#1e1e2e
+    class server-entry entry

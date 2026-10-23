@@ -1,0 +1,1 @@
+In the deploy workflow, the tarball is downloaded, verified with sha256sum --check and unpacked into data/, then the Dockerfile copies data/processed and data/index into the image next to the baked bge-m3 weights, so a container start downloads nothing.

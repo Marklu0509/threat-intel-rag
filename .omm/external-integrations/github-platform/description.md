@@ -1,0 +1,1 @@
+Public repo Marklu0509/threat-intel-rag: GitHub Actions (tests, image build, deploy, Pages, Playwright), GitHub Container Registry (ghcr.io/marklu0509/threat-intel-api), Releases (v0.1.0 evaluated data tarball) and Pages (the static site). All free for a public repository.

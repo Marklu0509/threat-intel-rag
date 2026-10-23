@@ -1,0 +1,1 @@
+Source of BAAI/bge-m3, the multilingual embedding model (the only one in early tests that handled Chinese questions over English data). Downloaded during the image build (ONNX copy skipped) and then used offline (HF_HUB_OFFLINE=1).

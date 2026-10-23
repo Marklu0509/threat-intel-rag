@@ -1,0 +1,1 @@
+HybridRetriever.retrieve(): 50 BM25 hits and 50 dense (bge-m3, cosine) hits merged by RRF (k=60, ties to dense), then reordered: passages of a named technique first (added even if neither retriever found them), then the intent's passage kind. Returns the top 5 with each retriever's own rank and the best dense cosine for gate 1.

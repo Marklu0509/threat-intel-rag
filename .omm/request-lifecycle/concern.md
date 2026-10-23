@@ -1,0 +1,1 @@
+Groq's free tier also limits tokens per minute; bursts of questions can make an answer slow (the page says so after 8 s) or fail with 502. Borderline questions can flip between answer and refusal across runs even at temperature 0.

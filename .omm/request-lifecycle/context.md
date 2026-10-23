@@ -1,0 +1,1 @@
+Measured on Azure (1 vCPU / 2 GiB): retrieval about 0.19 s; the Groq call 1–4 s dominates. Container cold start was about 31 s on Azure, which is why min replicas is 1 (Q54). The same answer_question() path is used by the evaluation scripts, so the demo behaves as the evaluated system did.

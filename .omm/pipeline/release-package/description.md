@@ -1,0 +1,1 @@
+The evaluated data/processed and data/index are packed as demo-data-v0.1.0.tar.gz on the GitHub Release v0.1.0; its SHA-256 is committed in deploy/demo-data.sha256. This ties the deployed demo to exactly the data behind the reported numbers (Q49).

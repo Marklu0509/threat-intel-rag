@@ -1,0 +1,1 @@
+scripts/evaluate.py scores passage hit@1/3/5/10 (right technique and right kind), technique hit@5 and MRR per category on 53 answerable hand-written questions (eval/handwritten.jsonl); --no-query-understanding gives the ablation. scripts/evaluate_intent.py scores intent detection on eval/intent_dev.jsonl and a held-out eval/intent_test.jsonl scored once (Q24).

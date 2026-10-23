@@ -1,0 +1,21 @@
+graph LR
+    attack-download["ATT&CK Download\ndownload.py, config.py"]
+    stix-parse["STIX Parse\nstix.py"]
+    text-clean["Text Clean\nclean.py"]
+    revoked-lookup["Revoked Lookup\nlookups.py"]
+    passage-build["Passage Build\npassages.py, passage_io.py"]
+    index-build["Index Build\nscripts/build_index.py, dense_index.py"]
+    release-package["Release Package\nGitHub Release v0.1.0"]
+    image-bake["Image Bake\nDockerfile"]
+
+    attack-download -->|"enterprise-attack-19.2.json, SHA-256 verified"| stix-parse
+    stix-parse -->|"live techniques, mitigations, detections"| text-clean
+    stix-parse -->|"revoked-by relationships"| revoked-lookup
+    text-clean -->|"citations removed, links as name (ID)"| passage-build
+    passage-build -->|"2,091 passages in passages.jsonl"| index-build
+    revoked-lookup -->|"revoked_ids.json"| release-package
+    index-build -->|"Chroma index tagged with model name"| release-package
+    release-package -->|"tarball checked by sha256sum in CI"| image-bake
+
+    classDef store fill:#a6e3a1,stroke:#a6e3a1,color:#1e1e2e
+    class release-package store

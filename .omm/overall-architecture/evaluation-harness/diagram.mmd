@@ -1,0 +1,15 @@
+graph LR
+    retrieval-eval["Retrieval Eval\nscripts/evaluate.py, evaluate_intent.py"]
+    answer-eval["Answer Eval\nscripts/evaluate_answers.py, check_language.py"]
+    faithfulness-judge["Faithfulness Judge\nfaithfulness.py, judge_model.py, agreement.py"]
+    attack-harness["Attack Harness\nattacks.py, scripts/evaluate_attacks.py"]
+    results-store["Results Store\neval/results/, eval/RESULTS.md"]
+
+    retrieval-eval -->|"hit@k, MRR per category"| results-store
+    answer-eval -->|"answers-*.json"| faithfulness-judge
+    answer-eval -->|"cites gold, refusals"| results-store
+    faithfulness-judge -->|"claim verdicts, kappa"| results-store
+    attack-harness -->|"delivered / succeeded per config"| results-store
+
+    classDef store fill:#a6e3a1,stroke:#a6e3a1,color:#1e1e2e
+    class results-store store

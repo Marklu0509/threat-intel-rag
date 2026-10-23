@@ -1,0 +1,1 @@
+Gemini (google-genai, gemini-3.8-flash with a lite fallback, early development) and Claude (anthropic SDK) implementations of the same AnswerModel interface, selectable with --llm. Claude is implemented but was not used for a full evaluation run.

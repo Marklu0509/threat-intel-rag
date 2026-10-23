@@ -1,0 +1,1 @@
+Hosting for the demo API: Azure Container Apps Express environment in Japan West (resource group threat-intel-rag, app threat-intel-api-jpw), min and max replicas 1 so there is no cold start, 1 vCPU / 2 GiB. The subscription only allows five regions, which decided the location (Q55). GROQ_API_KEY is a Container Apps secret; logs go to Log Analytics.

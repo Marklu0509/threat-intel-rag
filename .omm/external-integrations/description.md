@@ -1,0 +1,1 @@
+Every outside service the project depends on and why: MITRE for the data, Hugging Face for the embedding model, Groq for live answers, OpenRouter for evaluation runs and the judge, Gemini and Claude as alternative answer models, GitHub for CI, images, release data and the static site, Azure for the API, and Cloudflare for DNS.

@@ -1,0 +1,1 @@
+plan_query() in query.py: finds technique IDs, replaces revoked IDs (T1086 → T1059.001) and records the substitution, detects intent with keyword rules; if none fires, intent.py compares the query's bge-m3 vector (computed once, reused for search) with example questions and accepts the best intent only above a 0.015 margin.

@@ -1,0 +1,1 @@
+DNS for marklu.page: rag.marklu.page is a DNS-only (grey cloud) CNAME to marklu0509.github.io, so GitHub can issue the Let's Encrypt certificate. The API has no custom domain (Container Apps Express doesn't support one) and is called on its Azure host.

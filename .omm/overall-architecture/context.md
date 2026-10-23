@@ -1,0 +1,1 @@
+A portfolio project built to show that a RAG system's answers can be measured and trusted, not just produced. Every design decision is recorded with reasons, rejected options and cost in docs/grill-decisions.md (Q1–Q61); the hard-to-reverse ones also have ADRs in docs/adr/. Numbers reported in the README come from the v0.1.0 evaluation runs in eval/results/.

@@ -1,0 +1,1 @@
+stix.py loads the STIX 2.1 bundle into an immutable AttackData object: attack-patterns (techniques and sub-techniques), course-of-action mitigations, detection strategies and analytics, and relationships (mitigates, detects, subtechnique-of, revoked-by). live() keeps only objects that are neither revoked nor deprecated; attack_id() and attack_url() read the external references.

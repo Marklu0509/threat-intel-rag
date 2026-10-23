@@ -1,0 +1,23 @@
+graph LR
+    page-wake["Page Wake\nsite/app.js wake()"]
+    ask-request["Ask Request\nsite/app.js → POST /ask"]
+    request-guards["Request Guards\nweb/app.py, web/limits.py"]
+    query-plan["Query Plan\nquery.py, intent.py"]
+    candidate-search["Candidate Search\nretrieval.py"]
+    relevance-gate["Relevance Gate\nanswer.py"]
+    llm-call["LLM Call\nopenai_compat_model.py"]
+    claim-checks["Claim Checks\nanswer.py"]
+    response-render["Response Render\nweb/app.py, site/app.js"]
+
+    page-wake -->|"GET /health on page load hides cold start"| ask-request
+    ask-request -->|"JSON question, CORS-checked origin"| request-guards
+    request-guards -->|"length ok, under hourly and daily limits"| query-plan
+    query-plan -->|"rewritten text, named IDs, intent"| candidate-search
+    candidate-search -->|"top 5 + best cosine"| relevance-gate
+    relevance-gate -->|"cosine ≥ 0.44 or ID named"| llm-call
+    relevance-gate -->|"below threshold: refuse, no LLM call"| response-render
+    llm-call -->|"JSON claims with passage IDs"| claim-checks
+    claim-checks -->|"answer, or refusal by model / no valid citations"| response-render
+
+    classDef entry fill:#89b4fa,stroke:#89b4fa,color:#1e1e2e
+    class ask-request entry

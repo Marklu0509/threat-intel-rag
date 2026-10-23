@@ -1,0 +1,1 @@
+Azure for Students subscription: Container Apps Express environment in Japan West hosting threat-intel-api-jpw (one always-on replica, 1 vCPU / 2 GiB, about US$22/month), Log Analytics for the JSON request logs, a budget alert, and a federated identity that trusts the repo's "production" GitHub environment.
