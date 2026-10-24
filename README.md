@@ -47,11 +47,29 @@ The most useful finding: in every category, "answer cites the correct passage" e
 "retrieval found the correct passage". The LLM is faithful to its evidence; **retrieval is the
 bottleneck**, so better retrieval — not a pricier model — is where further gains are.
 
-## How it works
+## Architecture
+
+The system has an offline side (build the data, measure the pipeline) and an online side (the demo
+page and its API), both running the same RAG core:
 
 ```mermaid
 flowchart LR
-    Q[Question] --> P[Query understanding<br/>revoked-ID rewrite, ID routing, intent]
+    site["Demo page<br/>site/ · GitHub Pages"] -- "/health on load, POST /ask" --> api["Demo API<br/>src/attack_qa/web/ · FastAPI"]
+    api -- "answer_question()" --> core["RAG core<br/>src/attack_qa/"]
+    core -- "JSON claims" --> groq["Groq<br/>Qwen3.8-27B"]
+    build["Data build<br/>scripts/build_*.py"] -- "2,091 passages + index" --> core
+    evalh["Evaluation harness<br/>scripts/evaluate*.py, eval/"] -- "78 questions, 70 attacks" --> core
+    evalh -- "recorded runs" --> site
+    cicd["CI/CD<br/>.github/workflows/"] -- "build, OIDC deploy, smoke test" --> azure["Azure Container Apps<br/>1 replica"]
+    azure -- hosts --> api
+```
+
+How one question is answered:
+
+```mermaid
+flowchart LR
+    Q[Question] --> GU["Guards<br/>length, 10/IP/hour, 50/day"]
+    GU --> P[Query understanding<br/>revoked-ID rewrite, ID routing, intent]
     P --> B[BM25] & D[Dense: bge-m3]
     B --> F[RRF merge]
     D --> F
@@ -63,6 +81,10 @@ flowchart LR
     G3 -- no --> X
     G3 --> C[Citation check:<br/>drop claims citing unretrieved passages] --> A[Cited answer]
 ```
+
+Layered architecture docs — four views (overview, request lifecycle, data pipeline, external
+services), 55 described components with their constraints and known concerns — are in
+[`.omm/`](.omm/). Browse them interactively with `npm install -g oh-my-mermaid && omm view`.
 
 **Data.** ATT&CK Enterprise v19.2, pinned and verified by SHA-256. Each of the 697 techniques and
 sub-techniques becomes three passages — Overview, Mitigation, Detection (2,091 total) — split along
@@ -144,11 +166,10 @@ Results (Qwen `qwen3.8-27b` via OpenRouter, pinned to one host; `eval/results/at
 
 ## Live demo and deployment
 
+The API runs on Azure Container Apps in Japan West (1 vCPU / 2 GiB, always on). Each push to `main`:
+
 ```mermaid
 flowchart LR
-    V[Visitor] --> P["rag.marklu.page<br/>static page, GitHub Pages"]
-    P -- "/ask, /health" --> A["FastAPI on Azure Container Apps<br/>Japan West, 1 vCPU / 2 GiB, always on"]
-    A --> G[Groq: Qwen3.8-27B]
     GH[git push to main] --> T[Tests] --> B["Build image<br/>v0.1.0 index, SHA-256 checked"] --> D["Deploy via OIDC"] --> S{"Smoke test"}
     S -- fail --> R[Roll back to previous image]
 ```
